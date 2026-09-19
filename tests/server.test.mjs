@@ -8,6 +8,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { once } from 'node:events';
+import { randomBytes } from 'node:crypto';
 
 test('standalone garden: shared save and browser request boundaries', { timeout: 20000 }, async t => {
   const probe = createServer();
@@ -17,9 +18,10 @@ test('standalone garden: shared save and browser request boundaries', { timeout:
   await new Promise(resolve => probe.close(resolve));
   const data = await mkdtemp(join(tmpdir(), 'rainholm-test-'));
   const root = fileURLToPath(new URL('../', import.meta.url));
+  const userKey = randomBytes(32).toString('hex'), aiKey = randomBytes(32).toString('hex');
   const child = spawn(process.execPath, ['server/serve.mjs'], {
     cwd: root,
-    env: { ...process.env, HOST: '127.0.0.1', PORT: String(port), GARDEN_DATA: data },
+    env: { ...process.env, HOST: '127.0.0.1', PORT: String(port), GARDEN_DATA: data, GARDEN_USER_KEY: userKey, GARDEN_AI_KEY: aiKey, GARDEN_PUBLIC_URL: '', RENDER_EXTERNAL_URL: '' },
     stdio: ['ignore', 'pipe', 'pipe'],
   });
   let logs = '';
@@ -34,9 +36,9 @@ test('standalone garden: shared save and browser request boundaries', { timeout:
     await rm(data, { recursive: true, force: true });
   });
   const origin = `http://127.0.0.1:${port}`;
-  const request = (path, options) => fetch(origin + path, options);
+  const request = (path, options = {}) => fetch(origin + path, { ...options, headers: { Authorization: 'Bearer ' + userKey, ...options.headers } });
   const post = (path, body, headers = {}) => request(path, {
-    method: 'POST', headers: { 'Content-Type': 'application/json', ...headers }, body: JSON.stringify(body),
+    method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + (path.includes('/cat/black') ? aiKey : userKey), ...headers }, body: JSON.stringify(body),
   });
   let ready = false;
   for (let i = 0; i < 100; i++) {
@@ -53,7 +55,7 @@ test('standalone garden: shared save and browser request boundaries', { timeout:
     const html = await page.text();
     for (const [, ref] of html.matchAll(/(?:src|href)="([^"]+)"/g)) {
       if (!ref || ref.startsWith('http')) continue;
-      assert.equal((await request('/garden/' + ref)).status, 200, ref);
+      assert.equal((await request(new URL(ref, origin + '/garden/').pathname + new URL(ref, origin + '/garden/').search)).status, 200, ref);
     }
     for (const path of ['/garden/.env', '/garden/data/garden-save.json', '/garden/%2e%2e%2fdata/garden-save.json']) {
       assert.ok([403, 404].includes((await request(path)).status), path);

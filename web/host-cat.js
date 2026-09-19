@@ -1600,7 +1600,7 @@
      开源语义：这是留给使用者把自己的 AI 接进来控制黑猫的入口。
        POST /garden/api/cat/black          {x, y, say}   —— 下一条指令（新的盖旧的）
        GET  /garden/api/cat/black/pending                —— 前端取走即清
-     本地无鉴权：服务默认只听回环，能连上这个端口的人本来就能种你的地。
+     网页使用玩家会话，AI 指令使用独立的 AI 钥匙。
      每 3 秒问一次；document.hidden / 不在花园 一律不问 —— 跟 ticker 一个规矩，
      别在没人看的时候空转。 */
   var blackBusy = false, blackTimer = 0;
@@ -1609,7 +1609,7 @@
     if (dead || !mounted || blackBusy) return;
     if (document.hidden || !hasCats(sceneNow)) return;
     blackBusy = true;
-    fetch("api/cat/black/pending", { cache: "no-store", credentials: "same-origin" })
+    fetch("api/cat/black/pending?scene=" + encodeURIComponent(sceneNow), { cache: "no-store", credentials: "same-origin" })
       .then(function (r) {
         /* 服务端还没有这条路由（旧版 serve.mjs）：问下去只会每 3 秒往控制台扔一条 404。
            认出来就把这只耳朵关掉，留一句人话 —— 猫照样遛弯，只是没人指挥它。 */
@@ -1712,6 +1712,7 @@
     sayInput.value = "";
     paintCount();
     if (text) {
+      fetch("api/messages", { method: "POST", credentials: "same-origin", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ text: text }) }).catch(function () {});
       var i = catIndex(PLAYER.CAT);
       if (i >= 0 && hits[i]) {
         if (CATS[i].st === "nap") wake(i, "poke");   /* 睡着的先睁眼，别说梦话 */

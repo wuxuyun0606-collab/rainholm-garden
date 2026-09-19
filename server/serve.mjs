@@ -8,7 +8,12 @@ import { resolve, extname, normalize } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { newRecord } from './garden.mjs';
 import { SceneService, createSceneApiHandler, checkRuleDrift, ensureScenes, SCENES } from './scenes.mjs';
-import { buildMap, renderMapMd, MAP_SCENES } from './ai-map.mjs';
+import { renderMapMd } from './ai-map.mjs';
+import { createAccess, loadKeys, publicOrigin, equal } from './access.mjs';
+import { createAgent } from './agent.mjs';
+import { handleMcp } from './mcp.mjs';
+import { openapi } from './openapi.mjs';
+import { createOAuth } from './oauth.mjs';
 
 const ROOT = resolve(fileURLToPath(new URL('../', import.meta.url)));
 const WEB = resolve(ROOT, 'web');
@@ -20,8 +25,8 @@ const EXAMPLE_FILE = resolve(ROOT, 'data', 'example-save.json');
 const PORT = Number(process.env.PORT || 5173);
 const HOST = process.env.HOST || '127.0.0.1';
 const ACCOUNT = 'local';              /* 单机单账号，没有第二个人 */
-const LOOPBACK_HOSTS = new Set(['127.0.0.1', 'localhost', '[::1]']);
-const LOOPBACK_ONLY = LOOPBACK_HOSTS.has(HOST === '::1' ? '[::1]' : HOST);
+const PUBLIC_BASE = publicOrigin(process.env.GARDEN_PUBLIC_URL || process.env.RENDER_EXTERNAL_URL);
+if (!Number.isInteger(PORT) || PORT < 0 || PORT > 65535) throw new Error('Invalid PORT');
 
 await mkdir(DATA_DIR, { recursive: true, mode: 0o700 });
 
@@ -67,149 +72,99 @@ const service = new SceneService({ transact });
 checkRuleDrift();   /* 启动时对一次花房数值和上游的账，漂了就在日志里喊 */
 const api = createSceneApiHandler({ service, resolveAccount: async () => ({ id: ACCOUNT }) });
 
-/* ── 黑猫口子 catcontrol20260912 ───────────────────────────────────────────
- * 产品设定：白猫 ＝ 使用者（在页面上点地面指挥），黑猫 ＝ 你的 AI。
- * 这两条就是留给「把自己的 AI 接进来」的口子 —— 你的 AI（脚本、机器人、
- * 别的服务，随便什么）往 POST 里塞一个坐标或一句话，页面每 3 秒来取一次，
- * 黑猫就走过去 / 在头顶冒一句。
- *
- *   curl -X POST http://127.0.0.1:5173/garden/api/cat/black \
- *        -H 'Content-Type: application/json' -d '{"x":1200,"y":880,"say":"我来了"}'
- *
- * 只存在内存里，**不落存档**：这是「此刻让黑猫做什么」，不是花园的状态，
- * 进程重启就该忘掉。新的一条直接盖掉旧的（AI 改主意了就以最后一句为准）。
- * 前端 GET 一次就清空 —— 同一条指令不会被两个标签页各执行一遍。
- *
- * ⚠️ 没有鉴权，也不打算有：整个服务默认只听 127.0.0.1，能连上这个端口的人
- *    本来就能种你的地。要放到公网，照文件头那条，自己在前面架反代 + 登录。 */
-const SAY_MAX = 30;                     /* 气泡最多 30 字，超了截断（前端还会再截一次） */
-let blackPending = null;                /* { x?, y?, say?, ts } —— 顶多一条 */
+const access = createAccess(await loadKeys(DATA_DIR), PUBLIC_BASE);
+let effectivePort = PORT;
+const baseUrl = () => PUBLIC_BASE || `http://127.0.0.1:${effectivePort}`;
+const agent = createAgent({ root: ROOT, service, transact, baseUrl });
+const loginAttempts = new Map();
 
-function sendJson(res, status, value) {
+function sendJson(res, status, value, headers = {}) {
   res.writeHead(status, {
     'Content-Type': 'application/json; charset=utf-8',
     'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff',
+    'Referrer-Policy': 'no-referrer', ...headers,
   });
   res.end(JSON.stringify(value));
 }
 
-// Browser requests must come from this service. Command-line AI clients may
-// omit Origin, but JSON writes cannot be submitted by a cross-site HTML form.
-function browserRequestAllowed(req) {
-  if (req.headers['sec-fetch-site'] === 'cross-site') return false;
-  if (req.headers.origin) {
-    try {
-      const origin = new URL(req.headers.origin);
-      if (!['http:', 'https:'].includes(origin.protocol) || origin.host !== req.headers.host) return false;
-    } catch { return false; }
+async function jsonBody(req, limit = 16384) {
+  if (String(req.headers['content-type'] || '').split(';')[0].trim().toLowerCase() !== 'application/json') {
+    const e = new Error('Content-Type must be application/json'); e.status = 403; throw e;
   }
-  if (req.method === 'POST') {
-    const type = String(req.headers['content-type'] || '').split(';')[0].trim().toLowerCase();
-    if (type !== 'application/json') return false;
-  }
-  return true;
-}
-
-async function readBody(req, limit = 4096) {
-  let body = '';
+  const chunks = []; let size = 0;
   for await (const part of req) {
-    body += part;
-    if (Buffer.byteLength(body) > limit) return null;
+    chunks.push(part); size += part.length;
+    if (size > limit) { const e = new Error('Request too large'); e.status = 413; throw e; }
   }
-  return body;
+  try { return JSON.parse(Buffer.concat(chunks).toString('utf8') || '{}'); } catch { const e = new Error('Invalid JSON'); e.status = 400; throw e; }
 }
 
-
-const FARM_ACTIONS = ['plant', 'water', 'harvest'];
-
-function newIdempotencyKey() {
-  return `cat-black-${Date.now().toString(36)}-${randomUUID().replace(/-/g, '')}`;   /* 49 位，落在 16–100 内 */
+function requireRole(req, res, roles) {
+  const role = access.role(req);
+  if (roles.includes(role)) return true;
+  sendJson(res, role ? 403 : 401, { ok: false, error: role ? 'This key has a different role.' : 'Sign in or supply the correct Bearer key.' });
+  return false;
 }
 
-async function catBlackFarm(req, res) {
-  if (req.method !== 'POST') return sendJson(res, 405, { ok: false, error: '只收 POST' });
-  const body = await readBody(req);
-  if (body === null) return sendJson(res, 413, { ok: false, error: '请求过大' });
-  let input;
-  try { input = body ? JSON.parse(body) : {}; }
-  catch { return sendJson(res, 400, { ok: false, error: '请求格式有误' }); }
-
-  const scene = input?.scene === undefined || input?.scene === null || input?.scene === '' ? 'garden' : input.scene;
-  if (!SCENES.includes(scene)) return sendJson(res, 400, { ok: false, error: '没有这个场景（只有 garden / greenhouse）' });
-  if (!FARM_ACTIONS.includes(input?.action)) return sendJson(res, 400, { ok: false, error: '只接 plant / water / harvest' });
-  /* plot 是给 AI 用的人话字段（1 起），引擎里叫 plotId；两个都收，plot 优先 */
-  const plotId = Number(input?.plot ?? input?.plotId);
-  if (!Number.isSafeInteger(plotId) || plotId < 1) return sendJson(res, 400, { ok: false, error: '要指明第几块地（plot，从 1 起）' });
-  if (input.action === 'plant' && !['common', 'fantasy'].includes(input?.seedType)) {
-    return sendJson(res, 400, { ok: false, error: '种之前要说普通还是奇幻种子（seedType: common|fantasy）' });
+async function connectionApi(req, res, path) {
+  if (!access.browserAllowed(req)) return sendJson(res, 403, { ok: false, error: 'Cross-site request denied.' });
+  if (path === '/auth/login' && req.method === 'POST') {
+    const id = req.socket.remoteAddress;
+    const now = Date.now();
+    const entry = loginAttempts.get(id) || { count: 0, until: now + 60000 };
+    if (entry.until < now) { entry.count = 0; entry.until = now + 60000; }
+    if (entry.count++ >= 20) return sendJson(res, 429, { ok: false, error: 'Too many attempts; wait one minute.' });
+    if (loginAttempts.size > 1000) loginAttempts.clear();
+    loginAttempts.set(id, entry);
+    const input = await jsonBody(req);
+    if (!equal(input.key, access.keys.user)) return sendJson(res, 401, { ok: false, error: '请输入玩家钥匙，AI 钥匙不能登录网页。' });
+    loginAttempts.delete(id);
+    return sendJson(res, 200, { ok: true }, { 'Set-Cookie': access.loginCookie() });
   }
-
-  let out = null;
-  for (let attempt = 0; attempt < 2; attempt++) {
-    const snapshot = await service.state(ACCOUNT, scene);
-    if (!snapshot?.ok) return sendJson(res, snapshot?.status ?? 503, { ok: false, error: snapshot?.error ?? '花园读不到', by: 'black' });
-    const order = { scene, action: input.action, plotId, revision: snapshot.state.revision };
-    if (input.action === 'plant') order.seedType = input.seedType;
-    out = await service.action(ACCOUNT, scene, order, newIdempotencyKey(), 'black');
-    if (out?.status === 409 && attempt === 0) continue;   /* 玩家同一瞬间也点了一下：重取版本再来一次 */
-    break;
+  if (path === '/auth/logout' && req.method === 'POST') return sendJson(res, 200, { ok: true }, { 'Set-Cookie': access.logoutCookie() });
+  if (!requireRole(req, res, ['user'])) return;
+  if (path === '/garden/api/connection' && req.method === 'GET') {
+    return sendJson(res, 200, { ok: true, baseUrl: PUBLIC_BASE || `http://${req.headers.host}`, publicReady: !!PUBLIC_BASE,
+      aiKey: access.keys.ai, mcpPath: '/mcp', openapiPath: '/openapi.json', oauth: !!PUBLIC_BASE });
   }
-
-  /* 说一句：走的还是原来那条内存 pending，前端 3 秒内取走冒泡。文案由调用方给，服务端不编。
-     只在真的落了地才说 —— 失败了还冒一句「我收了」是撒谎。 */
-  if (out?.ok && typeof input?.say === 'string' && input.say.trim()) {
-    blackPending = { ts: Date.now(), say: Array.from(input.say.trim()).slice(0, SAY_MAX).join('') };
+  if (path === '/garden/api/relay' && req.method === 'POST') {
+    const out = await agent.execute(await jsonBody(req)); return sendJson(res, out.status || 200, out);
   }
-  return sendJson(res, out?.status ?? 200, { ...out, by: 'black' });
+  if (path === '/garden/api/messages' && req.method === 'POST') return sendJson(res, 200, agent.say((await jsonBody(req)).text));
+  return sendJson(res, 404, { ok: false });
 }
 
-/* aifarm-20260918：AI 可读地图。坐标一律现读 web 那几份源文件，不落死数（见 ai-map.mjs 文件头）。 */
-async function catBlackMap(req, res, wantMarkdown) {
-  if (req.method !== 'GET') return sendJson(res, 405, { ok: false, error: '只收 GET' });
-  const scene = new URL(req.url, 'http://local').searchParams.get('scene') || 'garden';
-  if (!MAP_SCENES.includes(scene)) return sendJson(res, 400, { ok: false, error: `没有这个场景（只有 ${MAP_SCENES.join(' / ')}）` });
-  let map;
-  try { map = await buildMap({ root: ROOT, scene, service, account: ACCOUNT, port: PORT }); }
-  catch (e) { return sendJson(res, 500, { ok: false, error: '地图现算失败：' + (e?.message || e) }); }
-  if (!wantMarkdown) return sendJson(res, 200, map);
-  res.writeHead(200, {
-    'Content-Type': 'text/markdown; charset=utf-8',
-    'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff',
-  });
-  res.end(renderMapMd(map));
-}
-
-async function catBlackApi(req, res, path) {
+async function aiApi(req, res, path) {
   if (path === '/garden/api/cat/black/pending') {
-    if (req.method !== 'GET') return sendJson(res, 405, { ok: false, error: '只收 GET' });
-    const pending = blackPending;
-    blackPending = null;                /* 取走即清 */
-    return sendJson(res, 200, { ok: true, pending });
+    if (!requireRole(req, res, ['user'])) return;
+    if (req.method !== 'GET') return sendJson(res, 405, { ok: false });
+    const scene = new URL(req.url, 'http://local').searchParams.get('scene');
+    return sendJson(res, 200, { ok: true, pending: agent.pending(scene) });
   }
-  if (path === '/garden/api/cat/black/farm') return catBlackFarm(req, res);
-  if (path === '/garden/api/cat/black/map') return catBlackMap(req, res, false);
-  if (path === '/garden/api/cat/black/map.md') return catBlackMap(req, res, true);
-  if (path !== '/garden/api/cat/black') return sendJson(res, 404, { ok: false, error: '没有这个入口' });
-  if (req.method !== 'POST') return sendJson(res, 405, { ok: false, error: '只收 POST' });
-  const body = await readBody(req);
-  if (body === null) return sendJson(res, 413, { ok: false, error: '请求过大' });
+  if (!requireRole(req, res, ['ai', 'user'])) return;
+  const url = new URL(req.url, 'http://local');
+  const scene = url.searchParams.get('scene') || 'garden';
+  if (path === '/garden/api/ai/state' && req.method === 'GET') {
+    return sendJson(res, 200, await agent.state(scene, Number(url.searchParams.get('since') || 0)));
+  }
+  if ((path === '/garden/api/cat/black/map' || path === '/garden/api/cat/black/map.md') && req.method === 'GET') {
+    const map = await agent.map(scene);
+    if (path.endsWith('.md')) {
+      res.writeHead(200, { 'Content-Type': 'text/markdown; charset=utf-8', 'Cache-Control': 'no-store' });
+      return res.end(renderMapMd(map));
+    }
+    return sendJson(res, 200, map);
+  }
+  if (!requireRole(req, res, ['ai'])) return;
+  if (req.method !== 'POST') return sendJson(res, 405, { ok: false });
+  const body = await jsonBody(req, 4096);
   let input;
-  try { input = body ? JSON.parse(body) : {}; }
-  catch { return sendJson(res, 400, { ok: false, error: '请求格式有误' }); }
-
-  const order = { ts: Date.now() };
-  /* 坐标是花园底图的世界坐标（1536×1024），跟 web/host-cat.js 里那套同一把尺。
-     只认成对的有限数：给一半等于没给，直接当没说。 */
-  const x = Number(input?.x), y = Number(input?.y);
-  if (Number.isFinite(x) && Number.isFinite(y)) { order.x = x; order.y = y; }
-  if (typeof input?.say === 'string' && input.say.trim()) {
-    order.say = Array.from(input.say.trim()).slice(0, SAY_MAX).join('');
-  }
-  if (order.x === undefined && order.say === undefined) {
-    return sendJson(res, 400, { ok: false, error: '要么给 x/y，要么给 say，总得说一句' });
-  }
-  blackPending = order;                 /* 新的盖旧的 */
-  return sendJson(res, 200, { ok: true, pending: order });
+  if (path === '/garden/api/ai/action') input = body;
+  else if (path === '/garden/api/cat/black/farm') input = { ...body, plot: body.plot ?? body.plotId, requestId: body.requestId || randomUUID() };
+  else if (path === '/garden/api/cat/black') input = { ...body, action: body.x !== undefined ? 'move' : 'say', requestId: body.requestId || randomUUID() };
+  else return sendJson(res, 404, { ok: false });
+  delete input.plotId;
+  const out = await agent.execute(input); return sendJson(res, out.status || 200, out);
 }
 
 /* ── 静态 ─────────────────────────────────────────────────────────────────── */
@@ -233,36 +188,44 @@ function deny(res, status, body) {
   res.end(body);
 }
 
+const oauth = await createOAuth({ access, publicBase: PUBLIC_BASE, dataDir: DATA_DIR });
+
 const server = createServer(async (req, res) => {
-  // Reject arbitrary Host names on a loopback-only server (DNS rebinding).
-  if (LOOPBACK_ONLY) {
-    try {
-      const host = new URL(`http://${req.headers.host}`);
-      if (!LOOPBACK_HOSTS.has(host.hostname)) return deny(res, 403, '请求主机不匹配');
-    } catch { return deny(res, 400, '请求主机有误'); }
-  }
+  if (!access.hostAllowed(req)) return deny(res, 403, '请求主机不匹配');
   let path;
   try { path = decodeURIComponent(new URL(req.url, 'http://local').pathname); }
   catch { return deny(res, 400, '请求地址有误'); }
 
   try {
-    if (path === '/' || path === '/garden') {
-      res.writeHead(302, { Location: '/garden/', 'Cache-Control': 'no-store' });
-      return res.end();
+    if (path === '/healthz' && req.method === 'GET') return sendJson(res, 200, { ok: true });
+    if (PUBLIC_BASE && (path.startsWith('/.well-known/') || ['/authorize','/token','/register','/revoke','/oauth/approve'].includes(path))) return oauth.app(req, res);
+    if (path === '/openapi.json' && req.method === 'GET') return sendJson(res, 200, openapi(PUBLIC_BASE || baseUrl()));
+    if (path === '/privacy' && req.method === 'GET') return sendJson(res, 200, { service: 'Rainholm Garden', data: 'Game saves and access credentials stay on this deployment. Connected AI services receive the state and messages you request or share. No analytics. The deployment owner controls retention and backups.' });
+    if (path === '/mcp') {
+      if (!access.browserAllowed(req)) return sendJson(res, 403, { error: 'Cross-site request denied.' });
+      const token = access.bearer(req);
+      if (access.role(req) !== 'ai' && !await oauth.verify(token)) {
+        return sendJson(res, 401, { error: 'AI authorization required.' }, { 'WWW-Authenticate': PUBLIC_BASE ? `Bearer resource_metadata="${PUBLIC_BASE}/.well-known/oauth-protected-resource/mcp"` : 'Bearer realm="rainholm-garden"' });
+      }
+      const body = req.method === 'POST' ? await jsonBody(req, 32768) : undefined;
+      return await handleMcp(req, res, agent, body);
     }
-    if (!path.startsWith('/garden/')) return deny(res, 404, 'Not found');
-    if (path.startsWith('/garden/api/') && !browserRequestAllowed(req)) {
-      return sendJson(res, 403, { ok: false, error: '请求来源或内容类型不匹配' });
+    if (path.startsWith('/auth/') || ['/garden/api/connection','/garden/api/relay','/garden/api/messages'].includes(path)) return await connectionApi(req, res, path);
+    if (path.startsWith('/garden/api/')) {
+      if (!access.browserAllowed(req)) return sendJson(res, 403, { ok: false, error: 'Cross-site request denied.' });
+      if (path.startsWith('/garden/api/cat/black') || path.startsWith('/garden/api/ai/')) return await aiApi(req, res, path);
+      if (!requireRole(req, res, req.method === 'GET' ? ['user','ai'] : ['user'])) return;
+      return await api(req, res);
     }
-    /* 黑猫口子走自己的处理器：走位/说话那两条不碰存档、不认账号，别塞进场景 API 里。
-       aifarm-20260918：底下又多了 /farm（种地，这条是要落存档的）和 /map、/map.md（读地图）。 */
-    if (path === '/garden/api/cat/black' || path.startsWith('/garden/api/cat/black/')) {
-      return catBlackApi(req, res, path);
+    if (path === '/' || path === '/garden' || path === '/connect') {
+      res.writeHead(302, { Location: path === '/garden' ? '/garden/' : '/connect/', 'Cache-Control': 'no-store' }); return res.end();
     }
-    if (path.startsWith('/garden/api/')) return api(req, res);
     if (req.method !== 'GET' && req.method !== 'HEAD') return deny(res, 405, '不支持的方法');
-
-    let relative = path.replace(/^\/garden\/?/, '');
+    if (!path.startsWith('/garden/') && !path.startsWith('/connect/')) return deny(res, 404, 'Not found');
+    if ((path === '/garden/' || path === '/garden/index.html') && access.role(req) !== 'user') {
+      res.writeHead(302, { Location: '/connect/', 'Cache-Control': 'no-store' }); return res.end();
+    }
+    let relative = path.startsWith('/connect/') ? 'connect/' + path.slice('/connect/'.length) : path.slice('/garden/'.length);
     if (relative === '' || relative.endsWith('/')) relative += 'index.html';
     relative = normalize(relative);
     const file = resolve(WEB, relative);
@@ -285,9 +248,10 @@ const server = createServer(async (req, res) => {
     if (!buf) return deny(res, 404, '没有这个东西');
 
     const head = {
+      ...(path.startsWith('/connect/') ? { 'X-Frame-Options': 'DENY', 'Content-Security-Policy': "default-src 'self'; script-src 'self'; style-src 'self'; connect-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'" } : {}),
       'Content-Type': MIME[ext],
       'X-Content-Type-Options': 'nosniff',
-      'Referrer-Policy': 'same-origin',
+      'Referrer-Policy': 'no-referrer',
       'Cache-Control': 'no-cache, must-revalidate',
       ETag: etag,
       'Last-Modified': new Date(st.mtimeMs).toUTCString(),
@@ -319,8 +283,8 @@ const server = createServer(async (req, res) => {
     res.writeHead(200, head);
     res.end(req.method === 'HEAD' ? undefined : buf);
   } catch (e) {
-    try { deny(res, 500, '花园暂时打不开'); } catch { /* 响应已经开始就算了 */ }
-    console.error('[garden]', e?.message || e);
+    try { sendJson(res, e.status || 400, { ok: false, error: e.status ? e.message : '请求无效，检查参数或稍后重试。' }); } catch { /* 响应已经开始就算了 */ }
+    console.error('[garden] request failed:', e.name || 'Error');
   }
 });
 
@@ -329,10 +293,9 @@ const server = createServer(async (req, res) => {
 await transact(ACCOUNT, record => ensureScenes(record));
 
 server.listen(PORT, HOST, () => {
-  console.log(`Rainholm Garden on http://${HOST}:${PORT}/garden/  ·  save=${SAVE_FILE}`);
-  if (HOST !== '127.0.0.1' && HOST !== 'localhost' && HOST !== '::1') {
-    console.warn('⚠️  监听的不是回环地址，这个服务没有任何鉴权，请自己在前面加一层。');
-  }
+  effectivePort = server.address().port;
+  console.log(`Rainholm Garden ready: ${PUBLIC_BASE || `http://127.0.0.1:${effectivePort}`}/connect/`);
+  console.log('Player and AI access are separate. Use node start.mjs for connection setup.');
 });
 
 process.on('SIGTERM', () => server.close(() => process.exit(0)));

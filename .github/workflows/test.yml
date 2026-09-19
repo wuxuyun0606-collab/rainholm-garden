@@ -1,0 +1,41 @@
+name: Garden checks
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [20, 22]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - run: npm test
+      - run: node vendor/aifarm/tools/smoke-test.mjs
+      - run: node vendor/aifarm/tools/parity-check.mjs
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build -t rainholm-garden .
+      - run: |
+          docker run -d --name garden -v garden-ci-data:/var/lib/rainholm -p 127.0.0.1:5173:5173 rainholm-garden
+          for i in $(seq 1 30); do
+            if curl --fail --silent http://127.0.0.1:5173/healthz; then break; fi
+            sleep 1
+          done
+          curl --fail --silent http://127.0.0.1:5173/healthz
+          test "$(curl --silent -o /dev/null -w '%{http_code}' http://127.0.0.1:5173/garden/api/state)" = 401
+          docker exec garden node --input-type=module -e "import fs from 'node:fs'; const d=process.env.GARDEN_DATA; const k=JSON.parse(fs.readFileSync(d+'/.garden-keys.json')); if(k.user===k.ai)process.exit(1); const s=JSON.parse(fs.readFileSync(d+'/garden-save.json')); if(s.wallet!==152)process.exit(1); fs.copyFileSync(d+'/.garden-keys.json',d+'/before-restart.json');"
+          docker restart garden
+          for i in $(seq 1 30); do
+            if curl --fail --silent http://127.0.0.1:5173/healthz; then break; fi
+            sleep 1
+          done
+          curl --fail --silent http://127.0.0.1:5173/healthz
+          docker exec garden node --input-type=module -e "import fs from 'node:fs'; const d=process.env.GARDEN_DATA; if(fs.readFileSync(d+'/.garden-keys.json','utf8')!==fs.readFileSync(d+'/before-restart.json','utf8'))process.exit(1);"

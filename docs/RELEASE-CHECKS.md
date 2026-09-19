@@ -1,4 +1,6 @@
-# Release checks — 2026-09-19
+# v1.1.0 historical release checks — 2026-09-19
+
+These checks describe v1.1.0 only. v1.2.0 adds authentication and deployment; see the new release notes and automated tests.
 
 This release was prepared from a supplied standalone garden snapshot.
 

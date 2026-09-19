@@ -1,0 +1,13 @@
+services:
+  garden:
+    build: .
+    init: true
+    restart: unless-stopped
+    ports:
+      - "${GARDEN_BIND_IP:-127.0.0.1}:5173:5173"
+    environment:
+      GARDEN_PUBLIC_URL: ${GARDEN_PUBLIC_URL:-}
+    volumes:
+      - garden-data:/var/lib/rainholm
+volumes:
+  garden-data:

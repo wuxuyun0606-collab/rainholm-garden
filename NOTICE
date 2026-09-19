@@ -79,3 +79,13 @@ Noto Sans CJK SC / Noto Serif CJK SC（子集）——
 - 小屋方案原作：59（小红书）
 - 种植方案原作：初一（小红书）
 - rainholm小屋制作：BlueBlue（小红书）
+
+--------------------------------------------------------------------------------
+8. 客户端接入依赖
+--------------------------------------------------------------------------------
+@modelcontextprotocol/sdk 1.30.0 — Model Context Protocol TypeScript SDK (MIT)
+  https://github.com/modelcontextprotocol/typescript-sdk
+express 5.2.1 — Express (MIT)
+  https://github.com/expressjs/express
+依赖通过 package-lock.json 锁定；安装包随带各自 LICENSE，保持原许可。
+这些依赖的 MIT 许可不改变 vendor/aifarm 的非商业条款。

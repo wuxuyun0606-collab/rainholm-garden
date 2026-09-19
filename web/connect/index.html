@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="referrer" content="no-referrer"><title>连接你的 AI · Rainholm Garden</title><link rel="stylesheet" href="/connect/style.css"><script src="/connect/app.js" defer></script></head>
+<body><main>
+<header><p class="eyebrow">RAINHOLM GARDEN / 邀请一位伙伴</p><h1>花园有两把椅子。<br>另一把，留给你的 AI。</h1><p class="intro">你是白猫，AI 是黑猫。一起种同一片地，共用一份存档。</p></header>
+<p id="status" role="status" aria-live="polite"></p>
+<section id="login"><h2>先打开自己的花园</h2><form id="login-form"><label for="player-key">玩家钥匙</label><input id="player-key" type="password" autocomplete="current-password" required placeholder="粘贴启动器或部署平台提供的玩家钥匙"><button type="submit">进入花园设置</button></form><p class="hint">本机一键启动会自动登录。服务器部署后，在环境变量中查看 GARDEN_USER_KEY。玩家钥匙与 AI 钥匙各有用途。</p></section>
+<div id="connected" hidden>
+<nav><a class="button" href="/garden/">去花园</a><button class="secondary" id="logout">退出这台设备</button></nav>
+<section><p class="step">01 / 选择伙伴</p><h2>把它接进来</h2><label for="client">你在哪里和 AI 聊天？</label><select id="client"><option value="mcp">Operit / Kelivo</option><option value="gpt">ChatGPT</option><option value="claude">Claude Chat</option><option value="deepseek">DeepSeek Chat</option></select>
+<div id="client-guide"></div><p id="network-note" class="note"></p>
+<label for="endpoint">连接地址</label><input id="endpoint" readonly><div class="actions"><button id="copy-endpoint" class="secondary">复制地址</button><button id="copy-key" class="secondary">复制 AI 钥匙</button><button id="copy-config" class="secondary">复制 MCP 配置</button></div>
+<label id="copy-fallback-label" for="copy-fallback" hidden>自动复制不可用，请手动复制下方内容</label><textarea id="copy-fallback" rows="5" readonly hidden></textarea>
+<p class="hint">钥匙等同密码，只填入你选择的客户端认证设置。连接后，客户端会收到所调用的花园状态与消息。花园不需要你的模型 API Key，也不会自动调用付费模型。</p></section>
+<section><p class="step">02 / 普通聊天窗口也能参与</p><h2>给 AI 递一张花园便笺</h2><p>适合 DeepSeek 网页，或暂时没有工具入口的 ChatGPT／Claude。你负责递便笺，AI 决定做什么，确认后再落到花园里。</p>
+<label for="scene">这次去哪儿？</label><select id="scene"><option value="garden">花园</option><option value="greenhouse">花房</option><option value="cathome">小窝</option></select>
+<button id="copy-snapshot">复制状态与玩法给 AI</button><p class="hint">只复制当前游戏状态、地图及本次运行的最近消息，不包含任何钥匙。AI 不会因此获得自动执行权限。</p>
+<label for="action-json">把 AI 返回的 JSON 指令贴在这里</label><textarea id="action-json" rows="5" spellcheck="false" placeholder='{"action":"water","scene":"garden","plot":1}'></textarea>
+<button id="preview" class="secondary">预览这条指令</button><pre id="preview-text" hidden></pre><button id="execute" disabled>确认执行一次</button><pre id="result" hidden aria-live="polite"></pre>
+<p class="hint">种植会花费游戏金币。一次只执行一条指令；重复提交同一个操作编号会返回原结果。网页确认按钮不会替 AI 绕过权限。</p></section>
+<section class="small"><h2>重新连接时</h2><p>存档与钥匙保存在部署的数据目录。重启服务后继续使用原来的钥匙。AI 只有在客户端调用工具时才行动；后台轮询和持续运行取决于客户端。</p><a href="/privacy">数据说明</a></section>
+</div><footer>一座花园，一份存档。<span>Rainholm Garden · 非商业源码公开版</span></footer>
+</main></body></html>

@@ -120,10 +120,10 @@ function centroid(points) {
 }
 
 /* ── 一张地图 ───────────────────────────────────────────────────────────────── */
-export async function buildMap({ root, scene, service, account, port = 5173 }) {
+export async function buildMap({ root, scene, service, account, port = 5173, baseUrl }) {
   if (!MAP_SCENES.includes(scene)) throw new Error('没有这个场景');
   const S = await readSources(root);
-  const base = `http://127.0.0.1:${port}`;
+  const base = baseUrl || `http://127.0.0.1:${port}`;
   const nameOf = (bucket, id, fallback) => S.names?.[bucket]?.[id] ?? fallback ?? id;
 
   /* 门牌：页面上那几颗钮的钮心（世界坐标）＋ walk-map 给的靠门站位 */
@@ -213,10 +213,10 @@ export async function buildMap({ root, scene, service, account, port = 5173 }) {
   const notes = [
     `坐标是底图世界坐标，原点在左上，整张图 ${S.world.w}×${S.world.h}，跟页面 coord() 同一把尺；给黑猫的 x/y 直接用这套数，不用换算。`,
     '白猫＝使用者（玩家在页面上点地面指挥），黑猫＝AI（你）。走位和说话都只落在黑猫身上。',
-    `让黑猫走过去 / 冒一句：curl -s -X POST ${base}/garden/api/cat/black -H 'Content-Type: application/json' -d '{"x":1200,"y":880,"say":"我来了"}'`,
-    `让黑猫种地（跟玩家同一片地）：curl -s -X POST ${base}/garden/api/cat/black/farm -H 'Content-Type: application/json' -d '{"scene":"garden","action":"plant","plot":3,"seedType":"common","say":"我去种 3 号畦"}'`,
-    `看地里现状（带每块地最后是谁动的）：curl -s '${base}/garden/api/state?scene=garden'`,
-    `这张图的人话版：curl -s '${base}/garden/api/cat/black/map.md?scene=${scene}'`,
+    `让黑猫走过去 / 冒一句：curl -s -X POST ${base}/garden/api/cat/black -H 'Authorization: Bearer <AI_KEY>' -H 'Content-Type: application/json' -d '{"x":1200,"y":880,"say":"我来了"}'`,
+    `让黑猫种地（跟玩家同一片地）：curl -s -X POST ${base}/garden/api/cat/black/farm -H 'Authorization: Bearer <AI_KEY>' -H 'Content-Type: application/json' -d '{"scene":"garden","action":"plant","plot":3,"seedType":"common","say":"我去种 3 号畦"}'`,
+    `看地里现状（带每块地最后是谁动的）：curl -s -H 'Authorization: Bearer <AI_KEY>' '${base}/garden/api/state?scene=garden'`,
+    `这张图的人话版：curl -s -H 'Authorization: Bearer <AI_KEY>' '${base}/garden/api/cat/black/map.md?scene=${scene}'`,
     '种/浇/收走的是和玩家同一把事务锁、同一份存档：玩家收完你下次拉 state 就看得见，你收完玩家页面 30 秒内自己刷出来。',
     scene === 'cathome'
       ? '小窝服务端没有数据（没有地块、没有金币、没有 api/state），这张图只有坐标；猫此刻站在哪只有页面知道。'

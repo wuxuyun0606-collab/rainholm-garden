@@ -1,0 +1,23 @@
+# Render's persistent disks require a paid plan. Review the price before deploying.
+services:
+  - type: web
+    name: rainholm-garden
+    runtime: docker
+    repo: https://github.com/wuxuyun0606-collab/rainholm-garden
+    branch: main
+    autoDeployTrigger: off
+    plan: starter
+    healthCheckPath: /healthz
+    disk:
+      name: garden-data
+      mountPath: /var/lib/rainholm
+      sizeGB: 1
+    envVars:
+      - key: GARDEN_USER_KEY
+        generateValue: true
+      - key: GARDEN_AI_KEY
+        generateValue: true
+      - key: HOST
+        value: 0.0.0.0
+      - key: GARDEN_DATA
+        value: /var/lib/rainholm

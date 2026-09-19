@@ -6,7 +6,8 @@
 院子里有两只猫：**白猫是你**，点地面它就走过去；**黑猫是你的 AI**，它自己有一套接口，能看地图、能走、能说话、能种你的地。
 两只猫种的是**同一片地、同一份存档**。它收了你刷新就看得见，你收了它下次读地图就知道。
 
-零账号、零数据库、零外网请求。`node server/serve.mjs`，浏览器打开，就这样。
+无需数据库或模型 API Key。`node start.mjs` 一键启动，自动准备玩家与 AI 两把钥匙，并打开连接页。
+Operit、Kelivo 用 MCP；ChatGPT 用 Actions；Claude Chat 用远程 MCP + OAuth。DeepSeek 普通网页可用便笺方式参与。
 
 **许可说明：本仓库是公开源码的非商业发行版。** 自写代码采用 MIT，但随包的
 种植引擎采用 PolyForm Noncommercial 1.0.0；整包不属于 OSI 定义的开源软件，
@@ -16,28 +17,63 @@
 
 ---
 
-## 跑起来
+## 一键开始
 
-需要 Node ≥ 20。
+安装 Node.js 20 或以上版本，下载并解压 [最新版本](https://github.com/wuxuyun0606-collab/rainholm-garden/releases/latest)，在项目目录运行：
 
 ```bash
-node server/serve.mjs
-# → http://127.0.0.1:5173/garden/
+node start.mjs
 ```
 
-常用开关（都是环境变量）：
+首次自动安装锁定版本的 MCP 依赖、生成玩家 / AI 两把独立随机钥匙、准备示例存档，并打开已登录的连接页。
+macOS 也可以双击 `start.command`，Windows 双击 `start.bat`（均需已安装 Node.js）。
 
-| 变量 | 默认 | 说明 |
-|---|---|---|
-| `PORT` | `5173` | 换端口 |
-| `HOST` | `127.0.0.1` | 监听地址 |
-| `GARDEN_DATA` | `./data` | 存档目录 |
+**连接页会给你可复制的 MCP 配置、ChatGPT Actions 地址、Claude 授权说明和普通聊天便笺。**
+游戏画面右下角的「连接 AI」可以随时回来。
 
-⚠️ `HOST` 一旦不是回环地址，**任何能连上这个端口的人都能种你的地、花你的钱，也能指挥你的黑猫**。
-这份服务没有登录、没有鉴权，也不打算有。要放到公网，自己在前面架一层反代和登录。
+| 你在哪聊天 | 怎么接入 |
+|---|---|
+| Operit / Kelivo | Streamable HTTP MCP + 独立 AI 钥匙 |
+| ChatGPT | 带 Actions 的自定义 GPT，导入 OpenAPI，API Key / Bearer 认证 |
+| Claude Chat | 自定义远程连接器，填 `/mcp`，在花园授权页用玩家钥匙批准 |
+| DeepSeek 官方网页 / 无工具的普通聊天 | 复制游戏快照给 AI，粘回 JSON 指令，在网页确认执行 |
+| Operit / Kelivo 中的 DeepSeek 模型 | 客户端和模型支持工具调用时，通过 MCP 自动操作 |
 
-存档就一个文件：`data/garden-save.json`。想重开一局，删了它就行；
-第一次启动会照 `data/example-save.json` 开局（两块示范田已经种上）。
+客户端是否显示自定义连接器 / GPT 编辑入口，由各产品版本、账号和套餐决定。
+上面是服务端提供的接入方式，**不代表未安装工具的聊天窗口可以靠一个链接自动执行**。
+
+### 手机与电脑同一 Wi-Fi
+
+```bash
+node start.mjs --lan
+```
+
+启动器列出电脑的局域网地址。手机打开连接页，填玩家钥匙；Operit / Kelivo 填同一个电脑地址的 `/mcp`。
+若需要查看钥匙，运行 `node start.mjs --lan --show-access`。钥匙只在这次显式查看时打印。
+
+### Docker
+
+```bash
+docker compose up -d --build
+docker compose exec garden node start.mjs --show-access
+```
+
+默认只发布到本机 5173 端口；存档和钥匙保存在独立数据卷。详细网络配置见 [部署说明](docs/DEPLOY.md)。
+
+### 一键部署到公网 HTTPS
+
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/wuxuyun0606-collab/rainholm-garden)
+
+**此模板使用 Render 付费 Starter 实例与持久磁盘，请在平台确认价格后部署。**
+创建服务后，从环境变量取得 `GARDEN_USER_KEY`，打开服务网址登录。AI 钥匙在连接页复制。
+平台负责 HTTPS；模板自动使用 `RENDER_EXTERNAL_URL` 作为连接地址。
+本仓库不会替你创建付费服务、购买域名或消耗模型额度。
+
+ChatGPT Actions、Claude 云端连接器访问不到你的 `127.0.0.1` 或家庭 Wi-Fi，需要公网 HTTPS。
+本机接反代时使用 `node start.mjs --public-base-url https://garden.example.com`；该参数不负责创建隧道。
+
+第一次种的是示例存档中的两块田；以后启动沿用同一份 `data/garden-save.json`。
+不要运行两个进程共写一个存档目录。完整步骤见 [快速开始](docs/QUICKSTART.md)、[AI 接入](docs/AI_GUIDE.md)、[部署与备份](docs/DEPLOY.md)。
 
 ---
 
@@ -91,28 +127,26 @@ node server/serve.mjs
 ```bash
 # ① 地图：8 块畦 / 8 个花盆各在什么坐标、地里现在什么状态、小窝的床沙发在哪、门在哪、猫常待哪片
 #    scene = garden | greenhouse | cathome；换 map.md 拿人话版（Markdown，直接喂给模型）
-curl -s 'http://127.0.0.1:5173/garden/api/cat/black/map?scene=garden'
-curl -s 'http://127.0.0.1:5173/garden/api/cat/black/map.md?scene=cathome'
+curl -s -H 'Authorization: Bearer <AI_KEY>' 'http://127.0.0.1:5173/garden/api/cat/black/map?scene=garden'
+curl -s -H 'Authorization: Bearer <AI_KEY>' 'http://127.0.0.1:5173/garden/api/cat/black/map.md?scene=cathome'
 
 # ② 让黑猫走过去 / 头顶冒一句（x,y 是底图世界坐标 1536×1024，直接抄地图里的数）
 curl -s -X POST http://127.0.0.1:5173/garden/api/cat/black \
-     -H 'Content-Type: application/json' -d '{"x":1200,"y":880,"say":"我来了"}'
+     -H 'Authorization: Bearer <AI_KEY>' -H 'Content-Type: application/json' -d '{"x":1200,"y":880,"say":"我来了"}'
 
 # ③ 让黑猫种地：plant / water / harvest，plot 从 1 起，say 可选（成功才冒泡）
 curl -s -X POST http://127.0.0.1:5173/garden/api/cat/black/farm \
-     -H 'Content-Type: application/json' \
+     -H 'Authorization: Bearer <AI_KEY>' -H 'Content-Type: application/json' \
      -d '{"scene":"garden","action":"plant","plot":3,"seedType":"common","say":"我去种 3 号畦"}'
 ```
 
 - 地图是**请求那一刻现算**的：坐标从前端那几份源文件读（`app.js` 的畦和盆、`host-cat.js` 的家具落地面、`walk-map.json` 的禁行区），挪一件家具地图就跟着变，不是抄死的表。
 - 每块畦记着**最后是谁动的手**（`lastActor`：玩家 / AI）。页面每 30 秒拉一次状态，回到前台也拉，黑猫种了什么你不用刷新。
-- 黑猫的种浇收走的是和玩家**同一条账本、同一份存档**，幂等键服务端自己生成，重复提交不会种两次。
+- 黑猫的种浇收走的是和玩家**同一条账本、同一份存档**。新 MCP / Actions 接口使用 `requestId` 防止重试重复执行；同一个意图重试要沿用同一个编号（保留最近 200 条）。
 - 想接自己的 AI：定时读 `map.md`，让模型决定去哪、做什么，再打 ②③ 两条。就这么多。
 
-⚠️ 这三条口子和整个服务一样**没有鉴权**：默认只听 `127.0.0.1`，能连上这个端口的人本来就能种你的地。
-
-浏览器跨站请求会被拒绝，POST 必须使用 `Content-Type: application/json`。
-本地 AI / curl 可不带 Origin；这层浏览器来源检查不替代公网部署所需的登录和鉴权。
+这些接口要求独立 **AI 钥匙**。网页使用玩家会话，AI 无权登录网页或读取连接设置。
+浏览器跨站请求会被拒绝，POST 必须使用 JSON。旧接口仍可使用，但需要认证；可靠重试请使用 MCP 或 `/garden/api/ai/action`。
 
 ---
 
@@ -120,7 +154,12 @@ curl -s -X POST http://127.0.0.1:5173/garden/api/cat/black/farm \
 
 ```
 server/
-  serve.mjs      唯一入口：静态页 + /garden/api，回环，无鉴权；黑猫的三条口子在这
+  serve.mjs      静态页、登录会话、玩家/AI API 与 MCP 分派
+  access.mjs     两种钥匙与会话、Host/Origin 校验
+  agent.mjs      MCP/Actions/便笺共用的黑猫操作
+  mcp.mjs        官方 SDK 的 Streamable HTTP MCP
+  oauth.mjs      Claude 等远程客户端的 OAuth 授权
+  openapi.mjs    ChatGPT Actions 的 OpenAPI schema
   scenes.mjs     花园 / 花房分派：一份存档两块地、一个钱包、一个版本号
   garden.mjs     花园那一半的服务与视图，幂等账本在这里
   ai-map.mjs     给 AI 看的地图：现读 web 那几份源文件算坐标，不落死数
@@ -136,7 +175,11 @@ web/
   assets/v7 v8   界面增量包：票签、图鉴墙、角钮、气泡、鸣谢……每个文件头都写了它管什么
   vendor/        pixi.js（自托管）
 vendor/aifarm/   上游规则引擎（⚠️ 禁商用，见 NOTICE）
-data/            存档
+start.mjs        一键启动器
+web/connect/     登录与 AI 连接、便笺页面
+Dockerfile       可持久化容器部署
+render.yaml      Render 一键部署模板（付费持久磁盘）
+data/            存档与私人钥匙（不入 Git）
 docs/            截图
 ```
 
@@ -173,10 +216,10 @@ node vendor/aifarm/tools/smoke-test.mjs
 node vendor/aifarm/tools/parity-check.mjs
 ```
 
-项目测试使用临时存档，覆盖启动、地图、玩家与 AI 共用存档、来源校验和静态文件边界。
+项目测试使用临时存档，覆盖启动、地图、角色认证、官方 MCP 客户端、Actions、OAuth、幂等重试和来源边界。版本验证范围见 [v1.2 发布检查](docs/RELEASE-1.2.md)。
 
 ## TODO
 
 - [ ] 补充浏览器交互的自动化回归测试。
 - [ ] i18n：界面文案全是中文，硬编码在 `app.js` 和几份增量包里。
-- [ ] 黑猫那三条口子没有鉴权，公网部署要自己加。
+- [ ] 更多客户端版本的实机兼容性回归。

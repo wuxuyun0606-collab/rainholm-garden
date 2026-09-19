@@ -1,0 +1,12 @@
+.git
+node_modules
+data/*
+!data/example-save.json
+.env
+.env.*
+*.log
+*.pem
+*.key
+tests
+outputs
+.DS_Store

@@ -19,3 +19,10 @@ REPORT-*.md
 *.pfx
 .DS_Store
 *.log
+
+# Private deployment state
+data/*
+!data/example-save.json
+.garden-keys.json
+.garden-oauth.json
+.garden-oauth.json.tmp
