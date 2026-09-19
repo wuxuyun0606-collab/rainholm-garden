@@ -1,0 +1,55 @@
+{
+  "bonus": [
+    {
+      "id": "bumper",
+      "name": "大丰收",
+      "effectType": "倍率",
+      "param": "2",
+      "weight": 5,
+      "text": ""
+    },
+    {
+      "id": "golden_harvest",
+      "name": "稀世丰穰",
+      "effectType": "倍率",
+      "param": "3",
+      "weight": 2,
+      "text": ""
+    },
+    {
+      "id": "gleaning",
+      "name": "拾遗",
+      "effectType": "额外金币",
+      "param": "120",
+      "weight": 4,
+      "text": ""
+    },
+    {
+      "id": "lucky_turn",
+      "name": "时来运转",
+      "effectType": "品相保底",
+      "param": "优品",
+      "weight": 3,
+      "text": ""
+    },
+    {
+      "id": "chain_ripe",
+      "name": "连锁结实",
+      "effectType": "连收",
+      "param": "3",
+      "weight": 3,
+      "text": ""
+    },
+    {
+      "id": "moonshine",
+      "name": "月光恩赐",
+      "effectType": "倍率",
+      "param": "2.5",
+      "weight": 1,
+      "text": ""
+    }
+  ],
+  "dropIntros": [
+    ""
+  ]
+}

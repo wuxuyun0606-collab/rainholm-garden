@@ -1,0 +1,39 @@
+[
+  {
+    "id": "cat",
+    "name": "小猫",
+    "emoji": "🐱",
+    "desc": "",
+    "buff": "luck",
+    "params": {
+      "luck": 0.12,
+      "dropMult": 1.25
+    },
+    "tag": "招财·稀有/掉落微涨",
+    "buffText": "招财：在田里转悠时，收成的手气悄悄变好——稀有作物更常见，素材、药水也更易拾到（温和加成，不改变核心节奏）。",
+    "buyCost": 9000,
+    "unlockCodex": 5,
+    "unlockCond": "图鉴集齐 5 种解锁",
+    "roam": [
+      ""
+    ]
+  },
+  {
+    "id": "dog",
+    "name": "小狗",
+    "emoji": "🐶",
+    "desc": "",
+    "buff": "guard",
+    "params": {
+      "foil": 0.35
+    },
+    "tag": "看家·防偷",
+    "buffText": "看家：别人来偷你菜时，有 35% 的概率被它狂吠吓退、空手而归（不会永久免疫，仍给小偷留余地）。",
+    "buyCost": 9000,
+    "unlockCodex": 5,
+    "unlockCond": "图鉴集齐 5 种解锁",
+    "roam": [
+      ""
+    ]
+  }
+]

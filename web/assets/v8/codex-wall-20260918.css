@@ -1,0 +1,242 @@
+
+
+
+#dialog.cw-on{
+ --cw-paper:#f7efd8;--cw-paper2:#faf4de;--cw-paper3:#f9eede;
+ --cw-wood:#7a5535;--cw-green:#5f6e4b;--cw-green2:#96a17e;--cw-line:#d0cab4;
+ --cw-ink:#26301f;--cw-ink2:#2c3321;--cw-muted:#5a5f4e;--cw-muted2:#6a6b57;
+ --cw-pill-bg:#e8efdf;--cw-pill-bd:#7d8a6c;--cw-pill-ink:#3f4b36;
+ --cw-display:GardenSerif,'Noto Serif CJK SC','Source Han Serif SC','Songti SC',serif;
+ --cw-body:GardenSans,'Noto Sans CJK SC','PingFang SC','Microsoft YaHei',sans-serif;
+ --cw-latin:Georgia,'Times New Roman',serif;
+}
+
+
+#dialog.cw-on{
+ width:min(720px,calc(100% - 44px));max-width:none;max-height:86dvh;
+ padding:8px 26px 24px;border:0;border-radius:20px;
+ color:var(--cw-ink);box-shadow:0 14px 44px rgb(70 66 37 / .20);overflow:visible;
+ font-family:var(--cw-body);
+ background:var(--cw-paper);
+}
+
+
+#dialog.cw-on::backdrop{
+ background:rgb(250 246 236 / .52);
+}
+/* 图鉴开着时花园上的浮动 UI 全部隐身（visibility，不重排），关了自动恢复。猫不藏。
+   名单跟 ht-on 那份逐字一致：两处花园的 .hud/.corner/.nb4-corner/#nccPawPanel/#rhSayWrap/
+   #rhgChatBtn/#rhgSwitchPlots，加 #world 里的气泡/门牌/地块热区。 */
+body:has(#dialog.cw-on[open]) :is(
+ .hud, .corner, .nb4-corner, #nccPawPanel, #rhSayWrap, #rhgChatBtn, #rhgSwitchPlots,
+ .pages, #card, #toast, #connection, #retry, #menu, .drag-hint,
+ #world .bubble, #world .gd-door-mark, #gdDoorMark, #gdHomeMark, #world .scene-door, #plots
+){visibility:hidden}
+
+/* ── v3 装饰边框层：同一张框只描线不填纸，盖在滚动内容之上 ────────────────
+   （此层在 v9 退役，见下方说明。） */
+/* v3 的 ::after 描线层 + body 切角 clip-path 在 v9 随木框一起退役：没有框了，
+   也就没有「滚动内容啃掉框线」要防。层序只剩：内容 0 ＜ 关闭钮 4。 */
+
+
+#dialog.cw-on .gd-ears{display:none}
+
+/* ── 标题行：「花园图鉴」宋体居中 + 小菱形分隔线，右上角裸 × 关闭钮 ── */
+#dialog.cw-on .dialog-head{
+ position:relative;display:block;text-align:center;gap:0;margin:0;padding:18px 0 0;min-height:82px}
+#dialog.cw-on .dialog-head h2{
+ margin:0;font-family:var(--cw-display);font-weight:600;font-size:34px;line-height:1.18;
+ letter-spacing:.06em;color:var(--cw-ink)}
+#dialog.cw-on .dialog-head h2::after{
+ content:'';display:block;width:84px;height:10px;margin:8px auto 0;
+ background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='90' height='10' viewBox='0 0 90 10'%3E%3Cg stroke='%2393a077' stroke-width='1' fill='none' stroke-linecap='round'%3E%3Cpath d='M2 5 H35'/%3E%3Cpath d='M55 5 H88'/%3E%3Cpath d='M45 1.4 L48.6 5 L45 8.6 L41.4 5 Z'/%3E%3C/g%3E%3C/svg%3E") center/contain no-repeat}
+
+
+#dialog.cw-on .dialog-head button{
+ position:absolute;z-index:4;top:8px;right:6px;width:34px;height:34px;padding:0;
+ display:grid;place-items:center;border:0;border-radius:0;background:none;
+ color:var(--cw-ink);font-size:24px;line-height:1;box-shadow:none;
+ transition:color .16s ease}
+#dialog.cw-on .dialog-head button:active{color:var(--cw-green)}
+/* v6：焦点框也不画 —— showModal 会自动把焦点放到这颗钮上，:focus-visible 的绿方框
+   每次开门都套在裸 × 外面（真机复现）。Esc 一样可以关，焦点提示让给变色。 */
+#dialog.cw-on .dialog-head button:focus-visible{outline:none;color:var(--cw-green)}
+@media(hover:hover){#dialog.cw-on .dialog-head button:hover{background:none;color:var(--cw-green)}}
+
+/* ── 正文：副标 / 进度 / 空态 ─────── */
+#dialog.cw-on #dialog-body{
+ font-family:var(--cw-body);color:var(--cw-ink2);font-size:14px;line-height:1.7;
+ max-height:calc(86dvh - 128px);overflow:auto;padding:0 2px 10px 0;
+ scrollbar-width:thin;scrollbar-color:#c7bfa4 transparent}
+#dialog.cw-on #dialog-body::-webkit-scrollbar{width:8px;height:8px}
+#dialog.cw-on #dialog-body::-webkit-scrollbar-track{background:transparent;box-shadow:none;border-radius:8px;margin:6px 0}
+#dialog.cw-on #dialog-body::-webkit-scrollbar-thumb{background:#c7bfa4;border:2px solid transparent;background-clip:padding-box;border-radius:8px;box-shadow:none}
+#dialog.cw-on #dialog-body::-webkit-scrollbar-thumb:hover{background:#b3ab90;background-clip:padding-box}
+#dialog.cw-on #dialog-body::-webkit-scrollbar-corner{background:transparent}
+
+#dialog.cw-on #dialog-body>p:first-child{
+ margin:0 0 6px;text-align:center;
+ font-family:var(--cw-display);font-size:14px;letter-spacing:.02em;color:var(--cw-muted)}
+#dialog.cw-on .codex-progress{
+ margin:0 0 15px;text-align:center;
+ font-family:var(--cw-display);font-size:17px;letter-spacing:.05em;color:#3a3a2b}
+#dialog.cw-on .empty-state{padding:26px 0;text-align:center;font-family:var(--cw-display);color:var(--cw-muted2)}
+
+/* ── 分组标题：胶囊「N」+「7 / 19」+ 带小叶结的细线到边 ───────────────── */
+#dialog.cw-on .codex-group{margin:0 0 16px}
+#dialog.cw-on .codex-group-title{
+ display:flex;align-items:center;gap:11px;margin:0 0 9px;padding:0;border-bottom:0;
+ font-family:var(--cw-display);font-size:15px;font-weight:400;color:#616858}
+#dialog.cw-on .codex-group-title span{font-family:var(--cw-latin);font-size:16px;color:#616858;letter-spacing:.03em}
+#dialog.cw-on .codex-group-title::after{
+ content:'';flex:1 1 auto;min-width:30px;height:16px;
+ background:linear-gradient(var(--cw-line),var(--cw-line)) left center/100% 1px no-repeat,
+            url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='34' height='16' viewBox='0 0 34 16'%3E%3Cg fill='%23b9c6a0' stroke='%2374855d' stroke-width='1.2' stroke-linejoin='round'%3E%3Cpath d='M15.4 8 C11 2.4 5 2 1.6 5 C5 11.6 12 12.6 15.4 8 Z'/%3E%3Cpath d='M18.6 8 C23 2.4 29 2 32.4 5 C29 11.6 22 12.6 18.6 8 Z'/%3E%3C/g%3E%3Cg fill='none' stroke='%2374855d' stroke-width='1' stroke-linecap='round'%3E%3Cpath d='M4.4 5.6 C8 6.2 12 7 15 8'/%3E%3Cpath d='M29.6 5.6 C26 6.2 22 7 19 8'/%3E%3C/g%3E%3Ccircle cx='17' cy='8' r='1.5' fill='%2374855d'/%3E%3C/svg%3E") center/34px 16px no-repeat}
+
+/* 稀有度徽章：浅绿底绿边圆角胶囊（样稿只出现 N；R/SR/SSR/SP 保留各自色系，
+   形状字号统一到纸面这一套，别把五档拍成一个颜色） */
+#dialog.cw-on .rarity{
+ display:inline-block;min-width:46px;padding:5px 15px;border-radius:13px;
+ border:1.5px solid var(--cw-pill-bd);background:var(--cw-pill-bg);color:var(--cw-pill-ink);
+ font-family:var(--cw-display);font-size:14px;font-weight:400;letter-spacing:.08em;
+ text-align:center;box-shadow:none}
+#dialog.cw-on .rarity.r-N{color:#3f4b36;border-color:#7d8a6c;background:#e8efdf}
+#dialog.cw-on .rarity.r-R{color:#3a5060;border-color:#7e97a6;background:#e3ecf1}
+#dialog.cw-on .rarity.r-SR{color:#54406b;border-color:#9382ac;background:#eae3f0}
+#dialog.cw-on .rarity.r-SSR{color:#7a5a22;border-color:#bd9a55;background:#f5ead2}
+#dialog.cw-on .rarity.r-SP{color:#8a3f57;border-color:#c0879a;background:#f6e3ea}
+
+
+#dialog.cw-on .codex-grid{grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:18px 16px}
+#dialog.cw-on .codex-card{
+ position:relative;display:block;aspect-ratio:948/1659;padding:0;border:0;border-radius:0;
+ box-shadow:none;text-align:center;
+ container-type:inline-size;   /* textfit0919：卡宽当容器，cqw 让票面排版随卡等比缩放 */
+ background:url("codex-ticket/ticket-frame.png") center/100% 100% no-repeat}
+/* 票头名：单行，落在左上花饰右侧那一列。最长的品种名是 6 个汉字（未发现的作物 /
+   植物学家玫瑰 = 6.12em），列宽 43cqw，6.7cqw 的字排出来 41cqw，留得下。
+   放不下就省略号，绝不回头撞花饰。
+   textfit3 · v13（9/19 玩家看手机实屏 卷心菜/洋葱：「中文字太挨着边框了，往下挪动一点」）：
+   top 8.6% → 11.5%。内框净空是从 y 9.52% 才开始的，8.6% 的盒顶等于压在内框绿线上方，
+   字看着就贴边。11.5% 跟大票签 .ct-heading 用同一个数，两处票面的呼吸对齐。 */
+#dialog.cw-on .codex-name{
+ position:absolute;top:11.5%;left:40%;right:17%;
+ font-family:var(--cw-display);font-weight:600;color:var(--cw-ink2);
+ font-size:14px;font-size:clamp(9.5px,6.7cqw,16px);
+ line-height:1.25;letter-spacing:.02em;
+ white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+ text-shadow:0 0 7px #f5efdd,0 0 3px #f5efdd,0 1px 0 #f5efdd}   /* 纸色薄晕只收边，不再当遮挡手段 */
+/* 拉丁名：同一列，最多两行。全库最长学名 Raphanus sativus var. longipinnatus = 14.5em，
+   断成两行最宽的一行约 7.5em；列宽 43cqw ÷ 5cqw = 8.6em，放得下且不裁。
+   textfit3 · v13：top 不再写死，改成跟着名字底沿走 ——
+     名字顶 11.5% + 名字高 8.375cqw（6.7cqw × line-height 1.25）+ 0.8% 间距
+     = calc(12.3% + 8.375cqw) ≈ 17.09%
+   两行高 = 2 × 1.35 × 5cqw = 13.5cqw ≈ 卡高 7.71% → 盒底 24.80% ＜ 图区顶 29%，
+   还剩 4.2% 余量，所以 .codex-art 的 29% 不用动。前面那行 17.1% 是不吃 cqw 的老壳兜底。 */
+#dialog.cw-on .codex-latin{
+ position:absolute;top:17.1%;top:calc(12.3% + 8.375cqw);left:40%;right:17%;
+ font-family:var(--cw-latin);font-style:italic;color:var(--cw-muted2);
+ font-size:10px;font-size:clamp(8px,5cqw,11px);
+ line-height:1.35;overflow-wrap:anywhere;
+ display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+ text-shadow:0 0 7px #f5efdd,0 0 3px #f5efdd,0 1px 0 #f5efdd}
+/* width/height 必须显式 auto 盖掉底座的 width:100% —— 绝对定位下 left/right/width 三写会
+   丢掉 right（盒宽变成整卡宽），图就溢到票底去了。踩过。 */
+#dialog.cw-on .codex-art{
+ position:absolute;top:29%;bottom:33%;left:15%;right:15%;width:auto;height:auto;margin:0;padding:0;border:0;border-radius:0;
+ background:none;aspect-ratio:auto;display:grid;place-items:center;overflow:visible}
+#dialog.cw-on .codex-art img{width:100%;height:100%;object-fit:contain;transform:none;
+ filter:drop-shadow(0 3px 3px rgb(70 66 37 / .14))}
+#dialog.cw-on .art-slot{
+ border:1px dashed #bbb8a0;border-radius:8px;color:#8f8f78;font-size:13px;background:none}
+#dialog.cw-on .art-slot.blank{border-color:#cdcab1;background:#f2ecdb80}
+/* 徽章行：底下那枝花饰在右下角（x 62.03%~82.70% / y 75.05%~90.60%），横向净空只剩
+   62% 以左，塞不下「徽章 + 收获 N 次」一行。所以这行改走竖向避让：整行抬到花饰上沿以上，
+   横向照旧铺满内框净空、照旧居中 —— 比缩到左半边好看，几何上也更稳。
+   高度用 cqw 钉死（不是让字号去撞），盒子 68.9% ~ 68.9%+9.4/175 = 74.27% < 75.05%，
+   上面离图区底（67%）还有 1.9% 的呼吸。不许 wrap：一换行就顶进花饰。 */
+#dialog.cw-on .codex-meta{
+ position:absolute;top:68.9%;left:17.5%;right:17.5%;margin:0;   /* style.css 第 51 行给了 margin-top:3px，绝对定位下照样把整行往下推 3px，盒底就骑上花饰了 */
+ height:20px;height:9.4cqw;
+ display:flex;flex-wrap:nowrap;align-items:center;justify-content:center;
+ gap:8px;gap:3cqw;
+ font-family:var(--cw-display);color:#3f4436;
+ font-size:12px;font-size:clamp(9px,5.8cqw,13px);line-height:1.15;
+ white-space:nowrap;overflow:hidden;
+ text-shadow:0 0 6px #f5efdd,0 0 3px #f5efdd}
+#dialog.cw-on .codex-meta>span{min-width:0;overflow:hidden;text-overflow:ellipsis}
+#dialog.cw-on .codex-meta .rarity{
+ flex:0 0 auto;
+ min-width:34px;min-width:15cqw;
+ padding:2px 9px;padding:1cqw 4cqw;
+ border-width:1.2px;border-width:.6cqw;
+ border-radius:10px;border-radius:5cqw;
+ font-size:10px;font-size:clamp(7.5px,4.7cqw,11.5px);line-height:1.2;letter-spacing:.06em}
+#dialog.cw-on .codex-desc{display:none}
+
+/* ── 未发现卡：同一张票签框，灰剪影 + 粉色 ?、灰紫字、名下一小段横线 ────
+   v8 起框图就是票签那张（.codex-card 统一背），这里只剩色调差异。 */
+#dialog.cw-on .codex-card.unknown .codex-art{border:0;background:none}
+#dialog.cw-on .codex-card.unknown .codex-art img{opacity:.95}
+#dialog.cw-on .codex-q{
+ font-size:36px;color:#9c5a5a;
+ text-shadow:0 0 9px var(--cw-paper3),0 0 4px var(--cw-paper3),0 1px 0 var(--cw-paper3)}
+
+/* ── textfit2 · v12（9/19 玩家看手机实屏：「未发现的作物」那张还是乱的）────────
+   v11 让所有票头文字横向躲进左上枝右侧那一列。已知卡扛得住 —— 名字 + 学名 + 底下
+   徽章行三层把那一列撑满了；未发现卡只有孤零零一行字，六个字被挤在右上角贴着叶子、
+   字还小，短横线吊在 23%，中间一大片空，整张失衡。横向让开这招不适合它。
+   未发现卡改走竖向：整块落到左上枝 bbox 底沿（24.53%）以下，横向回到整卡居中。
+     · 名字   top 25.5%（24.53% + ~1% 余量），left/right = 内框净空 16.56%/83.44% 各再留 2% = 18.5%
+              字号跟已知卡同一档 clamp(9.5px,6.7cqw,16px)，不再单独收小
+     · 短横线 贴名字底沿下 1.5% → top = 25.5% + 名字高 8.375cqw + 1.5%，宽照旧 38px，居中
+     · 剪影   top 29% → 33%（让出名字和横线），bottom 33% 不动 → 底沿 67% ＜ 右下枝 75.05%
+   纵向次序钉死：名字底 30.3% ＜ 横线顶 31.8% ＜ 图区顶 33%。
+   已知卡的规则一条没碰（.codex-name / .codex-latin / .codex-meta 全在上面那段里）。 */
+#dialog.cw-on .codex-card.unknown .codex-name{
+ top:25.5%;left:18.5%;right:18.5%;
+ font-size:13px;font-size:clamp(9.5px,6.7cqw,16px);font-weight:500;color:#71605e;
+ text-shadow:0 0 8px #f5efdd,0 0 4px #f5efdd,0 0 2px #f5efdd,0 1px 0 #f5efdd}
+/* 「未发现的作物」六个汉字 = 6.12em；列宽 63cqw，6.7cqw 的字排出来 41cqw，
+   最窄那档（m390 两列，卡 153px）也只占 62.7px / 可用 96.4px —— 省略号一次都不会触发。 */
+#dialog.cw-on .codex-card.unknown::after{
+ content:'';position:absolute;top:31.8%;top:calc(27% + 8.375cqw);   /* = 名字顶 25.5% + 名字高 8.375cqw + 1.5% 间距 */
+ left:18.5%;right:18.5%;transform:none;width:auto;height:1px;
+ background:linear-gradient(#b6ae99,#b6ae99) center/38px 1px no-repeat}
+#dialog.cw-on .codex-card.unknown .codex-art{top:33%}
+
+/* ── flower0919 · v14：花房那一档（9/19 玩家「花房里的图鉴和收获图鉴都没修改呢」）──
+   花房图鉴走的是同一个 codexWall、同一个 panel='codex'，cw-on 挂得好好的，票签形也对；
+   真正没生效的是两处素材差异：
+
+   1) 花图是竖长的（cream-star 206×258、moon-dew 228×271），花园作物图是正方 256×256。
+      `.codex-art img` 那条 height:100% 在 display:grid + place-items:center 的格子里
+      解析不出百分比高度、退回 auto，图就按 width:100% 等比长高 ——
+      实测花图盒底冲到卡高 79.1%（图区底只有 67%），整朵花压穿徽章行。
+      改 max-width/max-height 没用 —— 百分比高度同样解析不出来（试过，图还是 134px）。
+      真正管用的是照收获大票签 .ct-specimen img 那条来：绝对定位 + inset:0，
+      高度这才落在 .codex-art 那个定高盒子上，object-fit:contain 才真的 contain。
+      ⚠️ 只圈花房。花园那边同一条也在轻微溢出（正方图 107.1px 落进 101.8px 的盒，
+      图底 69.01% vs 图区底 67%，蹭到徽章行顶 68.9% 0.11%），肉眼几乎看不出；
+      改了会让作物图整体缩 5%，那是玩家 v2 亲手加过 15% 的地方 —— 不自己做主，留报告里等玩家拍。
+
+   2) 花房未发现卡没有灰剪影素材（app.js 的 codexEntries 在非花园场景 shadow 恒为空），
+      落到 `.art-slot.blank` 那个虚线圆角框上 —— 在票签纸面上就是一个突兀的虚线方块。
+      票签皮里这块只留「?」，框和底都不画。花园 123 张全都有剪影图，碰不到这条。
+      （.art-slot 非 blank 的「图待补」保留，它带字，得让人看见。） */
+body:has(#world[data-scene="greenhouse"]) #dialog.cw-on .codex-art img{
+ position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
+#dialog.cw-on .art-slot.blank{border:0;background:none}
+
+/* v8 票签卡的手机档：两列（minmax 140px）；v9 壳的 padding 手机收窄。
+   textfit0919：票面上那几条 px 字号全撤了 —— 现在字号是 cqw，卡窄了字自己按同一比例
+   跟着窄，禁区余量恒定；这儿再写死 px 只会把字顶回花饰里去（.codex-name 15px、
+   .codex-latin 10px/top 16.5%、.codex-meta 11.5px、.rarity 10.5px 就是这么撞的）。
+   .codex-q 那个「?」不在票面文字盒里（它在图区），px 保留。 */
+@media(max-width:600px){
+ #dialog.cw-on{padding:6px 14px 18px}
+ #dialog.cw-on .dialog-head{min-height:78px;padding-top:16px}
+ #dialog.cw-on .dialog-head h2{font-size:32px}
+ #dialog.cw-on .codex-grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px 10px}
+ #dialog.cw-on .codex-q{font-size:30px}
+}

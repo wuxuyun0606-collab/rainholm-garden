@@ -1,0 +1,19 @@
+node_modules/
+*.log
+
+# dist/ 故意入库：提供「构建后可运行版本」，试玩环境零安装即可 node farm-cli.mjs
+dist/*.map
+
+# 运行时存档（本地状态，不入库）
+data/*.json
+!data/.gitkeep
+farm_save.json
+ugc_save.json
+codex-report.md
+codex-run.log
+
+# 内部工作文件，不入库（PRD/路线图/DS 草稿/交接/截图等）；
+# 例外：docs/PARITY.md 是受 npm run parity 校验的适配器对照表，须入库。
+docs/*
+!docs/PARITY.md
+plantline-fill.md

@@ -1,0 +1,204 @@
+/* ── 地块操作：三颗浮动钮 + 奇幻作物金光（开源版 oss-20260912）──────────────
+   规矩：只新增这一份 CSS，不改 style.css / ui-refresh.css。
+   两件事各自独立：上半段是三颗钮，下半段是金光层，删掉任意一段另一段照常。
+   seedpick 20260916 加了 ②b 选种 picker：钮条原位 morph 成两颗种子钮，同一套弹性曲线。
+   barepick 20260917 换裸图标款（玩家否了所有牌牌）：透明无框 44px 图标 + 两行奶油光晕小字。
+   fxpick 20260917 换官方 pouch 素材 + 特效：待机浮动、落地影呼吸、奇幻档星闪+金光斜扫。
+   labelpick 20260917 终审：小签换 v6 .gd-lab 深棕九切片药丸（跟角钮同款），灰态整颗淡 .45。 */
+
+/* ①卡片退场（DOM 一个字不删，app.js 还靠它算 disabled）。?card=1 时 js 不加这个类。 */
+html.gd-plot-actions .card{display:none!important}
+
+/* ②三颗浮动钮 ───────────────────────────────────────────────────────────── */
+#gd-plot-actions{
+ position:fixed;z-index:20;left:0;top:0;
+ display:flex;align-items:flex-end;gap:10px;
+ pointer-events:none;                 /* 只有钮自己吃点击 */
+ transition:opacity .12s ease;
+}
+#gd-plot-actions[hidden]{display:none!important}
+#gd-plot-actions.gd-pa-off{opacity:0}          /* 地块滚出视口 */
+#gd-plot-actions.gd-pa-off .gd-pa-btn{pointer-events:none}
+
+.gd-pa-btn{
+ position:relative;width:46px;height:46px;padding:0;
+ border:0;background:transparent;pointer-events:auto;
+ display:grid;place-items:center;
+ filter:drop-shadow(0 2px 3px #5a343b45);
+ transform-origin:50% 100%;
+ -webkit-tap-highlight-color:transparent;
+}
+.gd-pa-btn img{width:44px;height:44px;object-fit:contain;pointer-events:none;transition:transform .12s}
+/* 长按浇满：别让手机弹系统的「保存图片」长按菜单（pointerdown 上 preventDefault 会把短按的 click 一起吃掉） */
+.gd-pa-btn{touch-action:manipulation;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
+.gd-pa-btn:not(.is-off):active img{transform:scale(.9)}
+.gd-pa-btn.is-off{opacity:.35;filter:grayscale(.6);cursor:default}
+
+/* 浇水计数小徽（读 #plot-status 的 n/m；空地与熟了不显示） */
+.gd-pa-badge{
+ position:absolute;right:-5px;top:-4px;
+ min-width:23px;height:18px;padding:0 4px;
+ border:1px solid #795158;border-radius:9px;
+ background:#fff1d8;color:#7e3e4b;
+ font-family:GardenRound,sans-serif;font-size:11px;line-height:16px;
+ text-align:center;white-space:nowrap;
+ box-shadow:0 1px 0 #d6aa9f;
+}
+.gd-pa-badge[hidden]{display:none}
+
+/* 长按浇满时水钮外圈的细进度环（20260911 三轮 · B）。用 SVG 不用 conic+mask，
+   微信 WebView 那边 mask 靠不住，dasharray 到哪都画得出来。已浇/上限 = 环走多少。 */
+.gd-pa-ring{position:absolute;left:-5px;top:-5px;width:56px;height:56px;pointer-events:none;opacity:0;transform:rotate(-90deg)}
+.gd-pa-ring .gd-pa-track{fill:none;stroke:#5a343b3d;stroke-width:4}
+.gd-pa-ring .gd-pa-arc{fill:none;stroke:#ff9f1c;stroke-width:4;stroke-linecap:round;
+ stroke-dasharray:163.36;stroke-dashoffset:163.36;transition:stroke-dashoffset .25s ease}
+/* 米黄底图上金线容易糊掉：外圈一圈奶油描边把它托出来（第二发截图取样才 1 像素金） */
+.gd-pa-btn.is-pouring .gd-pa-ring{opacity:1;animation:gd-pa-throb 1.1s ease-in-out infinite;
+ filter:drop-shadow(0 0 1.5px #fff1d8) drop-shadow(0 1px 1px #5a343b55)}
+.gd-pa-btn.is-pouring img{transform:scale(.94)}
+@keyframes gd-pa-throb{0%,100%{opacity:.65}50%{opacity:1}}
+
+/* 冒出来弹一下（fill 用 backwards，收工后不留 transform，:active 的 scale 才压得住） */
+@keyframes gd-pa-pop{0%{opacity:0;transform:scale(.4)}60%{opacity:1;transform:scale(1.08)}100%{opacity:1;transform:scale(1)}}
+@keyframes gd-pa-fold{from{opacity:1;transform:scale(1)}to{opacity:0;transform:scale(.7)}}
+#gd-plot-actions.gd-pa-in .gd-pa-btn{animation:gd-pa-pop .24s cubic-bezier(.34,1.56,.64,1) backwards;animation-delay:calc(var(--i,0)*40ms)}
+#gd-plot-actions.gd-pa-out .gd-pa-btn{animation:gd-pa-fold .12s ease forwards}
+
+/* ②b 选种 picker（seedpick 20260916 · finalpick/fxpick 20260917 终稿皮）──────
+   两颗钮跟三颗浮动钮住同一颗 #gd-plot-actions：morph 只是换 class，
+   锚点/跟随/撞顶翻下全复用 JS 那套 place()/follow()。弹入曲线照抄 gd-pa-pop 的 stagger。
+   finalpick（玩家亲发参考图的终稿）：手绘种子袋无底无圈无框直接落在花园上；
+   图标正下方垂一枚名字小签（奶油 #fff9e8 + 1.5px #795158 + 999 胶囊）。
+   价格/时间不进视觉，aria-label 里照报。
+   fxpick（玩家：「加点特效，不要让UI太平面」）：图标换官方 pouch 素材；
+   袋身 2.4s 待机浮动（两只错半相）+ 独立椭圆落地影同步呼吸、奇幻档三粒星点明灭 +
+   每 4s 一道极淡金光斜扫（mask 裁进袋形，screen 混合）、hover 提起 4px 放大 1.04 影跟着缩。
+   labelpick（玩家终审：「文字不要这个版本的。跟别的UI底下的文字配套」）：
+   奶油小签退役，换 v6 .gd-lab 深棕九切片药丸（跟「图鉴」「昼夜」同款，皮不抄第二遍）；
+   灰态随之改成整颗 pick opacity .45。
+   :active 压沉、种下回跳（gd-pa-planted）、灰态（停浮动灭星）、reduced-motion 退化全保留。 */
+.gd-pa-picks{display:none;align-items:flex-end;gap:22px;pointer-events:none}
+#gd-plot-actions.gd-pa-picking .gd-pa-btn{display:none}
+#gd-plot-actions.gd-pa-picking .gd-pa-picks{display:flex}
+.gd-pa-pick{
+ display:flex;flex-direction:column;align-items:center;gap:7px;padding:2px;
+ border:0;background:transparent;box-shadow:none;
+ font-family:GardenRound,sans-serif;
+ pointer-events:auto;transform-origin:50% 100%;
+ -webkit-tap-highlight-color:transparent;touch-action:manipulation;
+ -webkit-touch-callout:none;-webkit-user-select:none;user-select:none;
+}
+/* 袋身：fig 负责待机浮动（±2px，两只错半相），img 只管 hover 提起（分层互不打架）。
+   minipick 终审：袋子 44px——跟种/浇/收三颗钮的图标（.gd-pa-btn img 44px）一样大，
+   影/星/hover 幅度按 44 体型等比收。 */
+.gd-pa-pick-fig{
+ position:relative;display:block;width:44px;height:44px;line-height:0;
+ animation:gd-pa-float 2.4s ease-in-out infinite;animation-delay:calc(var(--i,0)*-1.2s);
+}
+.gd-pa-pick-fig img{
+ width:44px;height:44px;object-fit:contain;pointer-events:none;
+ filter:drop-shadow(0 2px 3px #5a343b45);            /* 跟三颗钮同一个贴边影 */
+ transition:transform .15s ease;
+}
+@keyframes gd-pa-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-2px)}}
+/* 落地影：一枚椭圆软影托在袋子正下方，浮动到高点影缩一点淡一点，低点大一点实一点。
+   呼吸动画挂 ::after、hover/灰态的静态调整挂元素本身——同一条 transform 不打架 */
+.gd-pa-pick-sh{display:block;width:30px;height:7px;margin-top:-2px;
+ transition:transform .15s ease,opacity .15s ease}
+.gd-pa-pick-sh::after{
+ content:"";display:block;width:100%;height:100%;border-radius:50%;
+ background:radial-gradient(ellipse at center,#4a2c32b0 0%,#4a2c3266 55%,transparent 75%);
+ animation:gd-pa-shk 2.4s ease-in-out infinite;animation-delay:calc(var(--i,0)*-1.2s);
+}
+@keyframes gd-pa-shk{0%,100%{transform:scale(1);opacity:.55}50%{transform:scale(.86);opacity:.34}}
+/* 奇幻档星点：照 gd-glow-mote 那个语言，金点缓慢明灭，纯 CSS 不引新图 */
+.gd-pa-pick-star{
+ position:absolute;width:3px;height:3px;margin:-1.5px 0 0 -1.5px;border-radius:50%;
+ background:rgba(255,230,160,.95);box-shadow:0 0 4px rgba(255,214,120,.9);
+ opacity:0;animation:gd-pa-twinkle 2.8s ease-in-out infinite;pointer-events:none;
+}
+@keyframes gd-pa-twinkle{0%,100%{opacity:0;transform:scale(.6)}45%{opacity:.95;transform:scale(1)}}
+/* 奇幻档金光斜扫：每 4s 过一道极淡的金光，mask 裁进袋形（扫不到草地上），screen 混合 */
+.gd-pa-pick-sweep{
+ position:absolute;inset:0;pointer-events:none;mix-blend-mode:screen;
+ background:linear-gradient(105deg,transparent 40%,rgba(255,240,190,.55) 50%,transparent 60%);
+ -webkit-mask-image:url(../v4/pouch-fantasy.png);mask-image:url(../v4/pouch-fantasy.png);
+ -webkit-mask-size:contain;mask-size:contain;
+ -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;
+ -webkit-mask-position:center;mask-position:center;
+ opacity:0;animation:gd-pa-sweep 4s linear infinite;
+}
+@keyframes gd-pa-sweep{
+ 0%{transform:translateX(-130%);opacity:0}
+ 7%{opacity:.55}
+ 20%{transform:translateX(130%);opacity:0}
+ 100%{transform:translateX(130%);opacity:0}
+}
+/* hover 提起：袋子上浮 2.5px + 微放大 1.04，影跟着缩一点（手机没 hover，不靠它） */
+@media(hover:hover){
+ .gd-pa-pick:not(.is-off):hover .gd-pa-pick-fig img{transform:translateY(-2.5px) scale(1.04)}
+ .gd-pa-pick:not(.is-off):hover .gd-pa-pick-sh{transform:scale(.86);opacity:.7}
+}
+/* 名字小签：labelpick 终审——皮白嫖 v6 的 .gd-lab 深棕九切片药丸（class 在 JS 里挂），
+   跟「图鉴」「昼夜」「回小窝」同一款。这里只收掉 .gd-lab 的 margin-top（间距交给 flex gap），
+   居中由 .gd-pa-pick 的 align-items:center 给。普通/奇幻同款皮，区分靠袋子本身。
+   minipick：字体也跟角钮配套——.gd-pa-pick 上的 GardenRound 会传给小签，这里改回
+   角钮药丸实测的那一串（body 的 --gd-font，ui-refresh.css:11）。 */
+.gd-pa-pick .gd-pa-pick-t{
+ margin-top:0;
+ font-family:GardenRefresh,"PingFang SC","Hiragino Sans GB","Microsoft Yahei",sans-serif;
+}
+/* 灰态：整颗 pick（袋+签+影）淡到 .45，袋身再压一层灰；浮动/星闪/光扫全停 */
+.gd-pa-pick.is-off{cursor:default;opacity:.45}
+.gd-pa-pick.is-off img{filter:grayscale(.5)}
+.gd-pa-pick.is-off .gd-pa-pick-fig{animation:none}
+.gd-pa-pick.is-off .gd-pa-pick-star,.gd-pa-pick.is-off .gd-pa-pick-sweep{display:none}
+.gd-pa-pick.is-off .gd-pa-pick-sh::after{animation:none}
+/* 按压反馈：缩 .9 + 下沉 1px */
+.gd-pa-pick:not(.is-off):active{transform:scale(.9) translateY(1px)}
+/* 种下那一瞬的回跳（曲线照 gd-pa-pop）：从按压的 .9 弹过 1.08 再落回，播完 fold 收场。
+   必须排在 gd-pa-in 那条后面：两条同权重，同挂时谁后谁赢 */
+#gd-plot-actions.gd-pa-picking.gd-pa-in .gd-pa-pick{animation:gd-pa-pop .24s cubic-bezier(.34,1.56,.64,1) backwards;animation-delay:calc(var(--i,0)*40ms)}
+@keyframes gd-pa-bounce{0%{transform:scale(.9)}55%{transform:scale(1.08)}100%{transform:scale(1)}}
+#gd-plot-actions.gd-pa-picking.gd-pa-planted .gd-pa-pick{animation:gd-pa-bounce .18s cubic-bezier(.34,1.56,.64,1)}
+#gd-plot-actions.gd-pa-out .gd-pa-pick{animation:gd-pa-fold .12s ease forwards}
+/* 手机 390：袋子跟桌面同号 44（三颗钮也不分端），只收横向间距，配合 place() 夹紧不出屏 */
+@media(max-width:600px){
+ .gd-pa-picks{gap:16px}
+}
+
+/* 长按空地直接挑种子（seedpick2）：手机上按住别弹系统菜单，短按/拖屏照常。
+   只在 html.gd-plot-actions 下生效，?card=1 legacy 的 .plot-hit 一个像素都不动。 */
+html.gd-plot-actions .plot-hit{touch-action:manipulation;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}
+
+/* ③奇幻作物金光层（#plants 之上、#plots 之下，跟着 #world 一起滚） ────────── */
+#gd-glow{position:absolute;inset:0;pointer-events:none;mix-blend-mode:screen}
+#world.night #gd-glow{filter:brightness(1.3)}   /* 夜里 ×1.3；app.js 把 night 落在 #world 上 */
+.gd-glow-spot{position:absolute;pointer-events:none}
+.gd-glow-core{
+ position:absolute;inset:0;border-radius:50%;
+ background:radial-gradient(circle,rgba(255,214,120,.42) 0%,rgba(255,214,120,.18) 40%,transparent 70%);
+ animation:gd-glow-breathe 2.6s ease-in-out infinite;
+ animation-delay:var(--ph,0s);
+ will-change:opacity,transform;
+}
+@keyframes gd-glow-breathe{0%,100%{opacity:.55;transform:scale(.96)}50%{opacity:1;transform:scale(1.04)}}
+.gd-glow-mote{
+ position:absolute;left:var(--mx,50%);bottom:30%;
+ width:3px;height:3px;border-radius:50%;
+ background:rgba(255,230,160,.9);box-shadow:0 0 4px rgba(255,214,120,.85);
+ opacity:0;animation:gd-glow-mote 6s linear infinite;animation-delay:var(--md,0s);
+}
+@keyframes gd-glow-mote{0%{opacity:0;transform:translateY(0)}18%{opacity:.9}70%{opacity:.45}100%{opacity:0;transform:translateY(-48px)}}
+
+@media(prefers-reduced-motion:reduce){
+ #gd-plot-actions .gd-pa-btn{animation:none!important}
+ #gd-plot-actions .gd-pa-pick{animation:none!important}   /* 裸款 picker 直接显隐；回跳也不播 */
+ .gd-pa-pick-fig{animation:none!important}              /* 待机浮动定住 */
+ .gd-pa-pick-sh::after{animation:none!important}        /* 落地影停在中等实度 */
+ .gd-pa-pick-star,.gd-pa-pick-sweep{display:none}       /* 星闪/光扫全灭 */
+ .gd-pa-btn.is-pouring .gd-pa-ring{animation:none;opacity:1}
+ .gd-pa-ring .gd-pa-arc{transition:none}
+ .gd-glow-core{animation:none!important;opacity:.8}
+ .gd-glow-mote{display:none}
+}

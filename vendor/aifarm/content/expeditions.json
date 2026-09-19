@@ -1,0 +1,2026 @@
+{
+  "maps": [
+    {
+      "id": "mushroom_forest",
+      "name": "幻菇林",
+      "theme": "终年浮着甜腥孢子的雾林，光线昏绿，脚下是层层叠叠的菌毯。越往深处雾越浓、蘑菇越大越古怪，住着半植物半灵性的菌类生灵，也有迷路的旅人和小动物。误食某些菇会看见不存在的东西。",
+      "intro": "",
+      "unlock": null,
+      "events": [
+        "spore_fountain",
+        "talking_cap",
+        "wrong_mushroom",
+        "mycelium_hammock",
+        "snail_courier",
+        "weeping_spore_nest",
+        "mushroom_wall",
+        "scale_feather_chick",
+        "mushroom_lantern_maker",
+        "mask_mushrooms",
+        "giant_in_the_mist",
+        "spore_rain",
+        "letter_in_mycelium",
+        "wardens_footprints"
+      ],
+      "finale": "giant_in_the_mist"
+    },
+    {
+      "id": "rusty_clocktown",
+      "name": "锈钟古镇",
+      "theme": "一座被时间遗忘的山间小镇，所有钟表都停在下午三点十七分。青铜路牌爬满铜绿，喷泉里流出温热的锈色泉水，居民是一群和善却健忘的老人——他们总说自己“好像丢了什么”，但不记得丢了什么。　神秘 + 童话 + 一缕温柔的哀愁。像午睡醒来发现黄昏已至，说不上难过，只是恍惚。",
+      "intro": "",
+      "unlock": null,
+      "events": [
+        "stopped_clocktower",
+        "fountain_copper",
+        "bakery_memory",
+        "talking_statue",
+        "gear_shop",
+        "three_seventeen",
+        "windup_bird",
+        "night_watchman",
+        "rusted_parliament",
+        "crow_mail",
+        "halted_carriage",
+        "rust_dragon",
+        "returning_time",
+        "rust_spring",
+        "copper_echo"
+      ],
+      "finale": "rust_dragon"
+    },
+    {
+      "id": "stardust_theater",
+      "name": "星沙剧场",
+      "theme": "一座废弃多年的老天文台，不知被谁改成了露天剧场。穹顶裂开一道缝，白天漏光、晚上漏星，舞台上的沙子会随着\"演出\"自己流动、塑形。这里的\"居民\"是一群戴着面具的旧戏偶，它们不演戏时就歪在座位上打盹，醒了就非拉着路过的人上台。　神秘 + 温柔 + 旧物感伤，像一场没人看但依然认真演完的午夜戏。不恐怖，但有点薄薄的怅惘。",
+      "intro": "",
+      "unlock": null,
+      "events": [
+        "dusty_ticket",
+        "rehearsing_puppet",
+        "grumpy_prompter",
+        "starlight_crack",
+        "talking_script",
+        "old_dressing_case",
+        "star_sand_curtain",
+        "mask_wall",
+        "curtain_tangle",
+        "lost_prompter",
+        "observatory_tea",
+        "mirror_behind_curtain",
+        "moon_phase_giant",
+        "after_the_show",
+        "sand_program"
+      ],
+      "finale": "moon_phase_giant"
+    },
+    {
+      "id": "tidal_corridor",
+      "name": "潮汐回廊",
+      "theme": "一片被遗忘的海蚀洞穴群，潮水每日涨落两次，退潮时露出一条条湿漉漉的石廊，廊壁上嵌满不知谁留下的瓷片、铜铃和玻璃浮球，叮叮当当响个不停。洞里有会说话的海葵、贩卖旧物的寄居蟹商贩，和一间只在退潮时开张的茶馆。　神秘+温柔+一点咸湿的怀旧感，不恐怖，像一场潮乎乎的梦。",
+      "intro": "",
+      "unlock": null,
+      "events": [
+        "humming_shell",
+        "porcelain_chime",
+        "silver_scales",
+        "salt_crystal",
+        "low_tide_teahouse",
+        "hermit_shop",
+        "lying_anemone",
+        "shell_guardian",
+        "tide_chart",
+        "weeping_float",
+        "reversed_corridor",
+        "saltbone_whale",
+        "echo_of_tide",
+        "parting_tea"
+      ],
+      "finale": "echo_of_tide"
+    },
+    {
+      "id": "whale_market",
+      "name": "云鲸背上的集市",
+      "theme": "一头看不见的巨大云鲸在日落时分会浮上云海，它宽阔的脊背上坐落着一座流动的市集——帐篷是用晚霞缝的，灯笼是悬空飘浮的，摊主多是些不愿落地的人或半人半云的家伙。空气里混着烤糖饼、旧书和雨后云絮的气味，规矩只有一条：别问任何东西“是真的还是假的”。　热闹市井 + 温柔童话 + 一点淡蓝色的感伤",
+      "intro": "",
+      "unlock": null,
+      "events": [
+        "cloud_stall_rule",
+        "chasing_cloud_kid",
+        "melancholy_candy",
+        "fallen_cargo",
+        "wind_chase_stall",
+        "memory_barter",
+        "cloud_post",
+        "stranger_flower",
+        "translucent_traveler",
+        "nameless_vendor",
+        "meteor_hawker",
+        "whale_tail_breeze",
+        "old_sword_guardian",
+        "whose_luggage",
+        "not_for_sale",
+        "whale_nap"
+      ],
+      "finale": "old_sword_guardian"
+    }
+  ],
+  "events": [
+    {
+      "id": "spore_fountain",
+      "map": "mushroom_forest",
+      "title": "菌毯喷泉",
+      "type": "drop",
+      "layer": "shallow",
+      "weight": 5,
+      "story": "",
+      "drops": [
+        {
+          "t": "coins",
+          "n": 35
+        }
+      ],
+      "hint": "地上的蘑菇地毯似乎在悄悄挪动。"
+    },
+    {
+      "id": "talking_cap",
+      "map": "mushroom_forest",
+      "title": "会说话的伞",
+      "type": "story",
+      "layer": "shallow",
+      "weight": 3,
+      "story": "",
+      "hint": "有人在跟蘑菇聊天，走近了才发现是蘑菇在跟人聊天。"
+    },
+    {
+      "id": "wrong_mushroom",
+      "map": "mushroom_forest",
+      "title": "误食幻菇",
+      "type": "encounter",
+      "layer": "shallow",
+      "weight": 3,
+      "story": "",
+      "options": [
+        {
+          "key": "A",
+          "label": "回味这场幻觉，在树根下多坐一会儿",
+          "outcomes": [
+            {
+              "t": "status",
+              "n": 1
+            }
+          ]
+        },
+        {
+          "key": "B",
+          "label": "趁幻觉还没彻底消散，看看周围有没有藏东西",
+          "outcomes": [
+            {
+              "t": "potion",
+              "n": 1
+            }
+          ]
+        }
+      ],
+      "hint": "一朵莹蓝色的小菇，闻着像刚烤好的饼干。"
+    },
+    {
+      "id": "mycelium_hammock",
+      "map": "mushroom_forest",
+      "title": "菌丝吊床",
+      "type": "story",
+      "layer": "shallow",
+      "weight": 5,
+      "story": "",
+      "hint": "两棵树之间张着一张乳白色的网，不像蜘蛛织的。"
+    },
+    {
+      "id": "snail_courier",
+      "map": "mushroom_forest",
+      "title": "蜗牛快递员",
+      "type": "encounter",
+      "layer": "shallow",
+      "weight": 2,
+      "story": "",
+      "options": [
+        {
+          "key": "A",
+          "label": "接过包裹，帮它送",
+          "outcomes": [
+            {
+              "t": "decor",
+              "id": "exp_star_candy"
+            }
+          ]
+        },
+        {
+          "key": "B",
+          "label": "抱歉，我更想沿着自己的路走",
+          "outcomes": [
+            {
+              "t": "none"
+            }
+          ]
+        }
+      ],
+      "hint": "菌杆上有什么东西在发光，走得很慢。"
+    },
+    {
+      "id": "weeping_spore_nest",
+      "map": "mushroom_forest",
+      "title": "哭泣的孢窝",
+      "type": "drop",
+      "layer": "deep",
+      "weight": 3,
+      "story": "",
+      "drops": [
+        {
+          "t": "silver",
+          "n": 45
+        }
+      ],
+      "hint": "倒木下面有东西在哭，哭完掉了一地珠子。"
+    },
+    {
+      "id": "mushroom_wall",
+      "map": "mushroom_forest",
+      "title": "挡路的菌墙",
+      "type": "choice",
+      "layer": "deep",
+      "weight": 3,
+      "story": "",
+      "options": [
+        {
+          "key": "A",
+          "label": "轻轻叩那颗紫色菌核",
+          "outcomes": [
+            {
+              "t": "buff",
+              "mod": 1,
+              "text": ""
+            }
+          ]
+        },
+        {
+          "key": "B",
+          "label": "沿着菌墙根走右侧，循着炖汤香气去",
+          "outcomes": [
+            {
+              "t": "status",
+              "n": 1,
+              "text": ""
+            }
+          ]
+        }
+      ],
+      "hint": "蘑菇长成了一堵墙，墙心在跳。"
+    },
+    {
+      "id": "scale_feather_chick",
+      "map": "mushroom_forest",
+      "title": "鳞羽鸡",
+      "type": "drop",
+      "layer": "deep",
+      "weight": 3,
+      "story": "",
+      "drops": [
+        {
+          "t": "potion",
+          "n": 1
+        }
+      ],
+      "hint": "一只不像鸡的小东西在林子里横冲直撞。"
+    },
+    {
+      "id": "mushroom_lantern_maker",
+      "map": "mushroom_forest",
+      "title": "菌灯匠",
+      "type": "encounter",
+      "layer": "deep",
+      "weight": 2,
+      "story": "",
+      "options": [
+        {
+          "key": "A",
+          "label": "接过菌灯，答应下来",
+          "outcomes": [
+            {
+              "t": "decor",
+              "id": "exp_mushroom_lantern"
+            }
+          ]
+        },
+        {
+          "key": "B",
+          "label": "抱歉，我没空帮人跑腿",
+          "outcomes": [
+            {
+              "t": "none"
+            }
+          ]
+        }
+      ],
+      "hint": "溪边有人把星星往蘑菇里装。"
+    },
+    {
+      "id": "mask_mushrooms",
+      "map": "mushroom_forest",
+      "title": "假面菇丛",
+      "type": "choice",
+      "layer": "deep",
+      "weight": 3,
+      "story": "",
+      "options": [
+        {
+          "key": "A",
+          "label": "蹲下来，模仿它的表情和它对视",
+          "outcomes": [
+            {
+              "t": "coins",
+              "n": 70,
+              "text": ""
+            }
+          ]
+        },
+        {
+          "key": "B",
+          "label": "吓了一跳，后退三步",
+          "outcomes": [
+            {
+              "t": "status",
+              "n": -1,
+              "text": ""
+            }
+          ]
+        }
+      ],
+      "hint": "前面一片白茫茫的蘑菇，脸上都有表情。"
+    },
+    {
+      "id": "giant_in_the_mist",
+      "map": "mushroom_forest",
+      "title": "雾中巨影",
+      "type": "combat",
+      "layer": "finale",
+      "weight": 2,
+      "story": "",
+      "foe": "古菌之主",
+      "difficulty": "hard",
+      "record": "古菌之主",
+      "win": {
+        "text": "",
+        "drops": [
+          {
+            "t": "decor",
+            "id": "exp_golden_spore"
+          },
+          {
+            "t": "coins",
+            "n": 200
+          }
+        ],
+        "critDrops": [
+          {
+            "t": "potion",
+            "n": 2
+          }
+        ]
+      },
+      "lose": {
+        "text": ""
+      },
+      "hint": "最深处的雾不是雾，是某种巨大的东西在呼吸。"
+    },
+    {
+      "id": "spore_rain",
+      "map": "mushroom_forest",
+      "title": "孢子雨",
+      "type": "story",
+      "layer": "deep",
+      "weight": 5,
+      "story": "",
+      "hint": "天突然阴了——不对，是蘑菇们在头顶撑开了伞。"
+    },
+    {
+      "id": "letter_in_mycelium",
+      "map": "mushroom_forest",
+      "title": "菌丝写的信",
+      "type": "drop",
+      "layer": "shallow",
+      "weight": 3,
+      "story": "",
+      "drops": [
+        {
+          "t": "coins",
+          "n": 40
+        }
+      ],
+      "hint": "地上趴着一片奇怪的菌丝，纹路看起来像字。"
+    },
+    {
+      "id": "wardens_footprints",
+      "map": "mushroom_forest",
+      "title": "守林人的脚印",
+      "type": "encounter",
+      "layer": "deep",
+      "weight": 2,
+      "story": "",
+      "options": [
+        {
+          "key": "A",
+          "label": "转三圈松果",
+          "outcomes": [
+            {
+              "t": "decor",
+              "id": "exp_flowering_chair",
+              "text": ""
+            }
+          ]
+        },
+        {
+          "key": "B",
+          "label": "不打搅主人，悄悄离开",
+          "outcomes": [
+            {
+              "t": "buff",
+              "mod": 1,
+              "text": ""
+            }
+          ]
+        }
+      ],
+      "hint": "树干上嵌着一扇不该在那里的门。"
+    },
+    {
+      "id": "stopped_clocktower",
+      "map": "rusty_clocktown",
+      "title": "停转的钟楼",
+      "type": "story",
+      "layer": "shallow",
+      "weight": 5,
+      "story": ""
+    },
+    {
+      "id": "fountain_copper",
+      "map": "rusty_clocktown",
+      "title": "喷泉里的铜币",
+      "type": "drop",
+      "layer": "shallow",
+      "weight": 5,
+      "story": "",
+      "drops": [
+        {
+          "t": "silver",
+          "n": 45
+        }
+      ]
+    },
+    {
+      "id": "bakery_memory",
+      "map": "rusty_clocktown",
+      "title": "面包房的记忆",
+      "type": "story",
+      "layer": "shallow",
+      "weight": 5,
+      "story": ""
+    },
+    {
+      "id": "talking_statue",
+      "map": "rusty_clocktown",
+      "title": "会说话的铜像",
+      "type": "encounter",
+      "layer": "shallow",
+      "weight": 3,
+      "story": "",
+      "options": [
+        {
+          "key": "A",
+          "label": "“我帮你找答案”",
+          "outcomes": [
+            {
+              "t": "status",
+              "n": 1
+            },
+            {
+              "t": "none",
+              "text": ""
+            }
+          ]
+        },
+        {
+          "key": "B",
+          "label": "朝它笑一笑，把表盘给它看",
+          "outcomes": [
+            {
+              "t": "status",
+              "n": 1
+            },
+            {
+              "t": "buff",
+              "mod": 1,
+              "text": ""
+            }
+          ]
+        },
+        {
+          "key": "C",
+          "label": "摇摇头，悄悄走开",
+          "outcomes": [
+            {
+              "t": "none"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gear_shop",
+      "map": "rusty_clocktown",
+      "title": "齿轮匠的铺子",
+      "type": "encounter",
+      "layer": "deep",
+      "weight": 3,
+      "story": "",
+      "options": [
+        {
+          "key": "A",
+          "label": "讲一件冒险里遇到的好事",
+          "outcomes": [
+            {
+              "t": "buff",
+              "mod": 1,
+              "text": ""
+            }
+          ]
+        },
+        {
+          "key": "B",
+          "label": "讲一个让你有点后怕的瞬间",
+          "outcomes": [
+            {
+              "t": "potion",
+              "n": 1
+            },
+            {
+              "t": "status",
+              "n": -1
+            }
+          ]
+        },
+        {
+          "key": "C",
+          "label": "你也没什么故事好讲，帮他擦了一排齿轮",
+          "outcomes": [
+            {
+              "t": "coins",
+              "n": 55
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "three_seventeen",
+      "map": "rusty_clocktown",
+      "title": "下午三点十七分",
+      "type": "choice",
+      "layer": "deep",
+      "weight": 3,
+      "story": "",
+      "options": [
+        {
+          "key": "A",
+          "label": "把自己的怀表放在她手心",
+          "outcomes": [
+            {
+              "t": "decor",
+              "id": "exp_rusty_clocktown_1"
+            },
+            {
+              "t": "buff",
+              "mod": 1,
+              "text": ""
+            }
+          ]
+        },
+        {
+          "key": "B",
+          "label": "给她倒一杯新茶",
+          "outcomes": [
+            {
+              "t": "status",
+              "n": 1
+            },
+            {
+              "t": "silver",
+              "n": 45
+            }
+          ]
+        },
+        {
+          "key": "C",
+          "label": "轻声说“抱歉，我也没时间”",
+          "outcomes": [
+            {
+              "t": "status",
+              "n": -1
+            },
+            {
+              "t": "potion",
+              "n": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "windup_bird",
+      "map": "rusty_clocktown",
+      "title": "发条鸟",
+      "type": "drop",
+      "layer": "deep",
+      "weight": 3,
+      "story": "",
+      "drops": [
+        {
+          "t": "potion",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "night_watchman",
+      "map": "rusty_clocktown",
+      "title": "失眠的守夜人",
+      "type": "encounter",
+      "layer": "deep",
+      "weight": 2,
+      "story": "",
+      "drops": [
+        {
+          "t": "decor",
+          "id": "exp_rusty_clocktown_2"
+        }
+      ]
+    },
+    {
+      "id": "rusted_parliament",
+      "map": "rusty_clocktown",
+      "title": "锈钟议会",
+      "type": "story",
+      "layer": "deep",
+      "weight": 2,
+      "story": ""
+    },
+    {
+      "id": "crow_mail",
+      "map": "rusty_clocktown",
+      "title": "乌鸦邮差的包裹",
+      "type": "drop",
+      "layer": "shallow",
+      "weight": 3,
+      "story": "",
+      "drops": [
+        {
+          "t": "coins",
+          "n": 35
+        }
+      ]
+    },
+    {
+      "id": "halted_carriage",
+      "map": "rusty_clocktown",
+      "title": "停了三十年的马车",
+      "type": "story",
+      "layer": "deep",
+      "weight": 3,
+      "story": ""
+    },
+    {
+      "id": "rust_dragon",
+      "map": "rusty_clocktown",
+      "title": "偷时间的锈龙",
+      "type": "combat",
+      "layer": "finale",
+      "weight": 2,
+      "story": "",
+      "foe": "锈龙 · 柯罗诺",
+      "difficulty": "hard",
+      "record": "锈龙 · 柯罗诺",
+      "win": {
+        "text": "",
+        "drops": [
+          {
+            "t": "decor",
+            "id": "exp_rusty_clocktown_3"
+          }
+        ],
+        "critDrops": [
+          {
+            "t": "potion",
+            "n": 2
+          }
+        ]
+      },
+      "lose": {
+        "text": ""
+      }
+    },
+    {
+      "id": "returning_time",
+      "map": "rusty_clocktown",
+      "title": "还回去的时间",
+      "type": "choice",
+      "layer": "finale",
+      "weight": 2,
+      "story": "",
+      "options": [
+        {
+          "key": "A",
+          "label": "花功夫把时间分还给镇民",
+          "outcomes": [
+            {
+              "t": "status",
+              "n": -1
+            },
+            {
+              "t": "decor",
+              "id": "exp_rusty_clocktown_4"
+            },
+            {
+              "t": "buff",
+              "mod": 1,
+              "text": ""
+            }
+          ]
+        },
+        {
+          "key": "B",
+          "label": "只带一小部分回去，剩下的留给钟楼自己修复",
+          "outcomes": [
+            {
+              "t": "coins",
+              "n": 200
+            },
+            {
+              "t": "status",
+              "n": 1
+            }
+          ]
+        },
+        {
+          "key": "C",
+          "label": "你太累了，让风把它们吹散吧",
+          "outcomes": [
+            {
+              "t": "buff",
+              "mod": 1,
+              "text": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "rust_spring",
+      "map": "rusty_clocktown",
+      "title": "锈色温泉",
+      "type": "encounter",
+      "layer": "deep",
+      "weight": 3,
+      "story": "",
+      "options": [
+        {
+          "key": "A",
+          "label": "脱了鞋泡一泡，眯一会儿",
+          "outcomes": [
+            {
+              "t": "status",
+              "n": 1
+            },
+            {
+              "t": "status",
+              "n": 1
+            }
+          ]
+        },
+        {
+          "key": "B",
+          "label": "喝一口泉水",
+          "outcomes": [
+            {
+              "t": "status",
+              "n": 1
+            },
+            {
+              "t": "potion",
+              "n": 1
+            }
+          ]
+        },
+        {
+          "key": "C",
+          "label": "洗干净脸上的灰，道声谢继续走",
+          "outcomes": [
+            {
+              "t": "buff",
+              "mod": 1,
+              "text": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "copper_echo",
+      "map": "rusty_clocktown",
+      "title": "铜巷回声",
+      "type": "story",
+      "layer": "shallow",
+      "weight": 5,
+      "story": ""
+    },
+    {
+      "id": "dusty_ticket",
+      "map": "stardust_theater",
+      "title": "落满灰的票根",
+      "type": "drop",
+      "layer": "shallow",
+      "weight": 5,
+      "story": "",
+      "drops": [
+        {
+          "t": "silver",
+          "n": 45
+        }
+      ]
+    },
+    {
+      "id": "rehearsing_puppet",
+      "map": "stardust_theater",
+      "title": "总在彩排的戏偶",
+      "type": "story",
+      "layer": "shallow",
+      "weight": 5,
+      "story": ""
+    },
+    {
+      "id": "grumpy_prompter",
+      "map": "stardust_theater",
+      "title": "被吵醒的提词偶",
+      "type": "combat",
+      "layer": "shallow",
+      "weight": 3,
+      "story": "",
+      "foe": "提词偶",
+      "difficulty": "easy",
+      "record": "提词偶",
+      "win": {
+        "text": "",
+        "drops": [
+          {
+            "t": "potion",
+            "n": 1
+          }
+        ],
+        "critDrops": [
+          {
+            "t": "potion",
+            "n": 2
+          }
+        ]
+      },
+      "lose": {
+        "text": ""
+      }
+    },
+    {
+      "id": "starlight_crack",
+      "map": "stardust_theater",
+      "title": "穹顶漏下的光",
+      "type": "drop",
+      "layer": "shallow",
+      "weight": 5,
+      "story": "",
+      "drops": [
+        {
+          "t": "potion",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "talking_script",
+      "map": "stardust_theater",
+      "title": "会改台词的剧本",
+      "type": "encounter",
+      "layer": "shallow",
+      "weight": 3,
+      "story": "",
+      "options": [
+        {
+          "key": "A",
+          "label": "对着剧本说一句台词试试",
+          "outcomes": [
+            {
+              "t": "none"
+            }
+          ]
+        },
+        {
+          "key": "B",
+          "label": "合上它，赶紧走",
+          "outcomes": [
+            {
+              "t": "status",
+              "n": -1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "old_dressing_case",
+      "map": "stardust_theater",
+      "title": "后台的旧妆奁",
+      "type": "drop",
+      "layer": "shallow",
+      "weight": 3,
+      "story": "",
+      "drops": [
+        {
+          "t": "coins",
+          "n": 35
+        }
+      ]
+    },
+    {
+      "id": "star_sand_curtain",
+      "map": "stardust_theater",
+      "title": "不肯谢幕的星沙",
+      "type": "choice",
+      "layer": "deep",
+      "weight": 3,
+      "story": "",
+      "options": [
+        {
+          "key": "A",
+          "label": "上台，跟它演完这一段",
+          "outcomes": [
+            {
+              "t": "decor",
+              "id": "exp_stardust_theater_1"
+            },
+            {
+              "t": "buff",
+              "mod": 1,
+              "text": ""
+            }
+          ]
+        },
+        {
+          "key": "B",
+          "label": "在台下看着就好",
+          "outcomes": [
+            {
+              "t": "none"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mask_wall",
+      "map": "stardust_theater",
+      "title": "面具墙",
+      "type": "encounter",
+      "layer": "deep",
+      "weight": 3,
+      "story": "",
+      "options": [
+        {
+          "key": "A",
+          "label": "挑一张戴上试试",
+          "outcomes": [
+            {
+              "t": "status",
+              "n": 1
+            }
+          ]
+        },
+        {
+          "key": "B",
+          "label": "挑一张喜欢的带走",
+          "outcomes": [
+            {
+              "t": "decor",
+              "id": "exp_stardust_theater_2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "curtain_tangle",
+      "map": "stardust_theater",
+      "title": "大幕上的旧绳结",
+      "type": "combat",
+      "layer": "deep",
+      "weight": 3,
+      "story": "",
+      "foe": "活绳结",
+      "difficulty": "mid",
+      "record": "活绳结",
+      "win": {
+        "text": "",
+        "drops": [
+          {
+            "t": "decor",
+            "id": "exp_stardust_theater_3"
+          }
+        ],
+        "critDrops": [
+          {
+            "t": "potion",
+            "n": 2
+          }
+        ]
+      },
+      "lose": {
+        "text": ""
+      }
+    },
+    {
+      "id": "lost_prompter",
+      "map": "stardust_theater",
+      "title": "总在迷路的提词员",
+      "type": "story",
+      "layer": "deep",
+      "weight": 3,
+      "story": ""
+    },
+    {
+      "id": "observatory_tea",
+      "map": "stardust_theater",
+      "title": "观星台的茶会",
+      "type": "drop",
+      "layer": "deep",
+      "weight": 3,
+      "story": "",
+      "drops": [
+        {
+          "t": "decor",
+          "id": "exp_stardust_theater_4"
+        }
+      ]
+    },
+    {
+      "id": "mirror_behind_curtain",
+      "map": "stardust_theater",
+      "title": "幕布后的镜子",
+      "type": "encounter",
+      "layer": "deep",
+      "weight": 2,
+      "story": "",
+      "options": [
+        {
+          "key": "A",
+          "label": "对着镜子鞠躬谢幕",
+          "outcomes": [
+            {
+              "t": "status",
+              "n": 1
+            },
+            {
+              "t": "coins",
+              "n": 55
+            }
+          ]
+        },
+        {
+          "key": "B",
+          "label": "不敢多看，转身离开",
+          "outcomes": [
+            {
+              "t": "jump",
+              "to": "star_sand_curtain"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "moon_phase_giant",
+      "map": "stardust_theater",
+      "title": "压轴：月相巨偶",
+      "type": "combat",
+      "layer": "finale",
+      "weight": 2,
+      "story": "",
+      "foe": "月相巨偶",
+      "difficulty": "hard",
+      "record": "月相巨偶",
+      "win": {
+        "text": "",
+        "drops": [
+          {
+            "t": "decor",
+            "id": "exp_stardust_theater_5"
+          }
+        ],
+        "critDrops": [
+          {
+            "t": "potion",
+            "n": 2
+          }
+        ]
+      },
+      "lose": {
+        "text": ""
+      }
+    },
+    {
+      "id": "after_the_show",
+      "map": "stardust_theater",
+      "title": "散场后的座位",
+      "type": "story",
+      "layer": "shallow",
+      "weight": 3,
+      "story": ""
+    },
+    {
+      "id": "sand_program",
+      "map": "stardust_theater",
+      "title": "沙上的节目单",
+      "type": "story",
+      "layer": "shallow",
+      "weight": 5,
+      "story": ""
+    },
+    {
+      "id": "humming_shell",
+      "map": "tidal_corridor",
+      "title": "会哼歌的螺",
+      "type": "story",
+      "layer": "shallow",
+      "weight": 5,
+      "story": ""
+    },
+    {
+      "id": "porcelain_chime",
+      "map": "tidal_corridor",
+      "title": "瓷片风铃廊",
+      "type": "story",
+      "layer": "shallow",
+      "weight": 5,
+      "story": ""
+    },
+    {
+      "id": "silver_scales",
+      "map": "tidal_corridor",
+      "title": "一袖银鳞",
+      "type": "drop",
+      "layer": "shallow",
+      "weight": 5,
+      "story": "",
+      "drops": [
+        {
+          "t": "silver",
+          "n": 45
+        }
+      ]
+    },
+    {
+      "id": "salt_crystal",
+      "map": "tidal_corridor",
+      "title": "盐晶瓶",
+      "type": "drop",
+      "layer": "shallow",
+      "weight": 3,
+      "story": "",
+      "drops": [
+        {
+          "t": "silver",
+          "n": 45
+        }
+      ]
+    },
+    {
+      "id": "low_tide_teahouse",
+      "map": "tidal_corridor",
+      "title": "退潮茶馆",
+      "type": "encounter",
+      "layer": "deep",
+      "weight": 3,
+      "story": "",
+      "options": [
+        {
+          "key": "A",
+          "label": "坐下来喝一杯茶",
+          "outcomes": [
+            {
+              "t": "status",
+              "n": 1
+            },
+            {
+              "t": "none",
+              "text": ""
+            }
+          ]
+        },
+        {
+          "key": "B",
+          "label": "问问有什么能带走的",
+          "outcomes": [
+            {
+              "t": "decor",
+              "id": "exp_tidal_corridor_1"
+            },
+            {
+              "t": "none",
+              "text": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "hermit_shop",
+      "map": "tidal_corridor",
+      "title": "寄居蟹的旧货铺",
+      "type": "encounter",
+      "layer": "deep",
+      "weight": 3,
+      "story": "",
+      "options": [
+        {
+          "key": "A",
+          "label": "认认真真把旧货盘挑了个遍",
+          "outcomes": [
+            {
+              "t": "decor",
+              "id": "exp_tidal_corridor_2"
+            },
+            {
+              "t": "none",
+              "text": ""
+            }
+          ]
+        },
+        {
+          "key": "B",
+          "label": "告诉它你没有旧物可换",
+          "outcomes": [
+            {
+              "t": "none",
+              "text": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "lying_anemone",
+      "map": "tidal_corridor",
+      "title": "说谎的海葵",
+      "type": "choice",
+      "layer": "shallow",
+      "weight": 3,
+      "story": "",
+      "options": [
+        {
+          "key": "A",
+          "label": "信它的话，往左走",
+          "outcomes": [
+            {
+              "t": "combat",
+              "foe": "贝壳守卫",
+              "difficulty": "mid"
+            }
+          ]
+        },
+        {
+          "key": "B",
+          "label": "看小海葵们的反应，决定往右走",
+          "outcomes": [
+            {
+              "t": "silver",
+              "n": 45
+            },
+            {
+              "t": "none",
+              "text": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "shell_guardian",
+      "map": "tidal_corridor",
+      "title": "贝壳守卫",
+      "type": "combat",
+      "layer": "deep",
+      "weight": 2,
+      "story": "",
+      "foe": "贝壳守卫",
+      "difficulty": "easy",
+      "record": "贝壳守卫",
+      "win": {
+        "text": "",
+        "drops": [
+          {
+            "t": "coins",
+            "n": 70
+          }
+        ],
+        "critDrops": [
+          {
+            "t": "potion",
+            "n": 2
+          }
+        ]
+      },
+      "lose": {
+        "text": ""
+      }
+    },
+    {
+      "id": "tide_chart",
+      "map": "tidal_corridor",
+      "title": "半张潮汐图",
+      "type": "drop",
+      "layer": "deep",
+      "weight": 3,
+      "story": "",
+      "drops": [
+        {
+          "t": "potion",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "weeping_float",
+      "map": "tidal_corridor",
+      "title": "会哭的浮球",
+      "type": "choice",
+      "layer": "deep",
+      "weight": 3,
+      "story": "",
+      "options": [
+        {
+          "key": "A",
+          "label": "把浮球从石缝里解救出来",
+          "outcomes": [
+            {
+              "t": "status",
+              "n": 1
+            },
+            {
+              "t": "none",
+              "text": ""
+            }
+          ]
+        },
+        {
+          "key": "B",
+          "label": "轻轻走过，别打扰它",
+          "outcomes": [
+            {
+              "t": "none",
+              "text": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "reversed_corridor",
+      "map": "tidal_corridor",
+      "title": "倒流的第三廊",
+      "type": "encounter",
+      "layer": "deep",
+      "weight": 2,
+      "story": "",
+      "options": [
+        {
+          "key": "A",
+          "label": "伸手去够那只铜铃",
+          "outcomes": [
+            {
+              "t": "decor",
+              "id": "exp_tidal_corridor_3"
+            },
+            {
+              "t": "none",
+              "text": ""
+            }
+          ]
+        },
+        {
+          "key": "B",
+          "label": "蹲下观察，不急着碰",
+          "outcomes": [
+            {
+              "t": "potion",
+              "n": 1
+            },
+            {
+              "t": "none",
+              "text": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "saltbone_whale",
+      "map": "tidal_corridor",
+      "title": "盐骨鲸骸",
+      "type": "story",
+      "layer": "finale",
+      "weight": 2,
+      "story": ""
+    },
+    {
+      "id": "echo_of_tide",
+      "map": "tidal_corridor",
+      "title": "潮声回响",
+      "type": "combat",
+      "layer": "finale",
+      "weight": 2,
+      "story": "",
+      "foe": "潮声回响",
+      "difficulty": "hard",
+      "record": "潮声回响",
+      "win": {
+        "text": "",
+        "drops": [
+          {
+            "t": "decor",
+            "id": "exp_tidal_corridor_4"
+          }
+        ],
+        "critDrops": [
+          {
+            "t": "potion",
+            "n": 2
+          }
+        ]
+      },
+      "lose": {
+        "text": ""
+      }
+    },
+    {
+      "id": "parting_tea",
+      "map": "tidal_corridor",
+      "title": "茶馆的饯别",
+      "type": "choice",
+      "layer": "finale",
+      "weight": 3,
+      "story": "",
+      "options": [
+        {
+          "key": "A",
+          "label": "“来杯最浓的，提提神”",
+          "outcomes": [
+            {
+              "t": "status",
+              "n": 1
+            },
+            {
+              "t": "buff",
+              "mod": 1,
+              "text": ""
+            }
+          ]
+        },
+        {
+          "key": "B",
+          "label": "“给我一杯能记住这个地方的味道”",
+          "outcomes": [
+            {
+              "t": "decor",
+              "id": "exp_tidal_corridor_5"
+            },
+            {
+              "t": "none",
+              "text": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cloud_stall_rule",
+      "map": "whale_market",
+      "title": "摊位的规矩",
+      "type": "story",
+      "layer": "shallow",
+      "weight": 5,
+      "story": ""
+    },
+    {
+      "id": "chasing_cloud_kid",
+      "map": "whale_market",
+      "title": "追布匹的云童",
+      "type": "drop",
+      "layer": "shallow",
+      "weight": 5,
+      "story": "",
+      "drops": [
+        {
+          "t": "silver",
+          "n": 45
+        }
+      ]
+    },
+    {
+      "id": "melancholy_candy",
+      "map": "whale_market",
+      "title": "不吃糖的糖贩",
+      "type": "story",
+      "layer": "shallow",
+      "weight": 3,
+      "story": ""
+    },
+    {
+      "id": "fallen_cargo",
+      "map": "whale_market",
+      "title": "半路掉落的货",
+      "type": "drop",
+      "layer": "shallow",
+      "weight": 5,
+      "story": "",
+      "drops": [
+        {
+          "t": "potion",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "wind_chase_stall",
+      "map": "whale_market",
+      "title": "追风摊",
+      "type": "choice",
+      "layer": "shallow",
+      "weight": 3,
+      "story": "",
+      "options": [
+        {
+          "key": "A",
+          "label": "冲过去帮他扑住棚布",
+          "outcomes": [
+            {
+              "t": "silver",
+              "n": 45
+            },
+            {
+              "t": "buff",
+              "mod": 1,
+              "text": ""
+            }
+          ]
+        },
+        {
+          "key": "B",
+          "label": "站在原地替他喊加油",
+          "outcomes": [
+            {
+              "t": "none"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "memory_barter",
+      "map": "whale_market",
+      "title": "旧物交换铺",
+      "type": "encounter",
+      "layer": "deep",
+      "weight": 3,
+      "story": "",
+      "options": [
+        {
+          "key": "A",
+          "label": "在心里讲一个快乐的旧故事",
+          "outcomes": [
+            {
+              "t": "decor",
+              "id": "exp_whale_market_1"
+            }
+          ]
+        },
+        {
+          "key": "B",
+          "label": "在心里讲一个遗憾的旧故事",
+          "outcomes": [
+            {
+              "t": "decor",
+              "id": "exp_whale_market_2"
+            }
+          ]
+        },
+        {
+          "key": "C",
+          "label": "摇头，这故事还不想换",
+          "outcomes": [
+            {
+              "t": "none"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cloud_post",
+      "map": "whale_market",
+      "title": "云上邮局",
+      "type": "encounter",
+      "layer": "deep",
+      "weight": 2,
+      "story": "",
+      "options": [
+        {
+          "key": "A",
+          "label": "写一封信，贴好云票投进信箱",
+          "outcomes": [
+            {
+              "t": "buff",
+              "mod": 1,
+              "text": ""
+            }
+          ]
+        },
+        {
+          "key": "B",
+          "label": "挠挠云猫的下巴就走",
+          "outcomes": [
+            {
+              "t": "coins",
+              "n": 55
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "stranger_flower",
+      "map": "whale_market",
+      "title": "不认识的花",
+      "type": "choice",
+      "layer": "deep",
+      "weight": 3,
+      "story": "",
+      "options": [
+        {
+          "key": "A",
+          "label": "摘一朵，许愿",
+          "outcomes": [
+            {
+              "t": "decor",
+              "id": "exp_whale_market_3"
+            },
+            {
+              "t": "buff",
+              "mod": 1,
+              "text": ""
+            }
+          ]
+        },
+        {
+          "key": "B",
+          "label": "蹲下来看看就好",
+          "outcomes": [
+            {
+              "t": "status",
+              "n": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "translucent_traveler",
+      "map": "whale_market",
+      "title": "半透明的旅人",
+      "type": "story",
+      "layer": "deep",
+      "weight": 3,
+      "story": ""
+    },
+    {
+      "id": "nameless_vendor",
+      "map": "whale_market",
+      "title": "忘了名字的摊主",
+      "type": "drop",
+      "layer": "deep",
+      "weight": 5,
+      "story": "",
+      "drops": [
+        {
+          "t": "coins",
+          "n": 55
+        }
+      ]
+    },
+    {
+      "id": "meteor_hawker",
+      "map": "whale_market",
+      "title": "抓流星的小贩",
+      "type": "encounter",
+      "layer": "deep",
+      "weight": 2,
+      "story": "",
+      "options": [
+        {
+          "key": "A",
+          "label": "用一段开心的回忆跟它换这颗逃出来的流星",
+          "outcomes": [
+            {
+              "t": "decor",
+              "id": "exp_whale_market_4"
+            },
+            {
+              "t": "buff",
+              "mod": 1,
+              "text": ""
+            }
+          ]
+        },
+        {
+          "key": "B",
+          "label": "趁他不注意把笼子全打开",
+          "outcomes": [
+            {
+              "t": "status",
+              "n": 1
+            },
+            {
+              "t": "buff",
+              "mod": 1,
+              "text": ""
+            }
+          ]
+        },
+        {
+          "key": "C",
+          "label": "只是驻足看看这奇景",
+          "outcomes": [
+            {
+              "t": "none"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "whale_tail_breeze",
+      "map": "whale_market",
+      "title": "鲸尾的风",
+      "type": "story",
+      "layer": "finale",
+      "weight": 3,
+      "story": ""
+    },
+    {
+      "id": "old_sword_guardian",
+      "map": "whale_market",
+      "title": "守集的老剑",
+      "type": "combat",
+      "layer": "finale",
+      "weight": 2,
+      "story": "",
+      "foe": "守集剑灵",
+      "difficulty": "hard",
+      "record": "守集剑灵",
+      "win": {
+        "text": "",
+        "drops": [
+          {
+            "t": "decor",
+            "id": "exp_whale_market_5"
+          }
+        ],
+        "critDrops": [
+          {
+            "t": "potion",
+            "n": 2
+          }
+        ]
+      },
+      "lose": {
+        "text": ""
+      }
+    },
+    {
+      "id": "whose_luggage",
+      "map": "whale_market",
+      "title": "谁的行李",
+      "type": "drop",
+      "layer": "shallow",
+      "weight": 5,
+      "story": "",
+      "drops": [
+        {
+          "t": "potion",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "not_for_sale",
+      "map": "whale_market",
+      "title": "不卖的东西",
+      "type": "encounter",
+      "layer": "deep",
+      "weight": 3,
+      "story": "",
+      "options": [
+        {
+          "key": "A",
+          "label": "把一件压在心底的烦恼放进去",
+          "outcomes": [
+            {
+              "t": "status",
+              "n": 1
+            },
+            {
+              "t": "decor",
+              "id": "exp_whale_market_6"
+            }
+          ]
+        },
+        {
+          "key": "B",
+          "label": "觉得不太对劲，摇摇头走开",
+          "outcomes": [
+            {
+              "t": "status",
+              "n": -1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "whale_nap",
+      "map": "whale_market",
+      "title": "云鲸打了个盹",
+      "type": "story",
+      "layer": "deep",
+      "weight": 3,
+      "story": ""
+    }
+  ],
+  "decorations": [
+    {
+      "id": "exp_star_candy",
+      "name": "星球糖",
+      "from": "mushroom_forest",
+      "visitLine": ""
+    },
+    {
+      "id": "exp_mushroom_lantern",
+      "name": "菌灯",
+      "from": "mushroom_forest",
+      "visitLine": ""
+    },
+    {
+      "id": "exp_flowering_chair",
+      "name": "会开花的藤椅",
+      "from": "mushroom_forest",
+      "visitLine": ""
+    },
+    {
+      "id": "exp_golden_spore",
+      "name": "金孢茸",
+      "from": "mushroom_forest",
+      "visitLine": ""
+    },
+    {
+      "id": "exp_rusty_clocktown_1",
+      "name": "铜茶匙风铃",
+      "from": "rusty_clocktown",
+      "visitLine": ""
+    },
+    {
+      "id": "exp_rusty_clocktown_2",
+      "name": "齿轮小风车",
+      "from": "rusty_clocktown",
+      "visitLine": ""
+    },
+    {
+      "id": "exp_rusty_clocktown_3",
+      "name": "钟楼怀表",
+      "from": "rusty_clocktown",
+      "visitLine": ""
+    },
+    {
+      "id": "exp_rusty_clocktown_4",
+      "name": "时间沙漏",
+      "from": "rusty_clocktown",
+      "visitLine": ""
+    },
+    {
+      "id": "exp_stardust_theater_1",
+      "name": "星沙人形瓶",
+      "from": "stardust_theater",
+      "visitLine": ""
+    },
+    {
+      "id": "exp_stardust_theater_2",
+      "name": "月亮面具",
+      "from": "stardust_theater",
+      "visitLine": ""
+    },
+    {
+      "id": "exp_stardust_theater_3",
+      "name": "铜哨摆件",
+      "from": "stardust_theater",
+      "visitLine": ""
+    },
+    {
+      "id": "exp_stardust_theater_4",
+      "name": "铜星摆件",
+      "from": "stardust_theater",
+      "visitLine": ""
+    },
+    {
+      "id": "exp_stardust_theater_5",
+      "name": "星图纸灯",
+      "from": "stardust_theater",
+      "visitLine": ""
+    },
+    {
+      "id": "exp_tidal_corridor_1",
+      "name": "蟹壳茶盏",
+      "from": "tidal_corridor",
+      "visitLine": ""
+    },
+    {
+      "id": "exp_tidal_corridor_2",
+      "name": "潮蚀银链",
+      "from": "tidal_corridor",
+      "visitLine": ""
+    },
+    {
+      "id": "exp_tidal_corridor_3",
+      "name": "逆潮铜铃",
+      "from": "tidal_corridor",
+      "visitLine": ""
+    },
+    {
+      "id": "exp_tidal_corridor_4",
+      "name": "潮音螺号",
+      "from": "tidal_corridor",
+      "visitLine": ""
+    },
+    {
+      "id": "exp_tidal_corridor_5",
+      "name": "盐渍记忆茶砖",
+      "from": "tidal_corridor",
+      "visitLine": ""
+    },
+    {
+      "id": "exp_whale_market_1",
+      "name": "忆光风铃",
+      "from": "whale_market",
+      "visitLine": ""
+    },
+    {
+      "id": "exp_whale_market_2",
+      "name": "雾泪捕梦网",
+      "from": "whale_market",
+      "visitLine": ""
+    },
+    {
+      "id": "exp_whale_market_3",
+      "name": "问星花盏",
+      "from": "whale_market",
+      "visitLine": ""
+    },
+    {
+      "id": "exp_whale_market_4",
+      "name": "笼中星",
+      "from": "whale_market",
+      "visitLine": ""
+    },
+    {
+      "id": "exp_whale_market_5",
+      "name": "笑剑风铃",
+      "from": "whale_market",
+      "visitLine": ""
+    },
+    {
+      "id": "exp_whale_market_6",
+      "name": "空盒的盖子",
+      "from": "whale_market",
+      "visitLine": ""
+    }
+  ]
+}

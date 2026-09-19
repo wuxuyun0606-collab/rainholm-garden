@@ -1,0 +1,322 @@
+[
+  {
+    "id": "spring_rain",
+    "season": "春",
+    "name": "知时雨",
+    "trigger": "harvest",
+    "polarity": "buff",
+    "weight": 5,
+    "requires": "ripe",
+    "effect": {
+      "type": "value_mult",
+      "value": 2,
+      "n": 6
+    },
+    "lines": [
+      ""
+    ]
+  },
+  {
+    "id": "bees_busy",
+    "season": "春",
+    "name": "蜂媒吉日",
+    "trigger": "harvest",
+    "polarity": "buff",
+    "weight": 4,
+    "requires": "ripe",
+    "effect": {
+      "type": "rare_luck",
+      "value": 0.4,
+      "n": 6
+    },
+    "lines": [
+      ""
+    ]
+  },
+  {
+    "id": "firefly_night",
+    "season": "夏",
+    "name": "萤照丰年",
+    "trigger": "harvest",
+    "polarity": "buff",
+    "weight": 4,
+    "requires": "ripe",
+    "effect": {
+      "type": "quality_top"
+    },
+    "lines": [
+      ""
+    ]
+  },
+  {
+    "id": "sun_scorch",
+    "season": "夏",
+    "name": "骄阳灼青",
+    "trigger": "harvest",
+    "polarity": "debuff",
+    "weight": 3,
+    "requires": "ripe",
+    "effect": {
+      "type": "quality_min"
+    },
+    "lines": [
+      ""
+    ]
+  },
+  {
+    "id": "good_snow",
+    "season": "冬",
+    "name": "雪被兆丰",
+    "trigger": "harvest",
+    "polarity": "buff",
+    "weight": 4,
+    "requires": "ripe",
+    "effect": {
+      "type": "value_mult",
+      "value": 2,
+      "n": 6
+    },
+    "lines": [
+      ""
+    ]
+  },
+  {
+    "id": "pest_visit",
+    "season": "any",
+    "name": "虫客来访",
+    "trigger": "harvest",
+    "polarity": "debuff",
+    "weight": 3,
+    "requires": "ripe",
+    "effect": {
+      "type": "quality_down",
+      "value": 1
+    },
+    "lines": [
+      ""
+    ]
+  },
+  {
+    "id": "autumn_goldwind",
+    "season": "秋",
+    "name": "金风送仓",
+    "trigger": "harvest",
+    "polarity": "buff",
+    "weight": 5,
+    "requires": "ripe",
+    "effect": {
+      "type": "value_mult",
+      "value": 2,
+      "n": 6
+    },
+    "lines": [
+      ""
+    ]
+  },
+  {
+    "id": "autumn_sunripe",
+    "season": "秋",
+    "name": "秋阳曝实",
+    "trigger": "harvest",
+    "polarity": "buff",
+    "weight": 4,
+    "requires": "ripe",
+    "effect": {
+      "type": "quality_top"
+    },
+    "lines": [
+      ""
+    ]
+  },
+  {
+    "id": "late_frost",
+    "season": "春",
+    "name": "春霜袭",
+    "trigger": "status",
+    "polarity": "debuff",
+    "weight": 3,
+    "requires": "growing",
+    "effect": {
+      "type": "growth_stall_all",
+      "ticks": 1
+    },
+    "lines": [
+      ""
+    ]
+  },
+  {
+    "id": "sky_seed",
+    "season": "春",
+    "name": "天落籽",
+    "trigger": "status",
+    "polarity": "buff",
+    "weight": 4,
+    "requires": "empty",
+    "effect": {
+      "type": "plant_all_empty"
+    },
+    "lines": [
+      ""
+    ]
+  },
+  {
+    "id": "storm_growth",
+    "season": "夏",
+    "name": "透雨疯长",
+    "trigger": "status",
+    "polarity": "buff",
+    "weight": 5,
+    "requires": "growing",
+    "effect": {
+      "type": "growth_advance_all",
+      "ticks": 2
+    },
+    "lines": [
+      ""
+    ]
+  },
+  {
+    "id": "heatstroke",
+    "season": "夏",
+    "name": "暑气熏人",
+    "trigger": "status",
+    "polarity": "debuff",
+    "weight": 3,
+    "requires": "coins100",
+    "effect": {
+      "type": "coins_loss",
+      "value": 100
+    },
+    "lines": [
+      ""
+    ]
+  },
+  {
+    "id": "gleaning",
+    "season": "秋",
+    "name": "穗落拾金",
+    "trigger": "status",
+    "polarity": "buff",
+    "weight": 5,
+    "requires": "ripe",
+    "effect": {
+      "type": "coins_gain",
+      "value": 100
+    },
+    "lines": [
+      ""
+    ]
+  },
+  {
+    "id": "full_barn",
+    "season": "秋",
+    "name": "仓满溢喜",
+    "trigger": "status",
+    "polarity": "buff",
+    "weight": 4,
+    "requires": "ripe",
+    "effect": {
+      "type": "potion_gain_capped"
+    },
+    "lines": [
+      ""
+    ]
+  },
+  {
+    "id": "leaf_return",
+    "season": "秋",
+    "name": "叶落归肥",
+    "trigger": "status",
+    "polarity": "buff",
+    "weight": 4,
+    "requires": "growing",
+    "effect": {
+      "type": "material_gift",
+      "value": 2
+    },
+    "lines": [
+      ""
+    ]
+  },
+  {
+    "id": "frost_fall",
+    "season": "秋",
+    "name": "霜封秋苗",
+    "trigger": "status",
+    "polarity": "debuff",
+    "weight": 3,
+    "requires": "growing",
+    "effect": {
+      "type": "growth_stall_all",
+      "ticks": 3
+    },
+    "lines": [
+      ""
+    ]
+  },
+  {
+    "id": "warm_house",
+    "season": "冬",
+    "name": "暖棚偷春",
+    "trigger": "status",
+    "polarity": "buff",
+    "weight": 4,
+    "requires": "growing",
+    "effect": {
+      "type": "growth_advance_random",
+      "n": 3,
+      "ticks": 1
+    },
+    "lines": [
+      ""
+    ]
+  },
+  {
+    "id": "fireside",
+    "season": "冬",
+    "name": "炉边得彩",
+    "trigger": "status",
+    "polarity": "buff",
+    "weight": 4,
+    "requires": "none",
+    "effect": {
+      "type": "silver_gain",
+      "value": 15
+    },
+    "lines": [
+      ""
+    ]
+  },
+  {
+    "id": "snowstorm",
+    "season": "冬",
+    "name": "雪锁药瓶",
+    "trigger": "status",
+    "polarity": "debuff",
+    "weight": 3,
+    "requires": "potion",
+    "effect": {
+      "type": "potion_loss",
+      "value": 1
+    },
+    "lines": [
+      ""
+    ]
+  },
+  {
+    "id": "good_neighbor",
+    "season": "any",
+    "name": "邻家搭手",
+    "trigger": "status",
+    "polarity": "buff",
+    "weight": 4,
+    "requires": "growing",
+    "effect": {
+      "type": "ripen_random",
+      "n": 2
+    },
+    "lines": [
+      ""
+    ]
+  }
+]

@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+  <!-- 升级土地：两层养好的土 + 冒头的小芽 + 向上的小箭头
+       色板：粉米纸 #f4d8ca / 梅子边 #795158 / 文字 #5d3e42 / 高光 #fdf3ea / 可可细线 #a9807f -->
+  <g fill="none" stroke="#795158" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+    <!-- 上层土 -->
+    <path d="M9 33 q7 -5 15 -5 t15 5 q3 2 0 4 l-2 2 H11 l-2 -2 q-3 -2 0 -4 Z" fill="#f4d8ca"/>
+    <!-- 下层土 -->
+    <path d="M6 40 q9 -4 18 -4 t18 4 q2 2 0 3 H6 q-2 -1 0 -3 Z" fill="#a9807f" opacity=".55"/>
+    <!-- 小芽 -->
+    <path d="M24 28 v-7" stroke="#5d3e42"/>
+    <path d="M24 21 q-7 1 -9 -6 q8 -1 9 6 Z" fill="#fdf3ea" stroke="#795158"/>
+    <path d="M24 19 q7 1 9 -6 q-8 -1 -9 6 Z" fill="#fdf3ea" stroke="#795158"/>
+    <!-- 向上箭头 -->
+    <path d="M36 15 l5 -6 5 6" stroke="#5d3e42"/>
+    <path d="M41 9.5 V20" stroke="#5d3e42"/>
+  </g>
+</svg>

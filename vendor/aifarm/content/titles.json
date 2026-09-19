@@ -1,0 +1,443 @@
+[
+  {
+    "id": "harvest_1",
+    "cat": "农耕",
+    "tier": 1,
+    "field": "harvested",
+    "min": 50,
+    "name": "退休还农",
+    "flavor": ""
+  },
+  {
+    "id": "harvest_2",
+    "cat": "农耕",
+    "tier": 2,
+    "field": "harvested",
+    "min": 200,
+    "name": "后天稻体",
+    "flavor": ""
+  },
+  {
+    "id": "harvest_3",
+    "cat": "农耕",
+    "tier": 3,
+    "field": "harvested",
+    "min": 500,
+    "name": "种花儿女",
+    "flavor": ""
+  },
+  {
+    "id": "harvest_4",
+    "cat": "农耕",
+    "tier": 4,
+    "field": "harvested",
+    "min": 1000,
+    "name": "田间造物主",
+    "flavor": ""
+  },
+  {
+    "id": "rich_1",
+    "cat": "守财",
+    "tier": 1,
+    "field": "coins",
+    "min": 1000,
+    "name": "第一桶金",
+    "flavor": ""
+  },
+  {
+    "id": "rich_2",
+    "cat": "守财",
+    "tier": 2,
+    "field": "coins",
+    "min": 5000,
+    "name": "只进不出",
+    "flavor": ""
+  },
+  {
+    "id": "rich_3",
+    "cat": "守财",
+    "tier": 3,
+    "field": "coins",
+    "min": 20000,
+    "name": "理财大师",
+    "flavor": ""
+  },
+  {
+    "id": "rich_4",
+    "cat": "守财",
+    "tier": 4,
+    "field": "coins",
+    "min": 80000,
+    "name": "农布斯在榜",
+    "flavor": ""
+  },
+  {
+    "id": "thief_1",
+    "cat": "大盗",
+    "tier": 1,
+    "field": "stolen",
+    "min": 5,
+    "name": "薅点羊毛",
+    "flavor": ""
+  },
+  {
+    "id": "thief_2",
+    "cat": "大盗",
+    "tier": 2,
+    "field": "stolen",
+    "min": 20,
+    "name": "贼不走空",
+    "flavor": ""
+  },
+  {
+    "id": "thief_3",
+    "cat": "大盗",
+    "tier": 3,
+    "field": "stolen",
+    "min": 50,
+    "name": "人人喊打",
+    "flavor": ""
+  },
+  {
+    "id": "thief_4",
+    "cat": "大盗",
+    "tier": 4,
+    "field": "stolen",
+    "min": 100,
+    "name": "法外狂徒",
+    "flavor": ""
+  },
+  {
+    "id": "water_1",
+    "cat": "热心",
+    "tier": 1,
+    "field": "watered",
+    "min": 10,
+    "name": "热心水管工",
+    "flavor": ""
+  },
+  {
+    "id": "water_2",
+    "cat": "热心",
+    "tier": 2,
+    "field": "watered",
+    "min": 30,
+    "name": "水费不要钱",
+    "flavor": ""
+  },
+  {
+    "id": "water_3",
+    "cat": "热心",
+    "tier": 3,
+    "field": "watered",
+    "min": 80,
+    "name": "龙王本尊",
+    "flavor": ""
+  },
+  {
+    "id": "water_4",
+    "cat": "热心",
+    "tier": 4,
+    "field": "watered",
+    "min": 150,
+    "name": "雨神降临",
+    "flavor": ""
+  },
+  {
+    "id": "codex_1",
+    "cat": "收藏",
+    "tier": 1,
+    "field": "codexCount",
+    "min": 20,
+    "name": "不打农药",
+    "flavor": ""
+  },
+  {
+    "id": "codex_2",
+    "cat": "收藏",
+    "tier": 2,
+    "field": "codexCount",
+    "min": 45,
+    "name": "收集爱好者",
+    "flavor": ""
+  },
+  {
+    "id": "codex_3",
+    "cat": "收藏",
+    "tier": 3,
+    "field": "codexCount",
+    "min": 80,
+    "name": "大农场主",
+    "flavor": ""
+  },
+  {
+    "id": "codex_4",
+    "cat": "收藏",
+    "tier": 4,
+    "field": "codexCount",
+    "min": 110,
+    "name": "心怀天下",
+    "flavor": ""
+  },
+  {
+    "id": "craft_1",
+    "cat": "匠人",
+    "tier": 1,
+    "field": "crafted",
+    "min": 5,
+    "name": "炼与农民",
+    "flavor": ""
+  },
+  {
+    "id": "craft_2",
+    "cat": "匠人",
+    "tier": 2,
+    "field": "crafted",
+    "min": 20,
+    "name": "炉边守望者",
+    "flavor": ""
+  },
+  {
+    "id": "craft_3",
+    "cat": "匠人",
+    "tier": 3,
+    "field": "crafted",
+    "min": 50,
+    "name": "沉迷炼金",
+    "flavor": ""
+  },
+  {
+    "id": "craft_4",
+    "cat": "匠人",
+    "tier": 4,
+    "field": "crafted",
+    "min": 150,
+    "name": "点石成草",
+    "flavor": ""
+  },
+  {
+    "id": "design_1",
+    "cat": "创作",
+    "tier": 1,
+    "field": "designCount",
+    "min": 1,
+    "name": "我生了",
+    "flavor": ""
+  },
+  {
+    "id": "design_2",
+    "cat": "创作",
+    "tier": 2,
+    "field": "designCount",
+    "min": 3,
+    "name": "瓜田毕加索",
+    "flavor": ""
+  },
+  {
+    "id": "design_3",
+    "cat": "创作",
+    "tier": 3,
+    "field": "designCount",
+    "min": 10,
+    "name": "天才造物主",
+    "flavor": ""
+  },
+  {
+    "id": "design_4",
+    "cat": "创作",
+    "tier": 4,
+    "field": "designCount",
+    "min": 25,
+    "name": "神农在世",
+    "flavor": ""
+  },
+  {
+    "id": "explore_1",
+    "cat": "探险",
+    "tier": 1,
+    "field": "expRuns",
+    "min": 5,
+    "name": "刚出新手村",
+    "flavor": ""
+  },
+  {
+    "id": "explore_2",
+    "cat": "探险",
+    "tier": 2,
+    "field": "expRuns",
+    "min": 20,
+    "name": "跟家呆不住",
+    "flavor": ""
+  },
+  {
+    "id": "explore_3",
+    "cat": "探险",
+    "tier": 3,
+    "field": "expRuns",
+    "min": 50,
+    "name": "探险精神",
+    "flavor": ""
+  },
+  {
+    "id": "explore_4",
+    "cat": "探险",
+    "tier": 4,
+    "field": "expRuns",
+    "min": 120,
+    "name": "传奇冒险王",
+    "flavor": ""
+  },
+  {
+    "id": "visit_1",
+    "cat": "串门",
+    "tier": 1,
+    "field": "visitedCount",
+    "min": 3,
+    "name": "社恐出街",
+    "flavor": ""
+  },
+  {
+    "id": "visit_2",
+    "cat": "串门",
+    "tier": 2,
+    "field": "visitedCount",
+    "min": 10,
+    "name": "该溜子",
+    "flavor": ""
+  },
+  {
+    "id": "visit_3",
+    "cat": "串门",
+    "tier": 3,
+    "field": "visitedCount",
+    "min": 30,
+    "name": "都一家人",
+    "flavor": ""
+  },
+  {
+    "id": "visit_4",
+    "cat": "串门",
+    "tier": 4,
+    "field": "visitedCount",
+    "min": 80,
+    "name": "人形村委会",
+    "flavor": ""
+  },
+  {
+    "id": "victim_1",
+    "cat": "倒霉",
+    "tier": 1,
+    "field": "gotStolen",
+    "min": 5,
+    "name": "韭菜初长成",
+    "flavor": ""
+  },
+  {
+    "id": "victim_2",
+    "cat": "倒霉",
+    "tier": 2,
+    "field": "gotStolen",
+    "min": 20,
+    "name": "慈善农场主",
+    "flavor": ""
+  },
+  {
+    "id": "victim_3",
+    "cat": "倒霉",
+    "tier": 3,
+    "field": "gotStolen",
+    "min": 50,
+    "name": "小偷据点",
+    "flavor": ""
+  },
+  {
+    "id": "victim_4",
+    "cat": "倒霉",
+    "tier": 4,
+    "field": "gotStolen",
+    "min": 100,
+    "name": "衣食父母",
+    "flavor": ""
+  },
+  {
+    "id": "task_1",
+    "cat": "任务",
+    "tier": 1,
+    "field": "tasksDone",
+    "min": 10,
+    "name": "莫得感情",
+    "flavor": ""
+  },
+  {
+    "id": "task_2",
+    "cat": "任务",
+    "tier": 2,
+    "field": "tasksDone",
+    "min": 30,
+    "name": "内卷发动机",
+    "flavor": ""
+  },
+  {
+    "id": "task_3",
+    "cat": "任务",
+    "tier": 3,
+    "field": "tasksDone",
+    "min": 80,
+    "name": "赛博社畜",
+    "flavor": ""
+  },
+  {
+    "id": "task_4",
+    "cat": "任务",
+    "tier": 4,
+    "field": "tasksDone",
+    "min": 200,
+    "name": "无情打工王",
+    "flavor": ""
+  },
+  {
+    "id": "concord_1",
+    "cat": "默契",
+    "tier": 1,
+    "field": "expConcord",
+    "min": 1,
+    "name": "小有默契",
+    "flavor": ""
+  },
+  {
+    "id": "concord_2",
+    "cat": "默契",
+    "tier": 2,
+    "field": "expConcord",
+    "min": 25,
+    "name": "双人成行",
+    "flavor": ""
+  },
+  {
+    "id": "concord_3",
+    "cat": "默契",
+    "tier": 3,
+    "field": "expConcord",
+    "min": 50,
+    "name": "史密斯夫妇",
+    "flavor": ""
+  },
+  {
+    "id": "concord_4",
+    "cat": "默契",
+    "tier": 4,
+    "field": "expConcord",
+    "min": 75,
+    "name": "如有神助",
+    "flavor": ""
+  },
+  {
+    "id": "concord_5",
+    "cat": "默契",
+    "tier": 5,
+    "field": "expConcord",
+    "min": 100,
+    "name": "神雕侠侣",
+    "flavor": ""
+  }
+]

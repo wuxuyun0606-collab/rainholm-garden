@@ -1,0 +1,148 @@
+{
+ "farm": {
+  "id": "EXAMPLE1",
+  "name": "小小花园",
+  "coins": 152,
+  "silver": 0,
+  "landTier": 1,
+  "plots": [
+   {
+    "id": 1,
+    "crop": {
+     "seedType": "common",
+     "growTicks": 6,
+     "progress": 0,
+     "ripe": false,
+     "waterCount": 0
+    }
+   },
+   {
+    "id": 2,
+    "crop": {
+     "seedType": "fantasy",
+     "growTicks": 12,
+     "progress": 0,
+     "ripe": false,
+     "waterCount": 0
+    }
+   },
+   {
+    "id": 3,
+    "crop": null
+   },
+   {
+    "id": 4,
+    "crop": null
+   },
+   {
+    "id": 5,
+    "crop": null
+   },
+   {
+    "id": 6,
+    "crop": null
+   }
+  ],
+  "rngState": 2031496590,
+  "codex": {},
+  "materials": {},
+  "seeds": {},
+  "items": {
+   "speed_potion": 6
+  },
+  "shop": {
+   "refreshAt": 0,
+   "recipe": null
+  },
+  "knownRecipes": [],
+  "market": [],
+  "stealCooldowns": {},
+  "announcedUnlocks": [
+   "chicken"
+  ],
+  "messages": [],
+  "lastTickAt": 1789171200000,
+  "createdAt": 1789171200000,
+  "log": [
+   "花园开张啦 🌱"
+  ],
+  "titles": []
+ },
+ "revision": 2,
+ "receipts": {
+  "garden": {},
+  "greenhouse": {}
+ },
+ "history": [],
+ "greenhouse": {
+  "farm": {
+   "id": "EXAMPLE2",
+   "name": "小花房",
+   "coins": 152,
+   "silver": 0,
+   "landTier": 1,
+   "plots": [
+    {
+     "id": 1,
+     "crop": null
+    },
+    {
+     "id": 2,
+     "crop": null
+    },
+    {
+     "id": 3,
+     "crop": null
+    },
+    {
+     "id": 4,
+     "crop": null
+    },
+    {
+     "id": 5,
+     "crop": null
+    },
+    {
+     "id": 6,
+     "crop": null
+    },
+    {
+     "id": 7,
+     "crop": null
+    },
+    {
+     "id": 8,
+     "crop": null
+    }
+   ],
+   "rngState": 607011585,
+   "codex": {},
+   "materials": {},
+   "seeds": {},
+   "items": {
+    "speed_potion": 6
+   },
+   "shop": {
+    "refreshAt": 0,
+    "recipe": null
+   },
+   "knownRecipes": [],
+   "market": [],
+   "stealCooldowns": {},
+   "announcedUnlocks": [
+    "chicken"
+   ],
+   "messages": [],
+   "lastTickAt": 1789171200000,
+   "createdAt": 1789171200000,
+   "log": [
+    "花园开张啦 🌱"
+   ]
+  },
+  "codex": {},
+  "history": []
+ },
+ "wallet": 152,
+ "schema": 2,
+ "_about": "Rainholm Garden 示例存档：菜园 6 畦（1 号普通种子、2 号奇幻种子已种下）+ 花房 8 盆（空），钱包 152。第一次启动时若 garden-save.json 不存在，serve.mjs 会照这份开局。删掉这个文件就会从引擎默认的全新农场开始。"
+}

@@ -1,0 +1,104 @@
+
+
+
+body.rh-loading{overflow:hidden}
+#rhLoading{
+  --p:0;
+  position:fixed;inset:0;z-index:99999;
+  background:#fbe6dc url("loading/rainholm_bg_tile.png") center center/min(52vw,460px) repeat;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:calc(16px + env(safe-area-inset-top,0px)) calc(12px + env(safe-area-inset-right,0px))
+          calc(16px + env(safe-area-inset-bottom,0px)) calc(12px + env(safe-area-inset-left,0px));
+  overflow:hidden;touch-action:none;overscroll-behavior:contain;user-select:none;
+  opacity:1;transition:opacity .4s ease;
+  color:#5A3A2E;
+  /* 寒蝉圆体走 oss 现成的 GardenRefresh（ui-refresh.css 已经声明过），后面照抄小屋那条兜底链 */
+  font-family:GardenRefresh,"PingFang SC","Noto Sans SC",system-ui,sans-serif;
+}
+#rhLoading.rh-out{opacity:0;pointer-events:none}
+
+/* 内容列：竖屏/横屏/桌面同一套布局，居中，最宽 480。
+   margin-top 是往下偏的配重（原注释：定稿图里内容块中心在屏高 53.4%，纯居中只有 49%）。 */
+.rh-col{display:flex;flex-direction:column;align-items:center;width:min(100%,480px);
+  margin-top:min(12vh,90px)}
+/* 牌子：定稿图里牌子占屏高 22%~46%，宽 ≈85vw；另加一道 52vh 上限，横屏矮机才不会把下面的字挤出去 */
+.rh-logo{display:block;width:min(90vw,432px,52vh);height:auto}
+.rh-title{
+  margin:min(24.6vh,240px) 0 0;
+  font-size:clamp(20px,min(6.4vw,7.4vh),30px);line-height:1.2;letter-spacing:.03em;color:#5A3A2E
+}
+/* 进度条：轨道图定尺，填充/猫脸按 --p 走。
+   轨道 png 1600×260，里面那条奶油凹槽实测 x 62~1538 / y 65~171
+   → 左内衬 3.875%、宽 92.25%、上 25%、高 40.77%。 */
+.rh-bar{position:relative;width:min(82vw,400px,72vh);aspect-ratio:1600/260;margin-top:min(1.4vh,14px)}
+.rh-track{position:absolute;inset:0;width:100%;height:100%;display:block}
+.rh-fillbox{
+  position:absolute;left:3.875%;top:25%;width:92.25%;height:40.77%;
+  overflow:hidden;border-radius:999px;
+  clip-path:inset(0 calc(100% - var(--p)*1%) 0 0);
+  transition:clip-path .25s linear
+}
+/* fill png 1500×150 里真正的粉橘药丸只占 x 117~1383 / y 5~145，
+   所以图往外撑一圈再让 overflow 裁，药丸两端才正好顶到凹槽两端。 */
+.rh-fill{
+  position:absolute;left:-9.242%;top:-3.571%;width:118.483%;height:107.143%;display:block;
+  background:url("loading/progress_fill.png") 0 0/100% 100% no-repeat
+}
+/* 猫脸 360×300，实体占 y 67~232（55%）。top:-4.5% 把猫的实体中线压到凹槽中线。 */
+.rh-cat{
+  position:absolute;top:-4.5%;height:100%;width:auto;
+  left:calc(3.875% + var(--p)*0.9225%);transform:translateX(-50%);
+  transition:left .25s linear;pointer-events:none
+}
+.rh-welcome{
+  margin:min(3.7vh,36px) 0 0;
+  font-size:clamp(16px,min(5vw,5.8vh),24px);line-height:1.2;letter-spacing:.03em;color:#5A3A2E
+}
+
+/* ── 底部两块：底句在上、三行鸣谢在下 ─────────────────────────────────────
+   小屋原版只有 .rh-foot 一块（bottom 28px）。这儿多了鸣谢，所以两块各自钉 bottom：
+     鸣谢底缘 12px → 三行约 60px 高 → 顶到 72px
+     底句 bottom 88px → 离鸣谢顶还有 16px 的呼吸
+   数字按「鸣谢三行 11.5px/1.55 + 两道 3px 行距 ≈ 60px」算的；定稿文案
+   「rainholm小屋制作：BlueBlue（小红书）」在两档都不折行（实测），留了余量兜住。 */
+.rh-foot{
+  position:absolute;left:0;right:0;bottom:calc(88px + env(safe-area-inset-bottom,0px));
+  text-align:center;color:#8a6a5c;font-size:14px;line-height:1.4;padding:0 16px
+}
+/* 鸣谢那三行：credits-20260919.js 挂进来的 .rc-loading。
+   它自带的定位是给 v1 奶油纸版写的（bottom 14px、暗绿字），这儿用 #rhLoading 前缀盖掉 ——
+   credits 那份 css 一个字没动。 */
+#rhLoading .rc-loading{
+  bottom:calc(12px + env(safe-area-inset-bottom,0px));
+  font-family:inherit;
+}
+#rhLoading .rc-loading p{font-size:11.5px;line-height:1.55;color:#9a7a6b}
+#rhLoading .rc-loading p:last-child{color:#8a6a5c}
+
+/* 20260911 玩家截图：电脑网页版窗口不够高时，"欢迎回家"压到底部落款上 ——
+   小屋原版这道闸开在 780px。这儿抬到 920px：小屋底下只有一行落款，这儿多了三行鸣谢，
+   底部那一栈整体往上长了约 60px，"挤"的高度门槛跟着往上挪。
+   （不抬的话实测 d1440 的 900 高窗口里「欢迎回家」压落款 901px²、m390 的 844 高压 1207px²。）
+   闸里那三个值一个没改，还是小屋原来的。 */
+@media (max-height:920px){
+  .rh-col{margin-top:min(8vh,50px)}
+  .rh-title{margin-top:min(16vh,140px)}
+  .rh-welcome{margin-top:min(2vh,18px)}
+}
+
+@media (max-width:600px){
+  .rh-foot{font-size:13px;bottom:calc(80px + env(safe-area-inset-bottom,0px))}
+  #rhLoading .rc-loading{bottom:calc(10px + env(safe-area-inset-bottom,0px))}
+  #rhLoading .rc-loading p{font-size:11px;line-height:1.5}
+}
+/* 极矮的机器（横屏手机）：牌子和大留白一起收一档，底部两块再各降一档 */
+@media (max-height:520px){
+  .rh-logo{width:min(90vw,432px,42vh)}
+  .rh-title{margin-top:min(14vh,120px)}
+  .rh-foot{bottom:calc(62px + env(safe-area-inset-bottom,0px));font-size:12px}
+  #rhLoading .rc-loading{bottom:calc(6px + env(safe-area-inset-bottom,0px))}
+  #rhLoading .rc-loading p{font-size:10px;line-height:1.45;margin-bottom:2px}
+}
+@media (prefers-reduced-motion:reduce){
+  .rh-fillbox,.rh-cat{transition:none}
+}

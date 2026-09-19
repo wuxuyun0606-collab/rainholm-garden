@@ -1,0 +1,174 @@
+{
+  "accessories": [
+    {
+      "id": "cap",
+      "name": "棒球帽",
+      "desc": "",
+      "price": 30
+    },
+    {
+      "id": "scarf",
+      "name": "小围巾",
+      "desc": "",
+      "price": 30
+    },
+    {
+      "id": "straw_hat",
+      "name": "草帽",
+      "desc": "",
+      "price": 25
+    },
+    {
+      "id": "bow_knot",
+      "name": "蝴蝶结",
+      "desc": "",
+      "price": 20
+    },
+    {
+      "id": "rain_boots",
+      "name": "小雨靴",
+      "desc": "",
+      "price": 35
+    },
+    {
+      "id": "mini_cape",
+      "name": "小斗篷",
+      "desc": "",
+      "price": 40
+    },
+    {
+      "id": "bell_collar",
+      "name": "铃铛项圈",
+      "desc": "",
+      "price": 30
+    },
+    {
+      "id": "flower_crown",
+      "name": "小花冠",
+      "desc": "",
+      "price": 35
+    },
+    {
+      "id": "backpack",
+      "name": "小书包",
+      "desc": "",
+      "price": 45
+    },
+    {
+      "id": "ribbon_tail",
+      "name": "彩带尾饰",
+      "desc": "",
+      "price": 25
+    },
+    {
+      "id": "glasses",
+      "name": "圆框眼镜",
+      "desc": "",
+      "price": 30
+    },
+    {
+      "id": "sunglasses",
+      "name": "迷你墨镜",
+      "desc": "",
+      "price": 40
+    },
+    {
+      "id": "knitted_vest",
+      "name": "针织背心",
+      "desc": "",
+      "price": 50
+    },
+    {
+      "id": "sparkle_dust",
+      "name": "闪粉",
+      "desc": "",
+      "price": 20
+    }
+  ],
+  "decorations": [
+    {
+      "id": "flowerbed",
+      "name": "花圃",
+      "price": 80,
+      "visitLine": ""
+    },
+    {
+      "id": "scarecrow",
+      "name": "稻草人",
+      "price": 60,
+      "visitLine": ""
+    },
+    {
+      "id": "wind_chime",
+      "name": "风铃",
+      "price": 70,
+      "visitLine": ""
+    },
+    {
+      "id": "fairy_lights",
+      "name": "星星灯串",
+      "price": 100,
+      "visitLine": ""
+    },
+    {
+      "id": "welcome_sign",
+      "name": "欢迎木牌",
+      "price": 50,
+      "visitLine": ""
+    },
+    {
+      "id": "pond",
+      "name": "小池塘",
+      "price": 120,
+      "visitLine": ""
+    },
+    {
+      "id": "pumpkin_cart",
+      "name": "南瓜推车",
+      "price": 90,
+      "visitLine": ""
+    },
+    {
+      "id": "hammock",
+      "name": "吊床",
+      "price": 110,
+      "visitLine": ""
+    },
+    {
+      "id": "birdhouse",
+      "name": "鸟屋",
+      "price": 80,
+      "visitLine": ""
+    },
+    {
+      "id": "mushroom_lamp",
+      "name": "蘑菇灯",
+      "price": 95,
+      "visitLine": ""
+    },
+    {
+      "id": "weather_vane",
+      "name": "风向标",
+      "price": 65,
+      "visitLine": ""
+    },
+    {
+      "id": "tea_table",
+      "name": "茶歇桌",
+      "price": 130,
+      "visitLine": ""
+    },
+    {
+      "id": "stone_path",
+      "name": "石板小径",
+      "price": 75,
+      "visitLine": ""
+    },
+    {
+      "id": "rainbow_pinwheel",
+      "name": "彩虹风车",
+      "price": 55,
+      "visitLine": ""
+    }
+  ]
+}

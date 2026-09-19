@@ -1,0 +1,361 @@
+
+
+
+/* ══ 0a. 总闸关掉时，本段自己建的三个节点整个消失 ═══════════════════════════
+   （它们是 JS append 上去的 DOM，闸一关就没有任何本段样式，得显式收走） */
+html:not(.npp-on) #nppRecDrawer,
+html:not(.npp-on) #nppToastWrap,
+html:not(.npp-on) #nppRecBtn{display:none!important}
+
+
+:root{
+  --npp-font:GardenRefresh,"PingFang SC","Hiragino Sans GB","Heiti SC",system-ui,sans-serif;
+  /* 小屋 22853 行 #rhChatDrawer 的开场曲线／22802 行 #rhChatPillBar 的收场时长，
+     整份文件只有这两条时间常数，别的地方一律引用它们。 */
+  --npp-open-ease:cubic-bezier(.34,1.4,.64,1);
+}
+
+
+/* ══ 1. P0 面板开合动效 ════════════════════════════════════════════════════
+   逐字抄小屋 style#npFeelP0P2_20260914（24822-24831 行）：
+     开 opacity .16s ease + 位移 .2s cubic-bezier(.34,1.4,.64,1)，位移量 8px
+     关 opacity .12s ease + 位移 .12s ease（关比开快）
+   位移走 CSS Transforms L2 的独立属性 `translate:`，不碰谁的 transform ——
+   开源版这边 .card 有 transform-origin、#gd-plot-actions 的钮吃 keyframes 的 transform，
+   用 translate 就谁都不打架。
+
+   挂在哪三处（开源版"所有面板/抽屉/菜单"里【本来没有动效】的那几张）：
+     · <dialog id="dialog">  图鉴／收获篮／升级土地／关于花园（app.js 91 行 showModal）
+     · #card                 地块操作卡（?card=1 老档才看得见，平时被 plot-actions 收了）
+     · #nppRecDrawer         本段自己建的记录抽屉
+   【本来就有动效、本段一个字没碰】的：#gdTray（v6 自带 .15s + 逐颗 30ms 交错弹入）、
+   #gd-plot-actions（plot-actions 自带 pop/fold keyframes）、#rhSayBar（见第 4 段，
+   开合改成了小屋那条拉宽曲线）。不重复叠第二层动画。 */
+html.npp-on .npp-pre{opacity:0;translate:0 8px}
+html.npp-on .npp-open{
+  opacity:1;translate:none;
+  transition:opacity .16s ease,translate .2s var(--npp-open-ease)
+}
+html.npp-on .npp-closing{
+  opacity:0;translate:0 8px;pointer-events:none;
+  transition:opacity .12s ease,translate .12s ease
+}
+/* <dialog> 关那 120 ms 里 open 属性还在，UA 照常画它；这里不需要额外撑 display。
+   #card 关那 120 ms 要自己撑住 —— hidden 属性被 JS 延后 120ms 才落，
+   但 style.css 第 4 行 `[hidden]{display:none!important}` 是 !important，
+   所以关闭期间属性本来就还没写上去，不用再压一条。 */
+@media (prefers-reduced-motion:reduce){
+  html.npp-on .npp-pre,html.npp-on .npp-open,html.npp-on .npp-closing{
+    opacity:1;translate:none;transition:none
+  }
+}
+
+
+html.npp-press #menu-toggle:active img,
+html.npp-press #menu-toggle.npp-down img,
+html.npp-press #night:active img,
+html.npp-press #night.npp-down img,
+html.npp-press .gd-tray-item:active img,
+html.npp-press .gd-tray-item.npp-down img,
+html.npp-press .gd-pa-btn:not(.is-off):active img,
+html.npp-press .gd-pa-btn:not(.is-off).npp-down img,
+html.npp-press .action:not(:disabled):active img,
+html.npp-press .action:not(:disabled).npp-down img{
+  transform:translateY(1px) scale(.97)
+}
+/* 门口那颗箭头（.gd-door-mark）原来是整块 scale(.92)，同一条口径 */
+html.npp-press .gd-door-mark:active .gd-door-arrow,
+html.npp-press .gd-door-mark.npp-down .gd-door-arrow{
+  transform:translateY(1px) scale(.97)
+}
+
+/* ── ② 有底板的圆钮：沉 1px + 内阴影翻面 ─────────────────────────────────────
+   开源版 .corner / #rhSayBtn / #rhSaySend 本来就是这一套（style.css 第 12 行
+   `.corner:active{box-shadow:inset 0 2px 0 #d6aa9f;transform:translateY(1px)}`），
+   一个字没改，只把安卓兜底类补上去（安卓 WebView 常常不触发 :active）。 */
+html.npp-press .corner.npp-down{box-shadow:inset 0 2px 0 #d6aa9f;transform:translateY(1px)}
+html.npp-press #nppRecBtn.npp-down,
+html.npp-press #rhSaySend.npp-down{box-shadow:inset 0 1px 0 #d6aa9f;transform:translateY(1px)}
+html.npp-press #rhSayBtn.npp-down{transform:translateY(1px)}
+
+/* ── ③ 格子钮：翻梅子红 60 ms ────────────────────────────────────────────────
+   小屋配方（npFeelP0P2 24845-24854 行，源头是 5946-5949 行 .qq-send）：
+     transition 60ms 三件套 + translateY(2px) + 底翻 --rpg-accent-dark
+     + inset 0 2px 0 暗 / inset 0 -2px 0 亮（上暗下亮＝翻面）
+   开源版这边【没有】 --rpg-accent-dark / --rpg-accent-light 两个变量（style.css 只有
+   --rpg-accent:#aa5363），所以写死小屋那两个实测值：
+     --rpg-accent-dark  = rgb(126,62,75) = #7e3e4b（style.css 第 12 行就在用这个色当标题色）
+     --rpg-accent-light = #d9858f
+   字色取 #fff1d8（＝--rpg-cream）：`.qq-send` 本来就是奶油字压梅子底。
+   小屋那班留的账（颜文字按下去字看不清，对比度 1.3:1）就是没带字色，
+   这里是【新建】按下态不是改现役，所以从一开始就照 .qq-send 整句抄，不复刻那个坑。
+
+   开源版的"格子钮"＝ 图鉴/种子行/升级确认那些有底板的方钮 + 老 nav + 翻页条 + 重试。 */
+html.npp-press #dialog-body button:not(:disabled),
+html.npp-press #menu button,
+html.npp-press .pages button,
+html.npp-press #retry{
+  transition:transform 60ms ease,box-shadow 60ms ease,background-color 60ms ease,color 60ms ease;
+  touch-action:manipulation;-webkit-tap-highlight-color:transparent
+}
+html.npp-press #dialog-body button:not(:disabled):active,
+html.npp-press #dialog-body button:not(:disabled).npp-down,
+html.npp-press #menu button:active,
+html.npp-press #menu button.npp-down,
+html.npp-press .pages button:active,
+html.npp-press .pages button.npp-down,
+html.npp-press #retry:active,
+html.npp-press #retry.npp-down{
+  transform:translateY(2px);
+  background:#7e3e4b;color:#fff1d8;
+  box-shadow:inset 0 2px 0 #7e3e4b,inset 0 -2px 0 #d9858f
+}
+
+/* ── ④ 裸字 ✕ 钮：没有底板，翻面没处翻 ────────────────────────────────────────
+   照小屋 9/14 记录抽屉那颗（npRecordUi 段 .rcd-close:active）：
+   淡底 + 沉 1px，不上复古内阴影。 */
+html.npp-press .close,
+html.npp-press .dialog-head button,
+html.npp-press #nppRecDrawer .npp-rcd-close{
+  transition:background-color 60ms ease,transform 60ms ease
+}
+html.npp-press .close:active,html.npp-press .close.npp-down,
+html.npp-press .dialog-head button:active,html.npp-press .dialog-head button.npp-down,
+html.npp-press #nppRecDrawer .npp-rcd-close:active,
+html.npp-press #nppRecDrawer .npp-rcd-close.npp-down{
+  background:rgba(103,68,83,.16);transform:translateY(1px)
+}
+
+
+html.npp-on #rhCatLayer .rh-cat-bubble{
+  /* 先把 .bubble 那张皮的几何全部退掉 */
+  display:block;height:auto;min-width:0;place-items:normal;
+  padding:7px 11px;isolation:auto;
+  white-space:normal;text-align:left;word-break:break-word;
+  /* 再换上小屋那张：圆角 9 / 奶油 #fff9e8 / 字 #5d3e42 /
+     1.5px 描边用 spread 阴影画（不占盒），右下 3px 硬投影 */
+  max-width:200px;
+  border-radius:9px;background:#fff9e8;color:#5d3e42;
+  box-shadow:0 0 0 1.5px #66464c,3px 3px 0 rgba(71,50,56,.32);
+  font-family:var(--npp-font);font-size:12px;line-height:1.5;
+  /* 摆位：host-cat.js 把 left/top 钉在猫头顶（layout() 里 hit.__top-4），
+     .bubble 原本就是 translate(-50%,-100%)；这里多抬 7px 给底下那颗三角腾地方。 */
+  transform:translate(-50%,calc(-100% - 7px));
+  /* 进场节奏抄小屋 .speech-bubble.show：opacity/位移 .22s ease，位移 5px。
+     fill 用 backwards（照 plot-actions.css 那条注释的规矩）——
+     动画放完不留住终值，host-cat.js 的 .rh-cat-out 淡出（280ms）才压得住。 */
+  animation:npp-bub-in .22s ease backwards
+}
+@keyframes npp-bub-in{from{opacity:0;translate:0 5px}to{opacity:1;translate:none}}
+
+
+html.npp-on #rhCatLayer .rh-cat-bubble::before,
+html.npp-on #rhCatLayer .rh-cat-bubble::after{
+  /* ⚠️ inset 必须写在 left/top 前面：它是 top/right/bottom/left 的简写，
+     写在后面会把上一行的 top 冲成 auto（第一轮实测：三角跑到气泡正上方、压在字上）。
+     这里要 inset 是因为 .bubble::before 原本写着 inset:0 0 8px，right/bottom 得清掉。 */
+  content:"";position:absolute;inset:auto;
+  left:50%;top:calc(100% - 2px);
+  width:0;height:0;padding:0;
+  background:none;border-radius:0;box-shadow:none;z-index:auto;
+  transform:translateX(-50%)
+}
+html.npp-on #rhCatLayer .rh-cat-bubble::before{border:7.5px solid transparent;border-top-color:#66464c}
+html.npp-on #rhCatLayer .rh-cat-bubble::after{border:6px solid transparent;border-top-color:#fff9e8}
+
+/* 手机档：小屋 1294-1301 行（玩家 2026-09-04「对话气泡太大了」之后定的那一版） */
+@media (max-width:600px){
+  html.npp-on #rhCatLayer .rh-cat-bubble{
+    max-width:165px;padding:6px 10px;border-radius:9px;font-size:11px;line-height:1.5
+  }
+  html.npp-on #rhCatLayer .rh-cat-bubble::before{top:100%;border-width:7.5px}
+  html.npp-on #rhCatLayer .rh-cat-bubble::after{top:calc(100% - 2px);border-width:7.55px}
+}
+@media (prefers-reduced-motion:reduce){
+  html.npp-on #rhCatLayer .rh-cat-bubble{animation:none}
+}
+
+
+html.npp-on #nppToastWrap{
+  position:fixed;top:12%;left:50%;transform:translateX(-50%);
+  z-index:33;display:flex;flex-direction:column;align-items:center;gap:6px;
+  width:max-content;max-width:min(78vw,calc(100vw - 124px));pointer-events:none
+}
+html.npp-on #nppToastWrap .npp-oft-item{
+  pointer-events:auto;cursor:pointer;box-sizing:border-box;
+  width:max-content;max-width:min(78vw,calc(100vw - 124px));
+  /* 小屋那条是 gap:8px，因为它左边还挂着一张 28px 头像；这边没有头像，
+     名字和正文之间只隔一个全角冒号，8px 再加上去就散了 —— 收成 0。 */
+  display:flex;align-items:flex-start;gap:0;
+  padding:8px 12px;border-radius:14px;
+  background:#fff9e8;color:#5d3e42;
+  box-shadow:0 0 0 1.5px #e6b4c2,0 6px 16px rgba(102,70,76,.20);
+  font-family:var(--npp-font);font-size:12px;line-height:1.5;text-align:left;
+  opacity:0;transform:translateY(-6px);
+  transition:opacity .2s ease,transform .2s ease
+}
+html.npp-on #nppToastWrap .npp-oft-item.oft-in{opacity:1;transform:translateY(0)}
+html.npp-on #nppToastWrap .npp-oft-item.oft-out{
+  opacity:0;transform:translateY(-6px);
+  transition:opacity .6s ease,transform .6s ease
+}
+html.npp-on #nppToastWrap .npp-oft-who{flex:0 0 auto;font-weight:700;color:#b4677e}
+/* 长句照头顶气泡那条规矩：最多四行、变高不变宽 */
+html.npp-on #nppToastWrap .npp-oft-text{
+  display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:4;
+  overflow:hidden;word-break:break-word;min-width:0
+}
+@media (max-width:1024px){
+  html.npp-on #nppToastWrap .npp-oft-item{font-size:11px;padding:7px 11px}
+}
+@media (prefers-reduced-motion:reduce){
+  html.npp-on #nppToastWrap .npp-oft-item{transition:none}
+}
+
+
+html.npp-on #rhSayWrap{
+  left:max(14px,env(safe-area-inset-left,0px));right:auto;
+  /* --npp-saybot 由 JS 现算：翻页条 #pages 露出来的时候（>8 块地才有）往上让一档，
+     没露就是 34（＝小屋 --rcp-b 那一档）。 */
+  bottom:calc(var(--npp-saybot,34px) + env(safe-area-inset-bottom,0px));
+  flex-direction:row-reverse;   /* DOM 是 [bar][btn]，翻过来视觉就是 [爪钮][条] */
+  gap:10px;align-items:center
+}
+
+
+html.npp-on #rhSayBtn{
+  width:54px;height:54px;padding:0;
+  border:0;border-radius:0;background-color:transparent;box-shadow:none;
+  background-image:url("ui_chat.png");
+  background-size:contain;background-position:center;background-repeat:no-repeat;
+  filter:drop-shadow(0 2px 3px rgba(62,40,18,.34));
+  transition:transform .18s
+}
+html.npp-on #rhSayBtn svg{display:none}
+html.npp-on #rhSayBtn:active{box-shadow:none;transform:translateY(1px)}
+html.npp-on #rhSayBtn[aria-expanded="true"]{transform:rotate(-8deg)}
+/* 药丸标签留着 —— 开源版通篇图标都配中文药丸（角钮那一列、工具条五颗都有），
+   小屋那颗没有标签是因为小屋通篇没有。这一条是入乡随俗，不是漏搬。
+   条展开的时候把它淡掉，不跟条打架。 */
+html.npp-on #rhSayBtn .rh-say-lab{transition:opacity .12s ease}
+html.npp-on #rhSayBtn[aria-expanded="true"] .rh-say-lab{opacity:0}
+
+
+html.npp-on #rhSayBar{
+  width:0;overflow:hidden;white-space:nowrap;
+  height:48px;padding:0 2px;gap:6px;
+  border-radius:24px;
+  opacity:0;transform:none;transform-origin:0 50%;
+  transition:width .25s cubic-bezier(.22,.68,.32,1),opacity .12s ease
+}
+html.npp-on #rhSayBar.rh-say-open{opacity:1;width:var(--npp-w,min(66vw,360px))}
+html.npp-on #rhSayInput{font-family:var(--npp-font);padding:0 2px}
+
+/* 条左端那颗记录钮：皮照小屋 #rhChatHistBtn（22812-22821 行），
+   图标换成玩家 04:08 选的 A（record-a，20 CSS px，按密度挑 20/40/60 三张源图）。
+   image-set 写三遍是兜底顺序，照小屋 npRecordUi 段原样。 */
+html.npp-on #nppRecBtn{
+  position:relative;flex:0 0 40px;width:40px;height:40px;padding:0;margin-left:2px;
+  border:1.5px solid #795158;border-radius:50%;cursor:pointer;
+  background-color:#f4d8ca;
+  background-image:url("record-a-40.png");
+  background-image:-webkit-image-set(
+    url("record-a-20.png") 1x,url("record-a-40.png") 2x,url("record-a-60.png") 3x);
+  background-image:image-set(
+    url("record-a-20.png") 1x,url("record-a-40.png") 2x,url("record-a-60.png") 3x);
+  background-size:20px 20px;background-position:center;background-repeat:no-repeat;
+  box-shadow:inset 0 1px 0 #fff1df,inset 0 -1px 0 #d6aa9f;
+  -webkit-tap-highlight-color:transparent;touch-action:manipulation
+}
+html.npp-on #nppRecBtn:active{box-shadow:inset 0 1px 0 #d6aa9f;transform:translateY(1px)}
+html.npp-on #nppRecBtn[aria-expanded="true"]{background-color:#f0c7b6}
+
+@media (max-width:600px){
+  html.npp-on #rhSayBar{height:46px}
+  html.npp-on #rhSayBar.rh-say-open{width:var(--npp-w,min(84vw,340px))}
+  html.npp-on #nppRecBtn{flex:0 0 38px;width:38px;height:38px}
+  html.npp-on #rhSayBtn{width:50px;height:50px}
+}
+@media (prefers-reduced-motion:reduce){
+  html.npp-on #rhSayBar,html.npp-on #rhSayBtn{transition:none}
+}
+
+
+html.npp-on #nppRecDrawer{
+  position:fixed;z-index:32;      /* 高过 #gdTray(31)，低于 <dialog> 的 top layer */
+  right:96px;top:72px;
+  width:min(432px,calc(100vw - 120px));
+  bottom:var(--npp-recbot,114px); /* JS 现量：输入条顶边 −32；JS 没跑到那一拍吃这个兜底 */
+  display:flex;flex-direction:column;
+  padding:16px 20px 20px;
+  border:0;border-radius:18px;
+  background:#FFF8EE;
+  box-shadow:0 12px 32px rgba(90,52,59,.20);
+  font-family:var(--npp-font);
+  min-height:140px               /* 软键盘把条顶到半空时别缩成负数，照小屋那条 */
+}
+html.npp-on #nppRecDrawer[hidden]{display:none!important}
+/* 标题区 16 + 28 + 16 ＝ 60 */
+html.npp-on #nppRecDrawer .npp-rcd-head{
+  flex:0 0 auto;display:flex;align-items:center;justify-content:space-between;gap:8px;
+  padding:0 0 16px;
+  font:600 20px/28px var(--npp-font);color:#674453
+}
+html.npp-on #nppRecDrawer .npp-rcd-close{
+  flex:0 0 44px;width:44px;height:44px;margin:-8px -12px -8px 0;padding:0;
+  border:0;border-radius:50%;background:transparent;box-shadow:none;
+  color:#674453;font:400 20px/1 system-ui,-apple-system,"PingFang SC",sans-serif;
+  display:grid;place-items:center;cursor:pointer
+}
+html.npp-on #nppRecDrawer .npp-rcd-close:hover{background:rgba(103,68,83,.08)}
+/* 只有列表滚 */
+html.npp-on #nppRecDrawer .npp-rcd-list{
+  flex:1 1 auto;min-height:0;overflow-y:auto;overflow-x:hidden;
+  display:flex;flex-direction:column;gap:16px;
+  padding-bottom:20px
+}
+html.npp-on #nppRecDrawer .npp-rcd-row{
+  display:flex;flex-direction:column;gap:6px;width:100%;align-items:flex-start
+}
+html.npp-on #nppRecDrawer .npp-rcd-row[data-who="me"]{align-items:flex-end}
+html.npp-on #nppRecDrawer .npp-rcd-bub{
+  box-sizing:border-box;max-width:80%;min-width:0;
+  padding:12px 14px;border-radius:14px;   /* 无尾巴 */
+  background:#FFFFFF;color:#49363E;
+  font:400 17px/28px var(--npp-font);
+  text-align:left;white-space:pre-wrap;word-break:normal;overflow-wrap:anywhere
+}
+html.npp-on #nppRecDrawer .npp-rcd-row[data-who="me"] .npp-rcd-bub{background:#EFE0E7}
+html.npp-on #nppRecDrawer .npp-rcd-time{
+  font:400 12px/18px var(--npp-font);color:#786E74;letter-spacing:0
+}
+html.npp-on #nppRecDrawer .npp-rcd-empty{
+  padding:8px 0;font:400 15px/26px var(--npp-font);color:#786E74
+}
+
+/* 软滚动条：照小屋 npUiTrim 第④件（6px / 轨道透明 / 圆角 999 / 梅子 40%·悬停 60%）。
+   ⚠️ 标准的 scrollbar-width/color 与 ::-webkit-scrollbar 【不能并排写】——
+   Chrome 121 起一旦标准那两条命中，同元素上整套 webkit 伪元素作废，圆角被悄悄扔掉。
+   所以标准那两条关进 @supports not selector(::-webkit-scrollbar) 里。 */
+html.npp-on #nppRecDrawer .npp-rcd-list::-webkit-scrollbar{width:6px;height:6px}
+html.npp-on #nppRecDrawer .npp-rcd-list::-webkit-scrollbar-track{background:transparent}
+html.npp-on #nppRecDrawer .npp-rcd-list::-webkit-scrollbar-thumb{
+  background:rgba(121,81,88,.40);border-radius:999px
+}
+html.npp-on #nppRecDrawer .npp-rcd-list::-webkit-scrollbar-thumb:hover{background:rgba(121,81,88,.60)}
+html.npp-on #nppRecDrawer .npp-rcd-list::-webkit-scrollbar-corner{background:transparent}
+@supports not selector(::-webkit-scrollbar){
+  html.npp-on #nppRecDrawer .npp-rcd-list{
+    scrollbar-width:thin;scrollbar-color:rgba(121,81,88,.40) transparent
+  }
+}
+
+/* 手机：左右各 12、顶 84、底边＝输入条顶边 −16（DIMENSIONS.md） */
+@media (max-width:600px){
+  html.npp-on #nppRecDrawer{
+    left:12px;right:12px;width:auto;top:84px;
+    bottom:var(--npp-recbot,96px);
+    padding:16px 16px 16px
+  }
+  html.npp-on #nppRecDrawer .npp-rcd-list{padding-bottom:16px}
+}

@@ -1,0 +1,21 @@
+# 存档（每台机器自己的）
+data/garden-save.json
+data/garden-save.json.tmp
+data/snapshots/
+node_modules/
+
+# 隔离/验收物料与改前备份，不随发布包走
+review/
+*.bak*
+REPORT-*.md
+
+# Local credentials and machine files
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+.DS_Store
+*.log

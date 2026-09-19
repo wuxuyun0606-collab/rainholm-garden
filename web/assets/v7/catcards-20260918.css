@@ -1,0 +1,267 @@
+
+
+
+/* ══ 1 · 三颗角钮折成一颗猫爪（pawfold 20260918）═══════════════════════════
+   玩家 9/18 13:22（截图指着花园左下那颗猫爪）：
+   「还要去掉这个ui，然后把跟随和视角折叠进一个猫爪UI里」
+
+   ── 藏掉的三颗 ────────────────────────────────────────────────────────────
+   动作钮 + 它的菜单（**所有场景**，9/18 13:22 扩的单，不再只限小窝）、
+   跟随、视角 —— 三颗原钮全 display:none，活儿还由它们干（见 .js）。
+
+   为什么用 CSS display:none 而不是把 btnAct.hidden 设成 true：
+   batch4-20260914.js 有一发 `setInterval(tick, 800)`，tick→syncScene 每 800ms
+   会把这三颗的 hidden 按 hasCats() 重写一遍 —— 外面设的 hidden 活不过一拍。
+   CSS 是它改不着的；而且**它们的 hidden 属性没被我动过**，所以 batch4 的
+   relayout() 算 --nb4-i 时账目跟今天中午一模一样，「回小窝」那颗一动没动。 */
+#nb4Act,
+#nb4ActMenu,
+#nb4Follow,
+#nb4Cam{ display:none !important }
+
+/* ── 猫爪钮本体 ──────────────────────────────────────────────────────────────
+   借 batch4 的 .nb4-corner 皮（裸 PNG + 图标正下方的小药丸标签）＋
+   uibatch2 的 .nbu2-feel 按下回弹 —— 两样都是给 .nb4-corner 写的，
+   我这颗挂同一个 class 就全有了，一行都不用抄。
+   落点公式照抄 uibatch2-20260915.css 第 46-58 行那条（原钮的 --u2-i:0 那一格），
+   换成自己的 id；那边改公式这边要跟着改，所以变量名一个没换。
+
+   ⚠️ 尺寸不吃 --cs-icon（那是右上角那一列的 46/44），钉成小屋 .fold-main 的 54
+      —— 玩家 9/18 判卷点名「尺寸照小屋 54」。所以落点里那个居中补差也得换成 54，
+      不然按 46 算会把钮压低 4px、跟说话爪钮错开一条线。 */
+html.npp-on.nbu2-on #nccPaw{
+  top:auto;right:auto;
+  width:var(--ncc-paw,54px);height:var(--ncc-paw,54px);
+  left:calc(var(--u2-left) + var(--u2-paw) + var(--u2-gap));
+  bottom:calc(var(--npp-saybot,34px) + env(safe-area-inset-bottom,0px)
+            + (var(--u2-paw) - var(--ncc-paw,54px)) / 2);
+  transition:opacity .14s ease,transform .14s ease
+}
+/* 对话胶囊拉开时让位，跟原来那三颗一个待遇（.nbu2-saybar 由 uibatch2 的 js 挂） */
+html.npp-on.nbu2-on.nbu2-saybar #nccPaw,
+html.npp-on.nbu2-on.nbu2-saybar #nccPawPanel{
+  opacity:0;pointer-events:none;transform:translateY(6px)
+}
+#nccPaw[hidden],
+#nccPawPanel[hidden]{ display:none !important }
+/* 展开那一排靠 class 开合（要做淡入/推出的过渡，用 hidden 会把过渡掐掉），
+   收起时 pointer-events:none + aria-hidden，点不到也读不到。 */
+@media (prefers-reduced-motion:reduce){
+  html.npp-on.nbu2-on #nccPaw{ transition:none }
+}
+
+
+#nccPawPanel{
+  position:fixed;z-index:31;
+  display:flex;align-items:center;gap:16px;   /* gap:16 抄小屋 .fold-items */
+  -webkit-user-select:none;user-select:none;
+  background:none;border:0;padding:0
+}
+#nccPawPanel .ncc-paw-item{
+  position:relative;
+  width:44px;height:44px;                     /* 抄小屋 .fold-item */
+  margin:0;padding:0;border:0;
+  background:transparent;
+  cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+  touch-action:manipulation
+}
+#nccPawPanel .ncc-paw-item img{
+  display:block;width:100%;height:100%;object-fit:contain;pointer-events:none;
+  filter:drop-shadow(0 2px 3px rgba(62,40,18,.34));   /* 抄小屋那条投影 */
+  -webkit-transition:-webkit-transform .12s ease,opacity .12s ease;
+  transition:transform .12s ease,opacity .12s ease
+}
+#nccPawPanel .ncc-paw-item:active img{ transform:translateY(1px) scale(.96) }
+#nccPawPanel .ncc-paw-item:focus-visible{ outline:3px solid #78916a;outline-offset:3px }
+#nccPawPanel .ncc-paw-item[aria-disabled="true"]{ cursor:default }
+#nccPawPanel .ncc-paw-item[aria-disabled="true"] img{ opacity:.4 }
+
+/* 标签：借 .gd-lab 的皮，定位照小屋 .fd-lab（图标正下方 3px、水平居中） */
+#nccPawPanel .ncc-paw-item .gd-lab{
+  position:absolute;left:50%;top:calc(100% + 3px);
+  transform:translateX(-50%);
+  margin-top:0;z-index:2;pointer-events:none
+}
+
+/* 「结伴」没有小屋那样的一对反义词可换（「跟随/锁定」是小屋自带的），
+   关态就把图标压暗一档当开关指示 —— 不引新颜色、不垫底板，仍是裸图标那套语汇。 */
+#nccPawPanel .ncc-paw-item[data-ncc-paw="follow"][aria-pressed="false"] img{
+  opacity:.55;-webkit-filter:saturate(.35);filter:saturate(.35)
+}
+
+/* 展开手感照小屋：整排淡入 + 从左边推出来 8px；主钮歪头 -18° */
+#nccPawPanel{
+  opacity:0;pointer-events:none;transform:translateX(-8px);
+  transition:opacity .16s,transform .16s
+}
+#nccPawPanel.ncc-paw-in{ opacity:1;pointer-events:auto;transform:none }
+#nccPaw{ transition:transform .18s }
+#nccPaw[aria-expanded="true"] img{ transform:rotate(-18deg) }
+@media (prefers-reduced-motion:reduce){
+  #nccPawPanel,#nccPaw,#nccPawPanel .ncc-paw-item img{ transition:none }
+}
+
+
+/* ══ 2 · 猫猫卡 ═════════════════════════════════════════════════════════════ */
+#nccCard{
+
+
+  --fmc-line:#603808;        /* 深木棕：描边 + 文字 */
+  --fmc-pink:#f9c1a7;        /* 床单粉：外框 + 猫耳 */
+  --fmc-pink-dk:#de9a7c;     /* 猫窝粉圈 */
+  --fmc-paper:#f9e6cb;       /* 墙面奶油：卡底 */
+  --fmc-ink:#603808;         /* 正文 ＝ 深木棕 */
+  --fmc-main:#e7ad8b;        /* 抱枕粉深一档：主钮 */
+  --fmc-main-dk:#ac7051;
+  --fmc-cream:#603808;       /* 主钮字也是深木棕（浅粉底配奶油字看不清） */
+  --fmc-sub:#f9e6cb;         /* 次钮：奶油底 */
+  --fmc-sub-dk:#c5a37d;
+
+  position:fixed;
+  left:0;top:0;
+  z-index:12500;             /* nbu2 的星星层是 11990，卡要压在它上面 */
+  padding:20px 0 0 0;        /* 上面 20px 留给猫耳（flat 版收过一档：24→20） */
+  overflow:visible;
+  box-sizing:border-box;
+  font-family:inherit;
+  -webkit-tap-highlight-color:transparent
+}
+#nccCard[hidden]{ display:none !important }
+
+/* ── 猫耳：一条 overflow:hidden 的窄带，底边正好压在卡的上沿，
+      两只旋转 45° 的圆角方块只露上半截 ＝ 粉耳朵 ── */
+#nccCard .ncc-ears{
+  position:absolute;left:0;right:0;top:0;height:20px;
+  overflow:hidden;pointer-events:none
+}
+#nccCard .ncc-ear{
+  position:absolute;bottom:-12px;width:26px;height:26px;
+  background:var(--fmc-line);
+  border-radius:9px 3px 9px 3px;
+  transform:rotate(45deg)
+}
+#nccCard .ncc-ear::before{
+  content:"";position:absolute;inset:1.5px;
+  border-radius:8px 2.5px 8px 2.5px;
+  background:var(--fmc-pink)
+}
+#nccCard .ncc-ear-l{ left:14px }
+#nccCard .ncc-ear-r{ right:14px }
+
+/* ── 卡：细粉边 2px + 大圆角 14 + 一层软阴影。厚边/双圈描边/底部厚影全拆（flat 版）── */
+#nccCard .ncc-card{
+  position:relative;box-sizing:border-box;
+  min-width:132px;max-width:min(280px,86vw);
+  padding:11px 12px 9px;
+  border:2px solid var(--fmc-pink);
+  border-radius:14px;
+  background:var(--fmc-paper);
+  color:var(--fmc-ink);
+  box-shadow:0 4px 14px rgba(71,50,56,.16)
+}
+
+/* ── 绸带 → 卡内第一行小标题（家具名）。燕尾/边框/底影/底色全无（flat 版）── */
+#nccCard .ncc-ribbon{
+  display:block;width:auto;
+  margin:0 0 6px;padding:0 14px;       /* 两边各让 14px 给关闭叉：字还是正中，长名字也不会钻到叉底下 */
+  background:transparent;color:var(--fmc-ink);
+  font-size:13px;font-weight:700;line-height:17px;letter-spacing:.04em;
+  text-align:center
+}
+
+
+#nccCard .ncc-x{
+  position:absolute;top:4px;right:6px;
+  width:18px;height:18px;padding:0;
+  border:0;background:transparent;
+  color:var(--fmc-ink);opacity:.5;
+  font-size:14px;line-height:18px;font-weight:700;
+  cursor:pointer
+}
+#nccCard .ncc-x:hover{ opacity:.85 }
+#nccCard .ncc-x:focus-visible{ outline:2px solid var(--fmc-line);outline-offset:1px;opacity:.9 }
+
+/* ── 钮区 ── */
+#nccCard .ncc-body{
+  display:flex;flex-direction:column;align-items:stretch;gap:6px
+}
+
+/* ── 钮：细描边 1.5 + 圆角 10 + 字重 600，按下压暗一档（flat 版把「下沉 2px」拆了）── */
+#nccCard .ncc-pill{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  box-sizing:border-box;width:100%;
+  margin:0;padding:5px 12px;
+  border:1.5px solid var(--fmc-line);border-radius:10px;
+  background:var(--fmc-main);color:var(--fmc-cream);
+  font-family:inherit;
+  font-size:14px;font-weight:600;line-height:18px;letter-spacing:.04em;
+  text-shadow:none;white-space:nowrap;
+  transform:none;box-shadow:none;
+  cursor:pointer
+}
+#nccCard .ncc-pill:active{ transform:none;box-shadow:none;filter:brightness(.95) }
+#nccCard .ncc-pill:focus-visible{ outline:2px solid var(--fmc-line);outline-offset:2px }
+/* 次钮（起床 / 起身）：奶油底。小屋的 OFFS 表就是这么分的，照搬。 */
+#nccCard .ncc-pill.ncc-sub{
+  background:var(--fmc-sub);color:var(--fmc-ink);box-shadow:none
+}
+#nccCard .ncc-pill.ncc-sub:active{ box-shadow:none;filter:brightness(.95) }
+
+/* ── 夜里微降亮度，不引新色（照小屋 16676 行那条）──
+   卡挂在 body 上、#world 在 #viewport 里，两者不是兄弟也不是祖孙，
+   CSS 够不着 #world.night —— 所以由 .js 把夜档同步成 html.ncc-night。 */
+html.ncc-night #nccCard .ncc-card,
+html.ncc-night #nccCard .ncc-ears{ filter:brightness(.93) saturate(.97) }
+
+/* ── 桌面再收一档（flat 版 @media(min-width:1025px) 那一组，原样搬）── */
+@media (min-width:1025px){
+  #nccCard .ncc-card{ min-width:120px;padding:8px 10px 7px }
+  #nccCard .ncc-body{ gap:4px }
+  #nccCard .ncc-pill{ font-size:13px;line-height:16px;padding:4px 10px;border-radius:10px }
+  #nccCard .ncc-ribbon{ font-size:12px;line-height:16px;margin:0 0 4px }
+  #nccCard .ncc-x{ top:2px;right:4px }
+}
+
+/* ── 出场：一小下弹。class 由 .js 每次开卡重新挂（不然第二次开不会重放）── */
+#nccCard.ncc-in{ animation:nccPop .16s ease-out both }
+@keyframes nccPop{
+  0%{ opacity:0;transform:scale(.94) }
+  100%{ opacity:1;transform:scale(1) }
+}
+@media (prefers-reduced-motion:reduce){
+  #nccCard.ncc-in{ animation:none }
+  #nccCard .ncc-pill:active{ filter:none }
+}
+
+
+/* ══ 3 · 热区不许有点击色块（9/18 玩家真机：「丑丑的点击色块」）═══════════════
+   病根：duoscenes-20260915.css 第 90 行 `.nds-hot:hover{background:#fff6dd22}` ——
+   热区是个切成菱形的透明大按钮，一上奶油光整块家具就罩一层泛白的菱形。
+   桌面鼠标扫过、手机长按/焦点留在上面都会显。
+
+   纪律：不改 duoscenes 那个文件，用权重压。
+   它那条是 (0,2,0)，本段一律带 `#ndsHots` 前缀 ＝ (1,2,x)，稳压，零 !important。
+   （`.nds-hot` 的四种状态全列出来，不靠「继承基线」——基线是 background:transparent
+     没错，但 :hover 那条在它后面，只写基线压不住。）
+
+   「能点」的提示只留鼠标指针形状，一个像素的填色都不加。 */
+#ndsHots .nds-hot,
+#ndsHots .nds-hot:hover,
+#ndsHots .nds-hot:focus,
+#ndsHots .nds-hot:active,
+#ndsHots .nds-hot:focus-visible,
+#ndsHots .nds-hot.npp-down{           /* ui-port 那班按下时给任意按钮挂的安卓兜底类 */
+  background:transparent;
+  background-image:none;
+  box-shadow:none;
+  filter:none;
+  border:0;
+  transform:none;
+  cursor:pointer;
+  -webkit-tap-highlight-color:transparent
+}
+/* 键盘可达性那条留着 —— 只有 :focus-visible（键盘 Tab）才给描边，鼠标点不给。
+   数值照抄 duoscenes 第 93 行，一个没改。 */
+#ndsHots .nds-hot:focus{ outline:0 }
+#ndsHots .nds-hot:focus-visible{ outline:3px solid #78916a;outline-offset:-3px }

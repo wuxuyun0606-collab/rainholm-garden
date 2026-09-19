@@ -1,0 +1,136 @@
+
+
+
+:root{
+  --cs-icon:46px;                 /* 44–48 取中；v6 工具条是 44，看着一家人 */
+  --cs-labh:26px;                 /* 药丸 21（3+15+3）+ 图标到药丸 5 */
+  --cs-gap:8px;                   /* 上一颗药丸底 到 下一颗图标顶 */
+  --cs-top:max(16px,env(safe-area-inset-top));
+  --cs-right:max(18px,env(safe-area-inset-right));
+  --cs-step:calc(var(--cs-icon) + var(--cs-labh) + var(--cs-gap));
+  /* nightswap-20260918（玩家 9/18 18:00：「把图鉴UI和昼夜UI换一下位置，
+     不然图鉴展开后，和昼夜会重叠」）：图鉴和昼夜对调，图鉴沉到整列最底。
+     原因量得出来：#gdTray 竖排那档（≤1024）锚在 --cs-slot3 + 一个步距，
+     也就是图鉴的下一格 —— 图鉴只要不是最后一颗，托盘第一件就正落在下一颗钮头上
+     （390 宽实测：托盘 top=168、#night top=168，昼夜整颗被埋）。
+     名字沿用 slot3=图鉴 / slot4=昼夜，只对调取值，#gdTray 那条锚点一个字不用改。
+     步距 --cs-step 没动。 */
+  --cs-slot4:var(--cs-top);                          /* 昼夜预览（上） */
+  --cs-slot3:calc(var(--cs-top) + var(--cs-step));   /* 图鉴（最底，托盘往下伸） */
+}
+/* scenefirst-20260918（玩家 9/18 16:24：「去花园/回小屋放到图鉴上面」）：
+   batch4 那颗场景钮 #nb4Home（回小窝／去花园）站到最上一格时，js 给 <html> 挂 .nb4-scene-first，
+   昼夜、图鉴各往下让一格；#gdTray 锚的是 --cs-slot3，跟着图鉴走。场景钮不在（batch4 off）就摘掉类，整列回原位。
+   (0,1,1) 压 :root 的 (0,1,0)，媒体查询里改的 --cs-top/--cs-step 照旧生效。 */
+html.nb4-scene-first{
+  --cs-slot4:calc(var(--cs-top) + var(--cs-step));
+  --cs-slot3:calc(var(--cs-top) + 2*var(--cs-step));
+}
+/* 昼夜被 host.allowThemePreview 收起来时（app.js background() 每次 render 写 #night[hidden]），
+   图鉴得顶上那一格，不然中间留个洞、托盘也白白往下掉一格。
+   nightswap 之前图鉴在昼夜上面，天然没这问题，是这次对调新欠的一笔。
+   用 :has() 不用 JS：batch4 整个关掉的时候这条照样成立。
+   必须排在 .nb4-scene-first 后面 —— 两条都是 (0,1,1)，同分靠后写的赢。 */
+:root:has(#night[hidden]){
+  --cs-slot3:var(--cs-top);
+}
+html.nb4-scene-first:has(#night[hidden]){
+  --cs-slot3:calc(var(--cs-top) + var(--cs-step));
+}
+@media (max-width:600px){
+  :root{
+    --cs-icon:44px;
+    --cs-top:max(12px,env(safe-area-inset-top));
+    /* 12 在 375 宽下最宽的那颗药丸会探出右边缘约 4px，所以提到 18（跟桌面同值）：
+       375 上图标中线 335、药丸半宽 26.4 → 右沿 361.4，离边还剩 13.6；
+       工具条最宽那颗「升级土地/关于花园」半宽约 32 → 367，也还在里面。 */
+    --cs-right:max(18px,env(safe-area-inset-right));
+  }
+}
+
+/* ── 裸图标：圆底板、边、投影盒全拆掉，只留 PNG 自己的描边 + 一层轻投影 ── */
+#menu-toggle,#night{
+  position:fixed;
+  top:auto;left:auto;bottom:auto;
+  right:var(--cs-right);
+  width:var(--cs-icon);height:var(--cs-icon);
+  padding:0;
+  border:0;
+  border-radius:0;
+  background:transparent;
+  box-shadow:none;
+  display:block;
+  overflow:visible;
+  cursor:pointer;
+}
+#menu-toggle{top:var(--cs-slot3)}
+#night{top:var(--cs-slot4)}
+
+#menu-toggle img,#night img{
+  display:block;width:100%;height:100%;object-fit:contain;pointer-events:none;
+  filter:drop-shadow(0 2px 2px #60452f40);   /* 站在草地上不发虚；比 v6 工具条那档略收 */
+  transition:transform .12s ease;
+}
+/* .corner:active 原来是「整颗沉 1px + 内阴影」，那是有底板时的手感；裸图标改成缩图标 */
+#menu-toggle:active,#night:active{box-shadow:none;transform:none}
+#menu-toggle:active img,#night:active img{transform:scale(.92)}
+
+/* ── 视觉等大校正 ────────────────────────────────────────────────────────
+   盒子一样大（46 / 手机 44），差的是 PNG 里的留白。用 PIL 量 alpha>16 的 bbox：
+     note.png（图鉴）256×256，可见 201×193（高 0.7539）→ 塞进 46 的盒子可见高 34.68px
+   工具条五颗的天然档位就在 33–34，所以这一列以「图鉴」那 34.68 当基准，不再缩放它。
+   用 scale 属性不用 transform：:active 的 transform:scale(.92) 是另一条轨，两者相乘不打架。 */
+#menu-toggle img{scale:1}      /* 基准，不动 */
+
+/* ── 药丸标签：钉在各自图标正下方、水平居中 ──
+   皮全部继承 v6 的 .gd-lab（九切片 + 12px/700/#fff5e5），这里只改定位。 */
+.gd-corner-label{
+  position:absolute;left:50%;top:calc(100% + 5px);
+  transform:translateX(-50%);
+  right:auto;margin-top:0;
+  z-index:2;pointer-events:none;white-space:nowrap;
+  text-shadow:0 1px 0 #5a343b59;
+}
+
+/* 工具条顺手量了一遍（44 盒子，含 v6 自己那套 --isc 系数）：
+     图鉴 33.17 ／ 收获篮 40.48 ／ 升级土地 34.22 ／ 刷新 34.38 ／ 关于花园 33.52
+   除收获篮外四颗极差只有 3.6%（≤8%，不动）；收获篮比这四颗的均值 33.82 高 19.7%，
+   原因是 harvest.png 282×292 画面撑满画布，v6 的 isc 0.92 没压够。
+   这里用 scale 直接钉到 33.82/44 = .7687（盖掉 scale:var(--isc)，inline 的 --isc 就不参与了）。 */
+.gd-tray-item[aria-label="收获篮"] img{scale:.7687}   /* 40.48 → 33.82 */
+
+/* ── 工具条 #gdTray（v6 把老 <nav id="menu"> 用 #menu:not([hidden]){display:none} 顶掉了，
+      真正展开的是它）。它本来就是「裸图标 + 同一张九切片药丸 + 同款 drop-shadow +
+      :active scale .92」，皮一个字不用动，这里只跟着新位置重新落点：
+      桌面从图鉴钮左边横排开、图标中心跟它对齐；手机从图鉴钮的药丸下方竖排开。 ── */
+#gdTray{
+  left:auto;
+  top:calc(var(--cs-slot3) + (var(--cs-icon) - 44px)/2);
+  right:calc(var(--cs-right) + var(--cs-icon) + 10px);
+}
+/* 竖屏：v6 把工具条排成一列、药丸甩到图标左边（.gd-tray-item{flex-direction:row-reverse}）。
+   跟上面那一列同一排法——标签统一回图标正下方，所以把那条翻回 column。
+   翻完每颗的盒子是 48 宽（图标 44 居中），标签比盒子宽时向两边等量溢出，
+   所以标签中线 = 盒子中线 = 图标中线；#gdTray 的 right 也跟着按 48 而不是 44 算，
+   才能让工具条图标中线和上面三颗角钮图标中线对到同一条竖线上。 */
+@media (max-width:1024px){
+  .gd-tray-item{
+    width:48px;
+    flex-direction:column;align-items:center;gap:0;
+    transform-origin:50% 0;
+  }
+  .gd-tray-item .gd-lab{margin-top:3px}
+  #gdTray{
+    top:calc(var(--cs-slot3) + var(--cs-step));
+    right:calc(var(--cs-right) + (var(--cs-icon) - 48px)/2);
+    gap:8px;
+  }
+}
+@media (max-width:600px){
+  .gd-tray-item .gd-lab{font-size:12px;border-width:3px 8px}   /* v6 ≤600 收成 11px/6px，收回来跟角标一致 */
+  #gdTray{
+    top:calc(var(--cs-slot3) + var(--cs-step));
+    right:calc(var(--cs-right) + (var(--cs-icon) - 48px)/2);
+    gap:8px;
+  }
+}

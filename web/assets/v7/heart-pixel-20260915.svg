@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 12 12" shape-rendering="crispEdges">
+  <!-- 像素爱心：9列×8行，每像素1×1，居中偏移 x=1.5 y=2 -->
+  <!-- row 0 (两个顶点) -->
+  <rect x="3.5" y="2" width="1" height="1" fill="#e8476a"/>
+  <rect x="4.5" y="2" width="1" height="1" fill="#e8476a"/>
+  <rect x="6.5" y="2" width="1" height="1" fill="#e8476a"/>
+  <rect x="7.5" y="2" width="1" height="1" fill="#e8476a"/>
+  <!-- row 1 -->
+  <rect x="2.5" y="3" width="1" height="1" fill="#e8476a"/>
+  <rect x="3.5" y="3" width="1" height="1" fill="#ff8fa8"/>
+  <rect x="4.5" y="3" width="1" height="1" fill="#ff8fa8"/>
+  <rect x="5.5" y="3" width="1" height="1" fill="#e8476a"/>
+  <rect x="6.5" y="3" width="1" height="1" fill="#ff8fa8"/>
+  <rect x="7.5" y="3" width="1" height="1" fill="#ff8fa8"/>
+  <rect x="8.5" y="3" width="1" height="1" fill="#e8476a"/>
+  <!-- row 2 -->
+  <rect x="1.5" y="4" width="1" height="1" fill="#e8476a"/>
+  <rect x="2.5" y="4" width="1" height="1" fill="#ffc4d4"/>
+  <rect x="3.5" y="4" width="1" height="1" fill="#ffffff"/>
+  <rect x="4.5" y="4" width="1" height="1" fill="#ffc4d4"/>
+  <rect x="5.5" y="4" width="1" height="1" fill="#ff8fa8"/>
+  <rect x="6.5" y="4" width="1" height="1" fill="#ff8fa8"/>
+  <rect x="7.5" y="4" width="1" height="1" fill="#ff8fa8"/>
+  <rect x="8.5" y="4" width="1" height="1" fill="#ff8fa8"/>
+  <rect x="9.5" y="4" width="1" height="1" fill="#e8476a"/>
+  <!-- row 3 -->
+  <rect x="1.5" y="5" width="1" height="1" fill="#e8476a"/>
+  <rect x="2.5" y="5" width="1" height="1" fill="#ff8fa8"/>
+  <rect x="3.5" y="5" width="1" height="1" fill="#ffc4d4"/>
+  <rect x="4.5" y="5" width="1" height="1" fill="#ff8fa8"/>
+  <rect x="5.5" y="5" width="1" height="1" fill="#ff8fa8"/>
+  <rect x="6.5" y="5" width="1" height="1" fill="#ff8fa8"/>
+  <rect x="7.5" y="5" width="1" height="1" fill="#ff8fa8"/>
+  <rect x="8.5" y="5" width="1" height="1" fill="#ff8fa8"/>
+  <rect x="9.5" y="5" width="1" height="1" fill="#e8476a"/>
+  <!-- row 4 -->
+  <rect x="2.5" y="6" width="1" height="1" fill="#e8476a"/>
+  <rect x="3.5" y="6" width="1" height="1" fill="#ff8fa8"/>
+  <rect x="4.5" y="6" width="1" height="1" fill="#ff8fa8"/>
+  <rect x="5.5" y="6" width="1" height="1" fill="#ff8fa8"/>
+  <rect x="6.5" y="6" width="1" height="1" fill="#ff8fa8"/>
+  <rect x="7.5" y="6" width="1" height="1" fill="#ff8fa8"/>
+  <rect x="8.5" y="6" width="1" height="1" fill="#e8476a"/>
+  <!-- row 5 -->
+  <rect x="3.5" y="7" width="1" height="1" fill="#e8476a"/>
+  <rect x="4.5" y="7" width="1" height="1" fill="#ff8fa8"/>
+  <rect x="5.5" y="7" width="1" height="1" fill="#ff8fa8"/>
+  <rect x="6.5" y="7" width="1" height="1" fill="#ff8fa8"/>
+  <rect x="7.5" y="7" width="1" height="1" fill="#e8476a"/>
+  <!-- row 6 -->
+  <rect x="4.5" y="8" width="1" height="1" fill="#e8476a"/>
+  <rect x="5.5" y="8" width="1" height="1" fill="#ff8fa8"/>
+  <rect x="6.5" y="8" width="1" height="1" fill="#e8476a"/>
+  <!-- row 7 (底尖) -->
+  <rect x="5.5" y="9" width="1" height="1" fill="#e8476a"/>
+</svg>

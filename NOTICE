@@ -1,0 +1,81 @@
+Rainholm Garden — 第三方许可与署名
+================================================================================
+
+本项目自己写的代码：MIT（见 LICENSE，署名 suwanblue & Kelin & Guchen）。
+下面每一项都不在那份 MIT 里，各有各的许可，逐条照办。
+
+--------------------------------------------------------------------------------
+1. 游戏规则引擎 —— aifarm（⚠️ 禁商用，管住整包）
+--------------------------------------------------------------------------------
+路径：vendor/aifarm/
+Required Notice: Copyright 2026 tutusagi.
+Upstream: https://github.com/tutusagi/aifarm-oss
+Pinned commit: 03c307408075dccdcb0ac2c65a543189655873f7
+License: PolyForm Noncommercial License 1.0.0（全文见 vendor/aifarm/LICENSE）
+
+⚠️ PolyForm Noncommercial 只允许非商业用途。种菜、生长、稀有度、品相、价格这套
+   全是它算的，本项目没有替上游授予商业许可的权利。想商用请自己去找上游谈。
+   本项目自己那部分代码是 MIT，但整包一起分发时，最严的这条说了算。
+
+--------------------------------------------------------------------------------
+2. pixi.js 6.5.10
+--------------------------------------------------------------------------------
+路径：web/vendor/live2d/pixi.min.js（目录名是历史遗留，里面现在只有这一个文件）
+License: MIT（全文见 web/vendor/live2d/LICENSE-PIXI.txt）
+Copyright (c) 2013-2017 Mathew Groves, Chad Engler
+Upstream: https://github.com/pixijs/pixijs
+
+猫层唯一的渲染依赖，自托管，页面不挂任何外网 CDN。
+本包不含 Live2D Cubism Core、cubism4，也不含任何 moc3 模型文件。
+
+--------------------------------------------------------------------------------
+3. 猫的走路帧 —— 角色源自 LittleCat by Ezri
+--------------------------------------------------------------------------------
+路径：web/assets/cats-fourway-v1/（white/ black/ 四向 × 8 帧 PNG）
+Author: Ezri — https://ezrii.itch.io
+License: Ezri Free Material License（全文随包，见
+         web/assets/cats-fourway-v1/LICENSE-Ezri.txt）
+  可改、可用于个人或商业项目；**改了也不许转卖模型本身**。
+
+这些帧图是重新绘制的光栅动画，不含 moc3、不含 Cubism 运行库；但角色形象源自
+Ezri 的 Little Cat，按素材包自带的交接说明保留原许可，不把原作者的权利改标成
+本项目的 MIT。详见 web/assets/cats-fourway-v1/HANDOFF.md。
+
+⚠️ 这不是 MIT，别在二次分发里把它标成 MIT。
+
+--------------------------------------------------------------------------------
+4. 美术
+--------------------------------------------------------------------------------
+场景底图、图鉴 123 种作物图与灰影、图标包、入口箭头、门牌、九切片药丸、
+原创场景与界面美术：Guchen Zoran（顾晨），2026。随本项目一起按 MIT 使用。
+猫角色的贴图、待机、走路和双猫动作衍生素材保留第 3 条的 Ezri 许可；
+此处的 MIT 授权不覆盖原作者的角色形象权利。
+
+--------------------------------------------------------------------------------
+5. 图标 —— Lucide
+--------------------------------------------------------------------------------
+路径：web/assets/icons.json、web/assets/v2/icons.json
+License: ISC（全文见 LICENSE-LUCIDE.txt）
+Copyright (c) 2026 Lucide Icons and Contributors
+
+--------------------------------------------------------------------------------
+6. 字体
+--------------------------------------------------------------------------------
+站酷快乐体 ZCOOL KuaiLe —— web/assets/v2/rounded.ttf
+  Copyright 2018 The ZCOOL KuaiLe Project Authors
+  SIL Open Font License 1.1（全文见 web/assets/v2/FONT-OFL.txt）
+
+寒蝉全圆体 ChillRound —— web/assets/v5/chill-round.ttf、chill-round-subset.woff2
+  © 2023 ChillType, with Reserved Font Name 'ChillRoundF' 'ChillRoundM'
+  SIL Open Font License 1.1（全文见 web/assets/v5/ChillRound-OFL.txt）
+
+Noto Sans CJK SC / Noto Serif CJK SC（子集）——
+  web/assets/v8/codex-ticket/fonts/garden-sans.woff2、garden-serif.woff2
+  SIL Open Font License 1.1（随包版权与全文见该目录 LICENSE.txt）
+
+--------------------------------------------------------------------------------
+7. 鸣谢
+--------------------------------------------------------------------------------
+- 小屋方案原作：59（小红书）
+- 种植方案原作：初一（小红书）
+- rainholm小屋制作：BlueBlue（小红书）

@@ -1,0 +1,14 @@
+{
+  "contentVersion": 1,
+  "generatedFrom": "",
+  "counts": {
+    "families": 18,
+    "crops": 120,
+    "animals": 12,
+    "seasons": 4,
+    "festivals": 12,
+    "events": 16,
+    "land-tiers": 5,
+    "qualities": 5
+  }
+}

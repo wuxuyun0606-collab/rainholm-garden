@@ -1,0 +1,270 @@
+
+
+
+@font-face{
+  font-family:NppChillRoundF;
+  src:url(../v5/chill-round-subset.woff2) format("woff2");
+  font-weight:400;font-style:normal;font-display:swap
+}
+:root{
+  --npp-font:NppChillRoundF,GardenRefresh,"PingFang SC","Hiragino Sans GB","Heiti SC",system-ui,sans-serif;
+}
+
+
+html.npp-on #nppRecDrawer{
+  padding:10px 10px 12px;
+  border:1.5px solid #795158;
+  border-radius:22px;
+  background:#fff1d8;
+  box-shadow:inset 0 2px 0 #fff1df,inset 0 -2px 0 #d6aa9f,2px 2px 0 #5a343b30
+}
+/* ── 标题「聊天记录」：13/1.3 700 #7e3e4b，字距 .04em，下面不加分隔线
+      （那道线是内圈框线的上沿）── */
+html.npp-on #nppRecDrawer .npp-rcd-head{
+  padding:0 2px 8px;
+  font:700 13px/1.3 var(--npp-font);
+  letter-spacing:.04em;
+  color:#7e3e4b
+}
+/* ── 右上粉圆钮 ✕：26 圆钮 + 内阴影 + 按下沉一格。
+      ui-port 那颗是 44×44 无底色纯 ✕（还带一圈负 margin），整颗换回来。
+      ⚠️ 26px < 44 触控下限 —— 用 ::after 铺一块 44×44 的透明热区补上（见 ④ 的命中区一节）。 */
+html.npp-on #nppRecDrawer .npp-rcd-close{
+  position:relative;
+  flex:0 0 26px;width:26px;height:26px;
+  margin:0;padding:0;
+  border:1.5px solid #795158;border-radius:50%;
+  background:#f4d8ca;
+  color:#7e3e4b;
+  font:700 12px/1 monospace;
+  box-shadow:inset 0 1px 0 #fff1df,inset 0 -1px 0 #d6aa9f;
+  display:grid;place-items:center
+}
+html.npp-on #nppRecDrawer .npp-rcd-close:hover{background:#f4d8ca}
+html.npp-on #nppRecDrawer .npp-rcd-close:active,
+html.npp-press #nppRecDrawer .npp-rcd-close.npp-down{
+  background:#f4d8ca;
+  box-shadow:inset 0 1px 0 #d6aa9f;
+  transform:translateY(1px)
+}
+
+/* ── 列表：内圈那道框线（双层线里的第二层）+ 条目自己带 margin，不再用 gap ── */
+html.npp-on #nppRecDrawer .npp-rcd-list{
+  border:1.5px solid #795158;
+  border-radius:16px;
+  background:#fff9e8;
+  padding:8px 4px;
+  gap:0
+}
+/* ── 一条消息：align-self 决定左右、max-width 82%（width 收回 auto，
+      不然 82% 的 max-width 形同虚设）── */
+html.npp-on #nppRecDrawer .npp-rcd-row{
+  gap:0;
+  margin:5px 12px;
+  width:auto;
+  max-width:82%;
+  align-self:flex-start;align-items:flex-start
+}
+html.npp-on #nppRecDrawer .npp-rcd-row[data-who="me"]{
+  align-self:flex-end;align-items:flex-end
+}
+/* ── 名字+时间行回到气泡【上方】（DOM 顺序是 [气泡][时间]，靠 order 翻个个儿）── */
+html.npp-on #nppRecDrawer .npp-rcd-time{
+  order:0;
+  margin:0 2px 2px;padding:0;
+  font:400 11px/1.4 var(--npp-font);
+  color:#90656b;letter-spacing:0;text-shadow:none
+}
+/* ── 气泡：1.5px #a9807f 梅子描边（玩家点名的「每颗气泡自带梅子描边」），
+      圆角 14、说话那一侧的下角收成 4；字号行距 14/1.55 ── */
+html.npp-on #nppRecDrawer .npp-rcd-bub{
+  order:1;
+  max-width:100%;min-width:0;
+  padding:7px 12px;
+  border:1.5px solid #a9807f;
+  border-radius:14px;
+  border-bottom-left-radius:4px;border-bottom-right-radius:14px;
+  background:#fff6e2;color:#5d3e42;
+  font:400 14px/1.55 var(--npp-font)
+}
+/* 我（＝白猫替我说的那句）：粉底靠右，下角收右边 */
+html.npp-on #nppRecDrawer .npp-rcd-row[data-who="me"] .npp-rcd-bub{
+  background:#f7c6c7;
+  border-bottom-left-radius:14px;border-bottom-right-radius:4px
+}
+/* 空态提示跟着壳的底色走 */
+html.npp-on #nppRecDrawer .npp-rcd-empty{
+  margin:0;padding:10px 12px;
+  font:400 12px/1.7 var(--npp-font);color:#90656b
+}
+/* 屏外 toast 也套同一张气泡皮，跟抽屉里那些看着是一家人 */
+html.npp-on #nppToastWrap .npp-oft-item{
+  border:1.5px solid #a9807f;border-radius:14px;
+  background:#fff6e2;color:#5d3e42
+}
+html.npp-on #nppToastWrap .npp-oft-who{color:#90656b}
+
+
+/* ══ 2. 角钮竖排续排：动作／跟随／视角／回小窝 ═════════════════════════════
+   皮照 corner-stack.css 的 #menu-toggle,#night（裸 PNG + 图标正下方九切片药丸）。
+   落点 ＝ --cs-top + --nb4-i × --cs-step，--nb4-i 由 JS 现算
+   （#night 被 host.allowThemePreview 收起来时整列自动往上顶一格）。 */
+.nb4-corner{
+  position:fixed;z-index:12;
+  top:calc(var(--cs-top) + var(--nb4-i,0) * var(--cs-step));
+  right:var(--cs-right);
+  left:auto;bottom:auto;
+  width:var(--cs-icon);height:var(--cs-icon);
+  padding:0;border:0;border-radius:0;
+  background:transparent;box-shadow:none;
+  display:block;overflow:visible;cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+  touch-action:manipulation
+}
+.nb4-corner img{
+  display:block;width:100%;height:100%;object-fit:contain;pointer-events:none;
+  filter:drop-shadow(0 2px 2px #60452f40);
+  -webkit-transition:-webkit-transform .12s ease;
+  transition:transform .12s ease
+}
+.nb4-corner:active{box-shadow:none;transform:none}
+.nb4-corner:active img,
+html.npp-press .nb4-corner.npp-down img{transform:scale(.92)}
+/* 开着的那颗（动作菜单展开／跟随开／视角开）给一点在岗的提示：图标稍微亮一点、垫一圈光 */
+.nb4-corner[aria-pressed="true"] img,
+.nb4-corner[aria-expanded="true"] img{
+  filter:drop-shadow(0 0 6px #fff3d8) drop-shadow(0 2px 2px #60452f40)
+}
+.nb4-corner[aria-pressed="true"] .gd-lab,
+.nb4-corner[aria-expanded="true"] .gd-lab{
+  -webkit-filter:brightness(1.06);filter:brightness(1.06)
+}
+
+/* ── 动作菜单：照卡片/面板那套复古壳（style.css 第 12 行 .card 那一家）── */
+#nb4ActMenu{
+  position:fixed;z-index:31;
+  width:150px;padding:8px;
+  border:1.5px solid #795158;border-radius:18px;
+  background:linear-gradient(#f4d8ca,#f9e5d5),url(../v3/paper-tile.png) center/320px repeat;   /* 不透明：菜单正好压在动作钮旁边，半透明会透出图标的影子 */
+  box-shadow:inset 0 2px 0 #fff1df,inset 0 -3px 0 #d6aa9f,2px 3px 0 #5a343b40,0 7px 20px #5a343b1c;
+  font-family:var(--npp-font);
+  color:#5d3e42
+}
+#nb4ActMenu[hidden]{display:none!important}
+#nb4ActMenu .nb4-am-who{
+  display:flex;gap:6px;margin:0 0 6px;padding:0 0 6px;
+  border-bottom:1px solid #c7838a60
+}
+#nb4ActMenu .nb4-am-chip{
+  flex:1 1 0;min-height:32px;padding:4px 0;
+  border:1.5px solid #795158;border-radius:12px;
+  background:#f4d8ca;color:#7e3e4b;
+  font:400 13px/1.4 var(--npp-font);
+  box-shadow:inset 0 1px 0 #fff1df,inset 0 -1px 0 #d6aa9f;
+  touch-action:manipulation
+}
+#nb4ActMenu .nb4-am-chip[aria-pressed="true"]{
+  background:#efb4b1;color:#5d3e42;
+  box-shadow:inset 0 1px 0 #d6aa9f
+}
+#nb4ActMenu .nb4-am-item{
+  display:block;width:100%;min-height:44px;   /* 触控命中 44 */
+  margin:0;padding:8px 10px;
+  border:0;border-radius:12px;background:transparent;
+  color:#5d3e42;font:400 14px/1.5 var(--npp-font);text-align:left;
+  touch-action:manipulation
+}
+#nb4ActMenu .nb4-am-item:hover{background:#efb4b150}
+#nb4ActMenu .nb4-am-item:active,
+html.npp-press #nb4ActMenu .nb4-am-item.npp-down{background:#efb4b180}
+#nb4ActMenu .nb4-am-item small{display:block;font-size:11px;color:#90656b;line-height:1.4}
+#nb4ActMenu .nb4-am-note{
+  margin:6px 2px 0;padding-top:6px;border-top:1px solid #c7838a60;
+  font:400 11px/1.5 var(--npp-font);color:#90656b
+}
+
+
+/* ══ 3. 双端适配 ════════════════════════════════════════════════════════════ */
+
+/* ── 100dvh：iOS Safari 的 100vh 是「地址栏收起时」的高，底栏会盖住最后一截。
+      #viewport 本来是 position:absolute;inset:0（＝大视口），这里改吃 dvh。
+      over-constrained 时浏览器丢掉 bottom，height 说了算 —— 不认 dvh 的老浏览器
+      先吃 100vh 那条兜底。 ── */
+#viewport{height:100vh;height:100dvh}
+
+/* ── 橡皮筋 & 双击缩放 & 长按选中 ── */
+html,body{
+  overscroll-behavior:none;
+  -webkit-text-size-adjust:100%;text-size-adjust:100%
+}
+body{
+  -webkit-user-select:none;user-select:none;
+  -webkit-touch-callout:none
+}
+#viewport{overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+/* 输入框、抽屉正文、图鉴/收获篮那几页要能选能复制，单独放行 */
+#rhSayInput,#nppRecDrawer .npp-rcd-bub,#dialog-body,#dialog-body *{
+  -webkit-user-select:text;user-select:text
+}
+/* 双击缩放：按钮一律 manipulation（浏览器就不等那 300ms 的第二下了） */
+button,.plot-hit,.rh-cat-hit,.gd-door-mark,.gd-tray-item{touch-action:manipulation}
+
+/* ── 触控命中区 ≥44px：几颗小于 44 的钮用透明 ::after 往外撑，视觉一个像素不动 ── */
+html.npp-on #nppRecDrawer .npp-rcd-close::after,
+html.npp-on #nppRecBtn::after,
+.pages button::after{
+  content:"";position:absolute;
+  left:50%;top:50%;
+  width:44px;height:44px;
+  transform:translate(-50%,-50%);
+}
+html.npp-on #nppRecBtn{position:relative}
+.pages button{position:relative}
+
+/* ── 安全区：底部那一排（爪印输入条已自带 env()，这里补翻页条和 toast）── */
+.pages{bottom:calc(20px + env(safe-area-inset-bottom,0px));left:calc(18px + env(safe-area-inset-left,0px))}
+.toast{bottom:calc(28px + env(safe-area-inset-bottom,0px))}
+
+/* ── 竖屏 ≤600：角钮那一列跟 corner-stack 同参数，本段只管新加的四颗 ── */
+@media (max-width:600px){
+  #nb4ActMenu{width:144px}
+}
+
+/* ── 横屏／矮屏（≤560 高）：一列六颗塞不下，改两列三行 ──────────────────────
+   col/row 由 JS 按 floor(i/3) / i%3 现算，#menu-toggle 和 #night 天然落在第一列前两格。
+   顺手把 v6 工具条从「竖排」翻回横排（≤1024 那条把它排成一列，矮屏会漏出屏幕）。 */
+@media (max-height:560px){
+  :root{--nb4-colw:calc(var(--cs-icon) + 20px)}
+  .nb4-corner{
+    top:calc(var(--cs-top) + var(--nb4-row,0) * var(--cs-step));
+    right:calc(var(--cs-right) + var(--nb4-col,0) * var(--nb4-colw))
+  }
+  .gd-tray-item{
+    width:auto;
+    flex-direction:column;align-items:center;gap:0
+  }
+  /* ui-refresh.css 的 ≤1024 那档把整条工具条排成一列（五颗竖着 364px 高），
+     844×390 的横屏上离出屏只剩 9px。矮屏翻回横排。 */
+  #gdTray{
+    flex-direction:row;align-items:flex-start;justify-content:flex-start
+  }
+  #gdTray{
+    top:calc(var(--cs-top) + (var(--cs-icon) - 44px)/2);
+    right:calc(var(--cs-right) + 2 * var(--nb4-colw));
+    gap:6px
+  }
+  /* 记录抽屉在矮屏上顶天立地会压住猫，收一点 */
+  html.npp-on #nppRecDrawer{top:calc(var(--cs-top) + 4px)}
+}
+
+
+/* ══ 4. 角色中心视角 ═══════════════════════════════════════════════════════
+   镜头走的是 #viewport 的 scrollLeft/scrollTop 缓动（见 .js 第 5 段），
+   不是 transform —— #world 是滚动容器里的内容，给它加 translate 会跟拖地图打架、
+   还会在边缘露出底色。滚动没有这两个毛病，而且天然被 scrollWidth 夹住。
+   这里只给一条「跟随中」的状态样式，动画本身在 JS 里按帧插值（玩家晕3D：只平移、不缩放）。 */
+html.nb4-cam #viewport{cursor:default}
+/* 减动效：整条跟随线在 JS 里就不启动，这里把钮标成停用，别让人以为坏了 */
+@media (prefers-reduced-motion:reduce){
+  .nb4-corner#nb4Cam{opacity:.45}
+}

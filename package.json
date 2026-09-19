@@ -1,0 +1,15 @@
+{
+  "name": "rainholm-garden",
+  "version": "1.1.0-oss.20260919",
+  "description": "A hand-painted little garden and greenhouse you can plant, water and harvest in — plus two pixel cats (yours and your AI's) wandering around.",
+  "private": true,
+  "type": "module",
+  "license": "SEE LICENSE IN LICENSE",
+  "scripts": {
+    "start": "node server/serve.mjs",
+    "test": "node --test tests/*.test.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

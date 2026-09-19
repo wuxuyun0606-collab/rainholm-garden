@@ -1,0 +1,114 @@
+{
+  "status": "art-review-draft-not-installed",
+  "cell": [
+    256,
+    256
+  ],
+  "anchor": [
+    128,
+    232
+  ],
+  "direction_order": [
+    "front",
+    "back",
+    "left",
+    "right"
+  ],
+  "frame_count_per_direction": 8,
+  "frame_duration_ms": 110,
+  "loop_ms": 880,
+  "frames": {
+    "white/front": [
+      "white/front/0001.png",
+      "white/front/0002.png",
+      "white/front/0003.png",
+      "white/front/0004.png",
+      "white/front/0005.png",
+      "white/front/0006.png",
+      "white/front/0007.png",
+      "white/front/0008.png"
+    ],
+    "white/back": [
+      "white/back/0001.png",
+      "white/back/0002.png",
+      "white/back/0003.png",
+      "white/back/0004.png",
+      "white/back/0005.png",
+      "white/back/0006.png",
+      "white/back/0007.png",
+      "white/back/0008.png"
+    ],
+    "white/left": [
+      "white/left/0001.png",
+      "white/left/0002.png",
+      "white/left/0003.png",
+      "white/left/0004.png",
+      "white/left/0005.png",
+      "white/left/0006.png",
+      "white/left/0007.png",
+      "white/left/0008.png"
+    ],
+    "white/right": [
+      "white/right/0001.png",
+      "white/right/0002.png",
+      "white/right/0003.png",
+      "white/right/0004.png",
+      "white/right/0005.png",
+      "white/right/0006.png",
+      "white/right/0007.png",
+      "white/right/0008.png"
+    ],
+    "black/front": [
+      "black/front/0001.png",
+      "black/front/0002.png",
+      "black/front/0003.png",
+      "black/front/0004.png",
+      "black/front/0005.png",
+      "black/front/0006.png",
+      "black/front/0007.png",
+      "black/front/0008.png"
+    ],
+    "black/back": [
+      "black/back/0001.png",
+      "black/back/0002.png",
+      "black/back/0003.png",
+      "black/back/0004.png",
+      "black/back/0005.png",
+      "black/back/0006.png",
+      "black/back/0007.png",
+      "black/back/0008.png"
+    ],
+    "black/left": [
+      "black/left/0001.png",
+      "black/left/0002.png",
+      "black/left/0003.png",
+      "black/left/0004.png",
+      "black/left/0005.png",
+      "black/left/0006.png",
+      "black/left/0007.png",
+      "black/left/0008.png"
+    ],
+    "black/right": [
+      "black/right/0001.png",
+      "black/right/0002.png",
+      "black/right/0003.png",
+      "black/right/0004.png",
+      "black/right/0005.png",
+      "black/right/0006.png",
+      "black/right/0007.png",
+      "black/right/0008.png"
+    ]
+  },
+  "strips": {
+    "white/front": "white/front/strip.png",
+    "white/back": "white/back/strip.png",
+    "white/left": "white/left/strip.png",
+    "white/right": "white/right/strip.png",
+    "black/front": "black/front/strip.png",
+    "black/back": "black/back/strip.png",
+    "black/left": "black/left/strip.png",
+    "black/right": "black/right/strip.png"
+  },
+  "renderer": "raster sprites, not Live2D motion3",
+  "model": "built-in image_gen; exact model identifier unavailable"
+}

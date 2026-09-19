@@ -1,0 +1,56 @@
+{
+  "_about": "AI 可读地图的中文名表（aifarm-20260918）。只做覆盖：walk-map.json 的 forbidden 自带 label，这里写的名字优先，写不到的就用 label。cathome 的家具在 host-cat.js 里只有注释没有 id，所以它的 id 和名字都在这儿定，顺序＝CH_BLOCK 数组顺序，改 CH_BLOCK 的顺序要同步改这份。",
+  "plotNameTemplate": {
+    "garden": "{n} 号畦",
+    "greenhouse": "{n} 号花盆"
+  },
+  "garden": {
+    "bed_1": "1 号畦",
+    "bed_2": "2 号畦",
+    "bed_3": "3 号畦",
+    "bed_4": "4 号畦",
+    "bed_5": "5 号畦",
+    "bed_6": "6 号畦",
+    "bed_7": "7 号畦",
+    "bed_8": "8 号畦",
+    "greenhouse_shell": "花房外墙与台阶",
+    "house_shell": "左侧房屋外墙",
+    "cherry_trunk_tl": "樱花树干·左上",
+    "cherry_trunk_tr": "樱花树干·右上",
+    "cherry_trunk_bl": "樱花树干·左下",
+    "swing": "秋千架",
+    "picnic_mat": "野餐垫",
+    "bench": "长凳",
+    "lamp_top": "灯柱·上",
+    "lamp_right": "灯柱·右",
+    "lamp_br": "灯柱·右下",
+    "scarecrow": "稻草人与水壶木桶",
+    "fence_top": "篱笆·上",
+    "fence_right": "篱笆·右",
+    "fence_br": "篱笆·右下",
+    "fence_bl": "篱笆·左下"
+  },
+  "greenhouse": {
+    "gh_counter_left": "左台面",
+    "gh_counter_right": "右台面",
+    "gh_potting_table": "后墙育苗台",
+    "gh_front_table": "右前小桌",
+    "gh_stool": "凳子",
+    "gh_plant_right": "右前盆栽",
+    "gh_plant_door": "门边那盆白花",
+    "gh_wall_left": "左侧玻璃墙",
+    "gh_wall_back": "后墙",
+    "gh_wall_right": "右侧玻璃墙",
+    "gh_wall_front": "前沿矮墙"
+  },
+  "cathomeBlockOrder": [
+    { "id": "ch_kitchen_counter", "name": "厨房台（水槽＋吊柜＋冰箱一整条）" },
+    { "id": "ch_plant_side", "name": "台边那盆绿植" },
+    { "id": "ch_bed", "name": "床" },
+    { "id": "ch_bedside_table", "name": "床头柜" },
+    { "id": "ch_sofa", "name": "沙发" },
+    { "id": "ch_round_table", "name": "圆几" },
+    { "id": "ch_bookshelf", "name": "书架" },
+    { "id": "ch_door_garden", "name": "回花园门牌" }
+  ]
+}

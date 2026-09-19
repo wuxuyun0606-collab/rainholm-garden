@@ -1,0 +1,99 @@
+
+@font-face{font-family:GardenRound;src:url(assets/v2/rounded.ttf) format("truetype");font-weight:400;font-display:swap}
+:root{color-scheme:light;--ink:#593b2b;--cream:#fff4d9;--pink:#ecc0ac}*{box-sizing:border-box}body{margin:0;overflow:hidden;background:#eee0b7;color:var(--ink);font-family:"Noto Sans CJK SC","Microsoft Yahei",sans-serif;font-weight:600}button{font:inherit;color:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}button:focus-visible{outline:3px solid #78916a;outline-offset:3px}#viewport{position:absolute;inset:0;overflow:auto;scrollbar-width:none;touch-action:pan-x pan-y;cursor:grab}#viewport::-webkit-scrollbar{display:none}#world{position:relative;isolation:isolate}#backdrop{position:absolute;width:100%;height:100%;pointer-events:none;user-select:none}.plant{position:absolute;transform:translate(-50%,-100%);pointer-events:none;object-fit:contain}.plot-hit{position:absolute;border:0;background:transparent;padding:0}.bubble{position:absolute;transform:translate(-50%,-100%);height:44px;min-width:44px;display:grid;place-items:center;border:0;background:transparent;padding:0 5px 8px;font-family:GardenRound,sans-serif;font-weight:400;color:#946736;font-size:16px;isolation:isolate;white-space:nowrap}.bubble::before{content:"";position:absolute;inset:0 0 8px;border:1.5px solid #ac844e;background:#fff9e6;border-radius:12px;z-index:-1;box-shadow:0 1px 2px #60452f24}.bubble::after{content:"";position:absolute;bottom:3px;left:calc(50% - 5px);width:10px;height:10px;transform:rotate(45deg);background:#fff9e6;border-right:1.5px solid #ac844e;border-bottom:1.5px solid #ac844e;z-index:-1}.bubble.harvest{min-width:76px}.bubble.water{font-size:25px;min-width:36px;width:44px}.bubble.water::before{left:6px;right:6px;border-radius:50%}.bubble.selected::before{box-shadow:0 0 0 2px #fff9e67a}.plot-hit:focus-visible{background:#fff9e622;outline:3px solid #e8c693;outline-offset:-3px}.hud{position:fixed;z-index:10;top:max(16px,env(safe-area-inset-top));left:max(18px,env(safe-area-inset-left));display:flex;gap:10px;pointer-events:none}.pill{height:42px;display:flex;align-items:center;gap:3px;padding:0 10px 0 2px;border:8px solid transparent;border-image:url(assets/v2/label_pill_9slice.png) 32 fill / 8px;filter:drop-shadow(0 2px 2px #60452f25);font-size:15px;white-space:nowrap;color:#fff4d9;text-shadow:0 1px 1px #593b2b;border-radius:15px}.pill img{height:35px;width:35px;object-fit:contain;margin-left:-8px}.corner{position:fixed;z-index:12;right:max(18px,env(safe-area-inset-right));width:58px;height:58px;border:1.5px solid #ad8751;background:#fff8e4;border-radius:45%;box-shadow:0 2px 2px #65472625;padding:13px}.corner img{width:100%;height:100%;object-fit:contain}.home{bottom:max(20px,env(safe-area-inset-bottom))}.mode{top:max(16px,env(safe-area-inset-top));width:46px;height:46px;padding:10px}.scene-door{position:absolute;transform:translate(-50%,-50%);width:95px;height:56px;border:8px solid transparent;border-image:url(assets/v2/label_pill_9slice.png) 32 fill / 8px;background:transparent;font-size:14px;color:#fff4d9;text-shadow:0 1px 1px #593b2b}.card{position:fixed;z-index:20;width:266px;padding:16px 17px 14px;border:2px solid #ad855b;border-radius:24px;background:linear-gradient(150deg,#fff8e7,#ffedcc);box-shadow:0 4px 0 #76583945,0 7px 20px #583c2b25,inset 0 0 0 4px #fffaf0;transform-origin:bottom center}.card[hidden]{display:none}.card h2{font-size:17px;margin:0 25px 5px 0}.card p{font-size:12px;margin:0;color:#826145;font-weight:500;line-height:1.6}.close{position:absolute;right:8px;top:6px;width:44px;height:44px;border:0;background:transparent;font-size:24px;color:#957458}.actions{display:flex;justify-content:space-between;margin-top:10px;gap:9px}.action{display:flex;align-items:center;flex-direction:column;border:0;background:transparent;width:67px;min-height:76px;padding:0;font-size:14px}.action img{height:55px;width:61px;object-fit:contain;transition:transform .15s}.action:not(:disabled):active img{transform:scale(.92)}.action:disabled{opacity:.4;cursor:default}.toast{position:fixed;z-index:25;left:50%;bottom:28px;transform:translateX(-50%);background:#fff4d9f0;border:1px solid #b8986e;padding:9px 17px;border-radius:22px;font-size:13px;white-space:nowrap}.toast:empty{display:none}.drag-hint{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);font-size:12px;color:#6a4f35;background:#fff7dfb8;border-radius:20px;padding:5px 12px;pointer-events:none}.drag-hint[hidden]{display:none}@media(max-width:600px){.hud{left:10px;top:max(12px,env(safe-area-inset-top));gap:5px}.pill{font-size:13px;height:37px;padding-right:4px;gap:1px}.pill img{width:28px;height:28px}.mode{right:10px;top:61px}.corner.home{right:15px;width:54px;height:54px}.card{width:258px}.bubble{font-size:15px}.bubble.water{font-size:24px}.drag-hint{bottom:24px;left:16px;transform:none}}@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+[hidden]{display:none!important}#plants,#plots{position:absolute;inset:0;pointer-events:none}#plots button{pointer-events:auto}.plot-hit{min-width:44px;min-height:44px}.menu-button{top:18px;width:48px;height:48px;padding:8px}.mode:not([hidden])~.menu-button{top:76px}#menu{position:fixed;z-index:30;right:77px;top:18px;width:142px;padding:8px;border:1.5px solid #ad8751;border-radius:20px;background:#fff8e4;box-shadow:0 4px 18px #50382122}#menu button{display:block;width:100%;min-height:44px;border:0;border-radius:12px;background:transparent;font-size:14px}#menu button:hover{background:#f3e5c9}.connection{position:fixed;z-index:35;left:50%;top:75px;transform:translateX(-50%);max-width:calc(100% - 24px);padding:9px 16px;background:#fff8e4ed;border:1px solid #ad8751;border-radius:18px;font-size:13px;font-weight:400;text-align:center}.connection:empty{display:none}.retry{position:fixed;z-index:40;left:50%;top:137px;transform:translateX(-50%);min-height:44px;padding:8px 18px;border:1px solid #a77e47;border-radius:20px;background:#fff1cb}.pages{position:fixed;z-index:10;bottom:20px;left:18px;display:flex;align-items:center;gap:8px;border:1px solid #ad8751;border-radius:24px;background:#fff8e4;font-size:13px}.pages button{width:44px;height:44px;border:0;background:transparent;font-size:22px}.scene-door{background:#fff8e4;border:1.5px solid #ad8751;border-radius:17px;color:#8b6133;text-shadow:none;width:88px;height:44px;font-family:GardenRound,sans-serif}.card p{min-height:20px}.toast{white-space:normal;max-width:calc(100% - 30px);text-align:center}button:disabled{cursor:default}dialog{width:min(420px,calc(100% - 28px));max-height:80dvh;padding:22px;border:2px solid #ad855b;border-radius:25px;background:#fff6e2;color:#593b2b;box-shadow:0 8px 40px #38251155}dialog::backdrop{background:#382c2455}.dialog-head{display:flex;align-items:center;justify-content:space-between;gap:12px}.dialog-head h2{font-size:20px;margin:0}.dialog-head button{border:0;background:transparent;width:44px;height:44px;font-size:25px}#dialog-body{font-weight:400;font-size:14px;line-height:1.7}#dialog-body button{min-height:44px;border:1px solid #b88d58;border-radius:16px;background:#f8e7bd;padding:8px 12px;color:#684626}#dialog-body button:disabled{opacity:.5}.seed-row,.crop-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 0;border-top:1px solid #e4d0ae}.seed-row small,.crop-row small{display:block;color:#846444}.seed-icon{width:45px}.seed-icon svg,.plant-emblem svg{width:40px;height:40px}.seed-copy{flex:1}.reveal{text-align:center}.reveal img{max-height:150px;max-width:150px}.reveal h3{font-size:24px}.empty-state{padding:20px 0;color:#846444}.house-hotspot{display:none}@media(max-width:600px){.menu-button{top:61px;right:10px}.mode:not([hidden])~.menu-button{top:117px}#menu{top:63px;right:66px}.connection{top:70px;max-width:calc(100% - 94px)}.card{max-width:calc(100% - 24px)}}
+
+.codex-flower{width:45px;height:65px;object-fit:contain}
+
+/* 复古玫瑰配色：下面这组 --rpg-* 是整套 UI 的调色盘，换皮只改这一行下面那串。 */
+:root{--rpg-page:#f0d7c5;--rpg-edge:#66464c;--rpg-shell:#c7838a;--rpg-shell-light:#efb4b1;--rpg-shell-dark:#9f626b;--rpg-cream:#fff1d8;--rpg-button:#f4d8ca;--rpg-button-light:#fff1df;--rpg-button-dark:#d6aa9f;--rpg-text:#5d3e42;--rpg-accent:#aa5363}
+body{font-family:GardenRound,"PingFang SC",sans-serif;font-weight:400;color:var(--rpg-text)}
+.card,dialog,#menu{border:1.5px solid #795158;background:linear-gradient(#f4d8caee,#f9e5d5ef),url(assets/v3/paper-tile.png) center/320px repeat;color:var(--rpg-text);box-shadow:inset 0 2px 0 #fff1df,inset 0 -3px 0 #d6aa9f,inset 0 0 12px #c7838a30,2px 3px 0 #5a343b40,0 7px 20px #5a343b1c}
+.card{border-radius:23px;padding-top:18px}.card h2{font-size:18px;font-weight:400;color:#7e3e4b;letter-spacing:.2px;padding-bottom:8px;margin-bottom:8px;border-bottom:1px solid #c7838a60}.card p{font-size:12px;color:#90656b;font-weight:400}.close,.dialog-head button{color:#9f626b}.actions{margin-top:13px}.action{font-weight:400;color:#7e3e4b}.action img{filter:drop-shadow(0 2px 1px #9f626b20)}.action:not(:disabled):hover{color:#aa5363}.corner{border:1.5px solid #795158;border-radius:50%;background:var(--rpg-button);box-shadow:inset 0 2px 0 #fff1df,inset 0 -2px 0 #d6aa9f,2px 2px 0 #5a343b45;padding:7px}.corner img{filter:drop-shadow(0 2px 1px #9f626b25)}.corner.mode{padding:7px}.menu-button{padding:6px}.corner:active{box-shadow:inset 0 2px 0 #d6aa9f;transform:translateY(1px)}
+.pill{font-family:GardenRound,sans-serif;font-weight:400;color:#fff3e6;filter:drop-shadow(0 2px 1px #9f626b32)}
+.scene-door,.pages,.connection,.retry,#dialog-body button{background:var(--rpg-button);border:1.5px solid #795158;color:var(--rpg-text);box-shadow:inset 0 2px 0 #fff1df,inset 0 -2px 0 #d6aa9f,1px 2px 0 #5a343b30}
+#menu button:hover{background:#efb4b150}.toast{background:#f9e5d5f5;border-color:#9f626b;color:#7e3e4b}.seed-row,.crop-row{border-color:#c7838a60}.dialog-head h2{font-weight:400;color:#7e3e4b}#dialog-body{font-family:GardenRound,sans-serif;font-weight:400}.unopened-cover{position:absolute;pointer-events:none}.unopened-hit{background:transparent}
+
+
+dialog[data-panel="codex"]{width:min(760px,calc(100% - 28px))}
+.codex-progress{margin:2px 0 10px;color:#90656b;font-size:13px}
+.codex-group{margin:0 0 14px}
+.codex-group-title{display:flex;align-items:center;gap:8px;margin:0 0 8px;font-size:14px;font-weight:400;color:#7e3e4b;border-bottom:1px solid #c7838a55;padding-bottom:5px}
+.codex-group-title span{color:#a2767c;font-size:12px}
+.rarity{display:inline-block;min-width:34px;padding:1px 7px;border-radius:9px;border:1.5px solid #c7838a80;background:#fff1d8;font-size:11px;font-weight:400;text-align:center;color:#7e3e4b;letter-spacing:.4px;box-shadow:inset 0 1px 0 rgba(255,255,255,.6)}
+.rarity.r-N{color:#5d6b4f;border-color:#93a37f;background:#eef2e2}
+.rarity.r-R{color:#3f5f79;border-color:#8fb0c6;background:#e6f0f6}
+.rarity.r-SR{color:#6a4a86;border-color:#ab8fc7;background:#f0e8f8}
+.rarity.r-SSR{color:#8d6220;border-color:#d4a24f;background:#fdf0d3}
+.rarity.r-SP{color:#a8365c;border-color:#dd8ba6;background:#fce6ee}
+.codex-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:10px}
+.codex-card{display:flex;flex-direction:column;align-items:center;gap:2px;padding:7px 6px 8px;border:1.5px solid #795158;border-radius:17px;background:#fff1d8;box-shadow:inset 0 2px 0 #fff1df,inset 0 -2px 0 #d6aa9f,2px 2px 0 #5a343b30;text-align:center;min-width:0}
+.codex-art{position:relative;width:100%;aspect-ratio:1;display:grid;place-items:center;margin-bottom:3px;padding:6px;border:1.5px solid #795158;border-radius:12px;background:#fff9e8}
+.codex-art img{max-width:100%;max-height:100%;object-fit:contain;image-rendering:auto}
+.art-slot{display:grid;place-items:center;width:82%;height:82%;border:1.5px dashed #79515880;border-radius:10px;color:#b08b90;font-size:11px}
+.art-slot.blank{border-color:#79515855;background:#f1ded4a0}
+/* 未发现卡：卡面跟已发现的像素级同款，只有内框虚线 + 衬底淡一档，不多一处「特殊」 */
+.codex-card.unknown .codex-art{border-style:dashed;background:#f6e8df}
+.codex-card.unknown .codex-art img{opacity:.92}
+.codex-q{position:absolute;inset:0;display:grid;place-items:center;font-size:30px;color:#9f626bd9;text-shadow:0 1px 0 #fff1d8,0 0 6px #fff1d8}
+.codex-name{font-size:13px;font-weight:400;color:#7e3e4b;line-height:1.25;overflow-wrap:anywhere}
+.codex-card.unknown .codex-name{color:#a2767c}
+.codex-latin{font-size:10px;font-style:italic;color:#a2767c;line-height:1.2;overflow-wrap:anywhere}
+.codex-meta{font-size:11px;color:#90656b;display:flex;align-items:center;gap:5px;flex-wrap:wrap;justify-content:center;margin-top:3px;line-height:1.5}
+.codex-desc{font-size:11px;color:#90656b;margin:3px 0 0;line-height:1.45}
+@media(max-width:600px){
+ dialog[data-panel="codex"]{padding:14px}
+ .codex-grid{grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:6px}
+ .codex-card{padding:5px 4px 7px;border-radius:15px}
+ .codex-art{padding:4px;border-radius:10px}
+ .codex-latin{font-size:9px}
+ .codex-q{font-size:26px}
+}
+
+/* 滚动条换皮：浏览器默认那根白底灰块的滚动条杵在粉米卡片里太扎眼。
+   配色取自卡面本身：轨道=纸色描边内凹，滑块=梅子粉。
+   回滚：整段删掉即可，别的样式没动。 */
+/* Chromium 认 ::-webkit-scrollbar，标准属性会把下面那套渐变压成纯色细条，
+   所以标准属性只留给不认 webkit 伪元素的浏览器（Firefox）。 */
+@supports not selector(::-webkit-scrollbar){dialog,#dialog-body,.codex-grid{scrollbar-width:thin;scrollbar-color:#c7838a #f4d8ca66}}
+dialog::-webkit-scrollbar,#dialog-body::-webkit-scrollbar{width:10px;height:10px}
+dialog::-webkit-scrollbar-track,#dialog-body::-webkit-scrollbar-track{background:#f0d3c580;border-radius:10px;margin:14px 0;box-shadow:inset 0 0 0 1px #c7838a33}
+dialog::-webkit-scrollbar-thumb,#dialog-body::-webkit-scrollbar-thumb{background:linear-gradient(#d6a0a4,#bf858c);border:2px solid transparent;background-clip:padding-box;border-radius:10px;box-shadow:inset 0 1px 0 #fff1df80}
+dialog::-webkit-scrollbar-thumb:hover,#dialog-body::-webkit-scrollbar-thumb:hover{background:linear-gradient(#cd9096,#ac6d78);background-clip:padding-box}
+dialog::-webkit-scrollbar-thumb:active,#dialog-body::-webkit-scrollbar-thumb:active{background:#a5626e;background-clip:padding-box}
+dialog::-webkit-scrollbar-corner,#dialog-body::-webkit-scrollbar-corner{background:transparent}
+/* 收获揭晓图：比卡片墙那张大一号，给「新朋友」一点仪式感。
+   codexcard 20260916：同款小画框衬底——1.5px #795158 + 衬纸 #fff9e8 + inset 高光，
+   图裱在里头，跟图鉴卡的内框一个语言（纯 CSS，JS 不动）。 */
+.reveal img.codex-reveal-art{max-height:186px;max-width:186px;object-fit:contain;padding:12px;border:1.5px solid #795158;border-radius:14px;background:#fff9e8;box-shadow:inset 0 2px 0 #fff1df,inset 0 -2px 0 #d6aa9f,2px 2px 0 #5a343b30,0 6px 10px #9f626b28}
+
+
+#fx{position:absolute;inset:0;pointer-events:none}
+.fx-seed{position:absolute;width:34px;height:34px;object-fit:contain;transform:translate(-50%,-100%);animation:fxSeedDrop .38s cubic-bezier(.34,1.4,.64,1) forwards}
+@keyframes fxSeedDrop{0%{transform:translate(-50%,-100%) translateY(-160px) scale(.65);opacity:0}45%{opacity:1}76%{transform:translate(-50%,-100%) translateY(5px) scale(1.05);opacity:1}100%{transform:translate(-50%,-100%) translateY(0) scale(.25);opacity:0}}
+.fx-soil{position:absolute;width:7px;height:7px;border-radius:50%;background:#8a6742;transform:translate(-50%,-50%);animation:fxSoilPop .32s ease-out .18s forwards;opacity:0}
+@keyframes fxSoilPop{0%{transform:translate(-50%,-50%) scale(.4);opacity:.95}100%{transform:translate(calc(-50% + var(--fx-dx,0px)),calc(-50% + var(--fx-dy,-26px))) scale(1);opacity:0}}
+.fx-drop{position:absolute;width:9px;height:13px;border-radius:50% 50% 60% 60%;background:linear-gradient(#a8d4f2,#5e9fd4);transform:translate(-50%,-100%);animation:fxDropFall .36s ease-in forwards;opacity:0}
+@keyframes fxDropFall{0%{transform:translate(-50%,-100%) translateY(-120px);opacity:0}30%{opacity:.95}100%{transform:translate(-50%,-100%) translateY(0) scaleY(.55);opacity:0}}
+.plant.fx-sway{animation:fxSway .4s ease-in-out;transform-origin:50% 100%}
+@keyframes fxSway{0%,100%{transform:translate(-50%,-100%) rotate(0)}25%{transform:translate(-50%,-100%) rotate(-4deg)}55%{transform:translate(-50%,-100%) rotate(3.4deg)}80%{transform:translate(-50%,-100%) rotate(-1.6deg)}}
+.plant.fx-grow{animation:fxGrow .42s cubic-bezier(.34,1.56,.64,1);transform-origin:50% 100%}
+@keyframes fxGrow{0%{transform:translate(-50%,-100%) scale(.55)}62%{transform:translate(-50%,-100%) scale(1.14)}100%{transform:translate(-50%,-100%) scale(1)}}
+.fx-sweep{position:absolute;transform:translate(-50%,-100%) skewX(-18deg);background:linear-gradient(100deg,transparent,#ffe182d9,transparent);mix-blend-mode:screen;animation:fxSweep .45s ease-in-out .06s forwards;opacity:0}
+@keyframes fxSweep{0%{transform:translate(-50%,-100%) translateX(-90px) skewX(-18deg);opacity:0}30%{opacity:.95}100%{transform:translate(-50%,-100%) translateX(90px) skewX(-18deg);opacity:0}}
+.plant.fx-jump{animation:fxJump .45s cubic-bezier(.34,1.56,.64,1) forwards}
+@keyframes fxJump{0%{transform:translate(-50%,-100%) translateY(0) scale(1);opacity:1}45%{transform:translate(-50%,-100%) translateY(-70px) scale(1.08);opacity:1}100%{transform:translate(-50%,-100%) translateY(-110px) scale(.7);opacity:0}}
+.fx-coin{position:fixed;z-index:60;width:30px;height:30px;object-fit:contain;transform:translate(-50%,-50%);pointer-events:none;animation:fxCoinFly .45s cubic-bezier(.5,.05,.7,.4) forwards}
+@keyframes fxCoinFly{0%{transform:translate(-50%,-50%) scale(.9);opacity:0}18%{opacity:1}100%{transform:translate(calc(-50% + var(--fx-dx,0px)),calc(-50% + var(--fx-dy,0px))) scale(.45);opacity:.35}}
+.fx-bubble{position:absolute;transform:translate(-50%,-100%);padding:6px 13px;border:1.5px solid #795158;border-radius:14px;background:#fff6e2;color:#7e3e4b;font-family:GardenRound,sans-serif;font-size:15px;white-space:nowrap;box-shadow:0 2px 6px #5a343b30;animation:fxBubbleUp 1.15s ease-out forwards}
+@keyframes fxBubbleUp{0%{transform:translate(-50%,-100%) translateY(8px) scale(.6);opacity:0}16%{transform:translate(-50%,-100%) translateY(0) scale(1.06);opacity:1}26%{transform:translate(-50%,-100%) scale(1)}72%{opacity:1}100%{transform:translate(-50%,-100%) translateY(-26px);opacity:0}}
+@media(prefers-reduced-motion:reduce){#fx,.fx-coin{display:none!important}.plant.fx-sway,.plant.fx-grow,.plant.fx-jump{animation:none!important}}
+
+
+button,[role="button"]{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.bubble:active{transform:translate(-50%,-100%) scale(.92)}
+.scene-door:active{transform:translate(-50%,-50%) scale(.92)}
+.corner:active{transform:translateY(1px) scale(.92)}
+#menu button:active,.pages button:active,#dialog-body button:active,.plot-hit:active,.unopened-hit:active{transform:scale(.92)}
+.retry:active{transform:translateX(-50%) scale(.92)}
+.gd-pa-btn:active{transform:scale(.92)}

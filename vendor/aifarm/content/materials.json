@@ -1,0 +1,182 @@
+[
+  {
+    "id": "ordinary_stone",
+    "name": "普通石头",
+    "rarity": "N",
+    "desc": ""
+  },
+  {
+    "id": "dry_branch",
+    "name": "枯树枝",
+    "rarity": "N",
+    "desc": ""
+  },
+  {
+    "id": "clay_lump",
+    "name": "黏土块",
+    "rarity": "N",
+    "desc": ""
+  },
+  {
+    "id": "broken_tile",
+    "name": "碎瓦片",
+    "rarity": "N",
+    "desc": ""
+  },
+  {
+    "id": "fluorite",
+    "name": "萤石",
+    "rarity": "R",
+    "desc": ""
+  },
+  {
+    "id": "beast_bone",
+    "name": "兽骨",
+    "rarity": "R",
+    "desc": ""
+  },
+  {
+    "id": "rusted_iron",
+    "name": "锈铁片",
+    "rarity": "R",
+    "desc": ""
+  },
+  {
+    "id": "spider_silk",
+    "name": "蛛丝团",
+    "rarity": "R",
+    "desc": ""
+  },
+  {
+    "id": "thunderstruck_wood",
+    "name": "雷击木",
+    "rarity": "SR",
+    "desc": ""
+  },
+  {
+    "id": "deepsea_nacre",
+    "name": "深海珍珠母",
+    "rarity": "SR",
+    "desc": ""
+  },
+  {
+    "id": "ancient_resin",
+    "name": "古树脂",
+    "rarity": "SR",
+    "desc": ""
+  },
+  {
+    "id": "dragon_claw",
+    "name": "龙的指甲",
+    "rarity": "SSR",
+    "desc": ""
+  },
+  {
+    "id": "sea_god_scale",
+    "name": "海神的鳞片",
+    "rarity": "SSR",
+    "desc": ""
+  },
+  {
+    "id": "phoenix_ember",
+    "name": "凤凰的余烬",
+    "rarity": "SSR",
+    "desc": ""
+  },
+  {
+    "id": "world_tree_seed",
+    "name": "世界树的籽",
+    "rarity": "SP",
+    "desc": ""
+  },
+  {
+    "id": "crystal_shard",
+    "name": "碎晶片",
+    "rarity": "N",
+    "desc": ""
+  },
+  {
+    "id": "old_vine",
+    "name": "枯藤",
+    "rarity": "N",
+    "desc": ""
+  },
+  {
+    "id": "rusted_gear",
+    "name": "锈齿轮",
+    "rarity": "N",
+    "desc": ""
+  },
+  {
+    "id": "sea_glass",
+    "name": "海玻璃",
+    "rarity": "N",
+    "desc": ""
+  },
+  {
+    "id": "phoenix_feather",
+    "name": "凤羽",
+    "rarity": "R",
+    "desc": ""
+  },
+  {
+    "id": "shadow_thread",
+    "name": "影线",
+    "rarity": "R",
+    "desc": ""
+  },
+  {
+    "id": "echo_stone",
+    "name": "回音石",
+    "rarity": "R",
+    "desc": ""
+  },
+  {
+    "id": "stardust_sand",
+    "name": "星沙",
+    "rarity": "R",
+    "desc": ""
+  },
+  {
+    "id": "ever_frost",
+    "name": "不融冰",
+    "rarity": "SR",
+    "desc": ""
+  },
+  {
+    "id": "dream_cocoon",
+    "name": "梦茧",
+    "rarity": "SR",
+    "desc": ""
+  },
+  {
+    "id": "ambergris_fragment",
+    "name": "龙涎香",
+    "rarity": "SR",
+    "desc": ""
+  },
+  {
+    "id": "tarnished_lunar_bronze",
+    "name": "锈月铜",
+    "rarity": "SR",
+    "desc": ""
+  },
+  {
+    "id": "void_fabric",
+    "name": "虚空布片",
+    "rarity": "SSR",
+    "desc": ""
+  },
+  {
+    "id": "time_amber",
+    "name": "时光琥珀",
+    "rarity": "SSR",
+    "desc": ""
+  },
+  {
+    "id": "creation_echo",
+    "name": "创世余音",
+    "rarity": "SP",
+    "desc": ""
+  }
+]

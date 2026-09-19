@@ -1,0 +1,47 @@
+[
+  {
+    "tier": 1,
+    "name": "袖珍",
+    "sizeRange": "0-30%",
+    "priceFactor": 0.6,
+    "lines": [
+      ""
+    ]
+  },
+  {
+    "tier": 2,
+    "name": "常品",
+    "sizeRange": "30-70%",
+    "priceFactor": 1,
+    "lines": [
+      ""
+    ]
+  },
+  {
+    "tier": 3,
+    "name": "良品",
+    "sizeRange": "70-90%",
+    "priceFactor": 1.4,
+    "lines": [
+      ""
+    ]
+  },
+  {
+    "tier": 4,
+    "name": "极品",
+    "sizeRange": "90-99%",
+    "priceFactor": 2,
+    "lines": [
+      ""
+    ]
+  },
+  {
+    "tier": 5,
+    "name": "纪录级",
+    "sizeRange": "99-100%",
+    "priceFactor": 3.5,
+    "lines": [
+      ""
+    ]
+  }
+]

@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+  <!-- 关于花园：一朵奶油心的小圆花，花瓣粉米纸、描边梅子、可可细线画茎叶 -->
+  <g fill="none" stroke="#795158" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+    <g fill="#f4d8ca">
+      <circle cx="24" cy="12.5" r="6"/>
+      <circle cx="34.5" cy="21.5" r="6"/>
+      <circle cx="30" cy="33.5" r="6"/>
+      <circle cx="18" cy="33.5" r="6"/>
+      <circle cx="13.5" cy="21.5" r="6"/>
+    </g>
+    <circle cx="24" cy="23" r="6.5" fill="#fdf3ea"/>
+    <circle cx="24" cy="23" r="2.2" fill="#a9807f" stroke="none"/>
+    <path d="M24 39.5 V45" stroke="#a9807f"/>
+    <path d="M24 42 q-6 0 -8 -4 q7 -1 8 4 Z" fill="#fdf3ea" stroke="#a9807f" stroke-width="1.8"/>
+  </g>
+</svg>

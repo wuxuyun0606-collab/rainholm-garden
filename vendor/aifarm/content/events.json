@@ -1,0 +1,146 @@
+[
+  {
+    "id": "meteor_shower",
+    "name": "流星雨",
+    "effect": "当晚奇幻作物生长加速 2 tick",
+    "weight": 2,
+    "lines": [
+      ""
+    ]
+  },
+  {
+    "id": "good_neighbor",
+    "name": "好邻居路过",
+    "effect": "随机一块地被免费浇水",
+    "weight": 5,
+    "lines": [
+      ""
+    ]
+  },
+  {
+    "id": "pest_visit",
+    "name": "虫害来袭",
+    "effect": "随机一块地需水量翻倍持续 3 tick",
+    "weight": 3,
+    "lines": [
+      ""
+    ]
+  },
+  {
+    "id": "drought_hint",
+    "name": "旱情预警",
+    "effect": "未来 5 tick 内所有作物需水频率+1",
+    "weight": 3,
+    "lines": [
+      ""
+    ]
+  },
+  {
+    "id": "harvest_blessing",
+    "name": "丰收之赐",
+    "effect": "当日收获的下一株作物售价翻倍",
+    "weight": 4,
+    "lines": [
+      ""
+    ]
+  },
+  {
+    "id": "wandering_merchant",
+    "name": "行商路过",
+    "effect": "商店临时上架一件稀有种子，持续 2 tick",
+    "weight": 3,
+    "lines": [
+      ""
+    ]
+  },
+  {
+    "id": "sky_seed",
+    "name": "天降种子",
+    "effect": "随机一块空地自动种下一颗随机 N 级种子",
+    "weight": 2,
+    "lines": [
+      ""
+    ]
+  },
+  {
+    "id": "strange_weather",
+    "name": "怪天气",
+    "effect": "当天巡视描述替换为奇幻天气",
+    "weight": 2,
+    "lines": [
+      ""
+    ]
+  },
+  {
+    "id": "migratory_birds",
+    "name": "候鸟过境",
+    "effect": "动物当日产出翻倍",
+    "weight": 3,
+    "lines": [
+      ""
+    ]
+  },
+  {
+    "id": "midnight_market",
+    "name": "午夜集市",
+    "effect": "深夜商店临时开放特殊商品",
+    "weight": 2,
+    "lines": [
+      ""
+    ]
+  },
+  {
+    "id": "soil_dream",
+    "name": "土地做梦",
+    "effect": "随机一块地的作物在生长 tick 结束时额外 -1 tick",
+    "weight": 3,
+    "lines": [
+      ""
+    ]
+  },
+  {
+    "id": "frog_choir",
+    "name": "蛙鸣合唱",
+    "effect": "当季所有作物获得「愉快」buff，下次收获品相+1档",
+    "weight": 3,
+    "lines": [
+      ""
+    ]
+  },
+  {
+    "id": "frost_surprise",
+    "name": "意外霜降",
+    "effect": "非冬季时随机触发，所有非耐寒作物生长暂停 1 tick",
+    "weight": 2,
+    "lines": [
+      ""
+    ]
+  },
+  {
+    "id": "earthworm_party",
+    "name": "蚯蚓派对",
+    "effect": "所有地块松土，下次浇水效果翻倍",
+    "weight": 4,
+    "lines": [
+      ""
+    ]
+  },
+  {
+    "id": "lucky_clover",
+    "name": "幸运四叶草",
+    "effect": "巡视时发现一株四叶草，今日所有随机事件偏向正面",
+    "weight": 1,
+    "lines": [
+      ""
+    ]
+  },
+  {
+    "id": "ghost_farmer",
+    "name": "幽灵老农",
+    "effect": "随机一块地自动被照料（浇水+除虫），触发稀有演出",
+    "weight": 1,
+    "lines": [
+      ""
+    ]
+  }
+]

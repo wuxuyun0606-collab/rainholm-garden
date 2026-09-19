@@ -1,0 +1,98 @@
+[
+  {
+    "name": "圣诞节",
+    "dateWindow": "12/24-12/26",
+    "cropId": "christmas_tree",
+    "enterText": "",
+    "harvestText": "",
+    "ambience": ""
+  },
+  {
+    "name": "万圣节",
+    "dateWindow": "10/28-11/01",
+    "cropId": "pumpkin_lantern",
+    "enterText": "",
+    "harvestText": "",
+    "ambience": ""
+  },
+  {
+    "name": "春节",
+    "dateWindow": "1/28-2/06",
+    "cropId": "red_envelope_bamboo",
+    "enterText": "",
+    "harvestText": "",
+    "ambience": ""
+  },
+  {
+    "name": "元宵节",
+    "dateWindow": "2/11-2/20",
+    "cropId": "tangyuan_vine",
+    "enterText": "",
+    "harvestText": "",
+    "ambience": ""
+  },
+  {
+    "name": "端午节",
+    "dateWindow": "6/10-6/19",
+    "cropId": "dragon_boat_reed",
+    "enterText": "",
+    "harvestText": "",
+    "ambience": ""
+  },
+  {
+    "name": "中秋节",
+    "dateWindow": "9/16-9/25",
+    "cropId": "mooncake_tree",
+    "enterText": "",
+    "harvestText": "",
+    "ambience": ""
+  },
+  {
+    "name": "情人节",
+    "dateWindow": "2/13-2/15",
+    "cropId": "valentine_rose",
+    "enterText": "",
+    "harvestText": "",
+    "ambience": ""
+  },
+  {
+    "name": "复活节",
+    "dateWindow": "4/01-4/10",
+    "cropId": "easter_eggplant",
+    "enterText": "",
+    "harvestText": "",
+    "ambience": ""
+  },
+  {
+    "name": "感恩节",
+    "dateWindow": "11/20-11/29",
+    "cropId": "thanks_gourd",
+    "enterText": "",
+    "harvestText": "",
+    "ambience": ""
+  },
+  {
+    "name": "元旦",
+    "dateWindow": "12/31-1/02",
+    "cropId": "new_year_bell_flower",
+    "enterText": "",
+    "harvestText": "",
+    "ambience": ""
+  },
+  {
+    "name": "七夕",
+    "dateWindow": "8/06-8/15",
+    "cropId": "magpie_bridge_vine",
+    "enterText": "",
+    "harvestText": "",
+    "ambience": ""
+  },
+  {
+    "name": "儿童节",
+    "dateWindow": "6/01-6/03",
+    "cropId": "childrens_dream_flower",
+    "enterText": "",
+    "harvestText": "",
+    "ambience": ""
+  }
+]

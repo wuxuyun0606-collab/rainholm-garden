@@ -1,0 +1,236 @@
+[
+  {
+    "id": "grass_fam",
+    "name": "禾本科",
+    "latin": "Poaceae",
+    "category": "普通",
+    "theme": "大地的织物，风吹成浪，养活了整个世界",
+    "plantLines": [
+      ""
+    ],
+    "harvestLines": [
+      ""
+    ]
+  },
+  {
+    "id": "nightshade_fam",
+    "name": "茄科",
+    "latin": "Solanaceae",
+    "category": "普通",
+    "theme": "悬挂的宝石，从青涩到绚烂的蜕变",
+    "plantLines": [
+      ""
+    ],
+    "harvestLines": [
+      ""
+    ]
+  },
+  {
+    "id": "gourd_fam",
+    "name": "葫芦科",
+    "latin": "Cucurbitaceae",
+    "category": "普通",
+    "theme": "藤上结的太阳和月亮，圆滚滚的丰饶",
+    "plantLines": [
+      ""
+    ],
+    "harvestLines": [
+      ""
+    ]
+  },
+  {
+    "id": "legume_fam",
+    "name": "豆科",
+    "latin": "Fabaceae",
+    "category": "普通",
+    "theme": "大地私藏的蛋白匣，藏在荚里的惊喜",
+    "plantLines": [
+      ""
+    ],
+    "harvestLines": [
+      ""
+    ]
+  },
+  {
+    "id": "root_fam",
+    "name": "根茎科",
+    "latin": "Rhizomataceae",
+    "category": "普通",
+    "theme": "地下的隐士，闷声长成实在货",
+    "plantLines": [
+      ""
+    ],
+    "harvestLines": [
+      ""
+    ]
+  },
+  {
+    "id": "cabbage_fam",
+    "name": "十字花科",
+    "latin": "Brassicaceae",
+    "category": "普通",
+    "theme": "层层包裹的心事，菜园里的几何学",
+    "plantLines": [
+      ""
+    ],
+    "harvestLines": [
+      ""
+    ]
+  },
+  {
+    "id": "leaf_fam",
+    "name": "叶菜科",
+    "latin": "Folivoraceae",
+    "category": "普通",
+    "theme": "鲜嫩的绿，从土里直接端上桌",
+    "plantLines": [
+      ""
+    ],
+    "harvestLines": [
+      ""
+    ]
+  },
+  {
+    "id": "mandrake_fam",
+    "name": "曼陀罗科",
+    "latin": "Mandragoraceae",
+    "category": "奇幻",
+    "theme": "会发声、性情乖戾的根茎奇植",
+    "plantLines": [
+      ""
+    ],
+    "harvestLines": [
+      ""
+    ]
+  },
+  {
+    "id": "lunar_fam",
+    "name": "月光科",
+    "latin": "Lunariaceae",
+    "category": "奇幻",
+    "theme": "借月光生长，只在夜里有表情的植物",
+    "plantLines": [
+      ""
+    ],
+    "harvestLines": [
+      ""
+    ]
+  },
+  {
+    "id": "echo_fam",
+    "name": "回音科",
+    "latin": "Echobotanaceae",
+    "category": "奇幻",
+    "theme": "会重复声音、记忆旋律的活留声机",
+    "plantLines": [
+      ""
+    ],
+    "harvestLines": [
+      ""
+    ]
+  },
+  {
+    "id": "mimic_fam",
+    "name": "拟态科",
+    "latin": "Mimicryaceae",
+    "category": "奇幻",
+    "theme": "会伪装成别的东西，狡猾的模仿者",
+    "plantLines": [
+      ""
+    ],
+    "harvestLines": [
+      ""
+    ]
+  },
+  {
+    "id": "glow_fam",
+    "name": "萤光科",
+    "latin": "Photophyta",
+    "category": "奇幻",
+    "theme": "自带光源，夜里的活灯笼",
+    "plantLines": [
+      ""
+    ],
+    "harvestLines": [
+      ""
+    ]
+  },
+  {
+    "id": "dream_fam",
+    "name": "梦境科",
+    "latin": "Somniophyta",
+    "category": "奇幻",
+    "theme": "和梦有关，结出的不是果实是梦的碎片",
+    "plantLines": [
+      ""
+    ],
+    "harvestLines": [
+      ""
+    ]
+  },
+  {
+    "id": "sweet_fam",
+    "name": "蜜糖科",
+    "latin": "Melliferaceae",
+    "category": "奇幻",
+    "theme": "自带甜味，能产糖或甜浆的活糖厂",
+    "plantLines": [
+      ""
+    ],
+    "harvestLines": [
+      ""
+    ]
+  },
+  {
+    "id": "explosive_fam",
+    "name": "爆裂科",
+    "latin": "Detonataceae",
+    "category": "奇幻",
+    "theme": "不老实，会炸会喷的活炸弹",
+    "plantLines": [
+      ""
+    ],
+    "harvestLines": [
+      ""
+    ]
+  },
+  {
+    "id": "roaming_fam",
+    "name": "漫游科",
+    "latin": "Vagabondaceae",
+    "category": "奇幻",
+    "theme": "长了脚会跑，得追着收的游牧植物",
+    "plantLines": [
+      ""
+    ],
+    "harvestLines": [
+      ""
+    ]
+  },
+  {
+    "id": "holiday_fam",
+    "name": "节日科",
+    "latin": "Festivaceae",
+    "category": "限定",
+    "theme": "只在特定节日现世，自带庆典气息的吉兆",
+    "plantLines": [
+      ""
+    ],
+    "harvestLines": [
+      ""
+    ]
+  },
+  {
+    "id": "riddle_fam",
+    "name": "异界科",
+    "latin": "Xenobotanaceae",
+    "category": "限定",
+    "theme": "不属于这个世界的客人，因特殊条件降临",
+    "plantLines": [
+      ""
+    ],
+    "harvestLines": [
+      ""
+    ]
+  }
+]

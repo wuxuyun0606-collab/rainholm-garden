@@ -1,0 +1,1005 @@
+{
+ "version": "codex-index-v1",
+ "source": "guchen manifest-all-123.json (codex-all-123-v1)",
+ "note": "desc 上游全空，界面按空值隐藏；未收获卡片不显示这里的任何文本。",
+ "rarityOrder": [
+  "N",
+  "R",
+  "SR",
+  "SSR",
+  "SP"
+ ],
+ "counts": {
+  "N": 19,
+  "R": 36,
+  "SR": 37,
+  "SSR": 27,
+  "SP": 4
+ },
+ "items": [
+  {
+   "id": "wheat",
+   "name": "小麦",
+   "latin": "Triticum aestivum",
+   "desc": "",
+   "rarity": "N",
+   "category": "common"
+  },
+  {
+   "id": "corn",
+   "name": "玉米",
+   "latin": "Zea mays",
+   "desc": "",
+   "rarity": "N",
+   "category": "common"
+  },
+  {
+   "id": "carrot",
+   "name": "胡萝卜",
+   "latin": "Daucus carota",
+   "desc": "",
+   "rarity": "N",
+   "category": "common"
+  },
+  {
+   "id": "potato",
+   "name": "马铃薯",
+   "latin": "Solanum tuberosum",
+   "desc": "",
+   "rarity": "N",
+   "category": "common"
+  },
+  {
+   "id": "cabbage",
+   "name": "卷心菜",
+   "latin": "Brassica oleracea var. capitata",
+   "desc": "",
+   "rarity": "N",
+   "category": "common"
+  },
+  {
+   "id": "onion",
+   "name": "洋葱",
+   "latin": "Allium cepa",
+   "desc": "",
+   "rarity": "N",
+   "category": "common"
+  },
+  {
+   "id": "cucumber",
+   "name": "黄瓜",
+   "latin": "Cucumis sativus",
+   "desc": "",
+   "rarity": "N",
+   "category": "common"
+  },
+  {
+   "id": "green_bean",
+   "name": "四季豆",
+   "latin": "Phaseolus vulgaris",
+   "desc": "",
+   "rarity": "N",
+   "category": "common"
+  },
+  {
+   "id": "radish",
+   "name": "萝卜",
+   "latin": "Raphanus sativus",
+   "desc": "",
+   "rarity": "N",
+   "category": "common"
+  },
+  {
+   "id": "spinach",
+   "name": "菠菜",
+   "latin": "Spinacia oleracea",
+   "desc": "",
+   "rarity": "N",
+   "category": "common"
+  },
+  {
+   "id": "lettuce",
+   "name": "生菜",
+   "latin": "Lactuca sativa",
+   "desc": "",
+   "rarity": "N",
+   "category": "common"
+  },
+  {
+   "id": "celery",
+   "name": "芹菜",
+   "latin": "Apium graveolens",
+   "desc": "",
+   "rarity": "N",
+   "category": "common"
+  },
+  {
+   "id": "pea",
+   "name": "豌豆",
+   "latin": "Pisum sativum",
+   "desc": "",
+   "rarity": "N",
+   "category": "common"
+  },
+  {
+   "id": "spring_onion",
+   "name": "小葱",
+   "latin": "Allium fistulosum",
+   "desc": "",
+   "rarity": "N",
+   "category": "common"
+  },
+  {
+   "id": "sunflower",
+   "name": "向日葵",
+   "latin": "Helianthus annuus",
+   "desc": "",
+   "rarity": "N",
+   "category": "common"
+  },
+  {
+   "id": "summer_squash",
+   "name": "西葫芦",
+   "latin": "Cucurbita pepo var. cylindrica",
+   "desc": "",
+   "rarity": "N",
+   "category": "common"
+  },
+  {
+   "id": "sweet_potato",
+   "name": "红薯",
+   "latin": "Ipomoea batatas",
+   "desc": "",
+   "rarity": "N",
+   "category": "common"
+  },
+  {
+   "id": "turnip",
+   "name": "芜菁",
+   "latin": "Brassica rapa",
+   "desc": "",
+   "rarity": "N",
+   "category": "common"
+  },
+  {
+   "id": "leek",
+   "name": "韭葱",
+   "latin": "Allium porrum",
+   "desc": "",
+   "rarity": "N",
+   "category": "common"
+  },
+  {
+   "id": "tomato",
+   "name": "番茄",
+   "latin": "Solanum lycopersicum",
+   "desc": "",
+   "rarity": "R",
+   "category": "common"
+  },
+  {
+   "id": "bell_pepper",
+   "name": "甜椒",
+   "latin": "Capsicum annuum",
+   "desc": "",
+   "rarity": "R",
+   "category": "common"
+  },
+  {
+   "id": "eggplant",
+   "name": "茄子",
+   "latin": "Solanum melongena",
+   "desc": "",
+   "rarity": "R",
+   "category": "common"
+  },
+  {
+   "id": "broccoli",
+   "name": "西蓝花",
+   "latin": "Brassica oleracea var. italica",
+   "desc": "",
+   "rarity": "R",
+   "category": "common"
+  },
+  {
+   "id": "strawberry",
+   "name": "草莓",
+   "latin": "Fragaria × ananassa",
+   "desc": "",
+   "rarity": "R",
+   "category": "common"
+  },
+  {
+   "id": "asparagus",
+   "name": "芦笋",
+   "latin": "Asparagus officinalis",
+   "desc": "",
+   "rarity": "R",
+   "category": "common"
+  },
+  {
+   "id": "artichoke",
+   "name": "洋蓟",
+   "latin": "Cynara cardunculus var. scolymus",
+   "desc": "",
+   "rarity": "R",
+   "category": "common"
+  },
+  {
+   "id": "watermelon",
+   "name": "西瓜",
+   "latin": "Citrullus lanatus",
+   "desc": "",
+   "rarity": "R",
+   "category": "common"
+  },
+  {
+   "id": "chili",
+   "name": "辣椒",
+   "latin": "Capsicum frutescens",
+   "desc": "",
+   "rarity": "R",
+   "category": "common"
+  },
+  {
+   "id": "okra",
+   "name": "秋葵",
+   "latin": "Abelmoschus esculentus",
+   "desc": "",
+   "rarity": "R",
+   "category": "common"
+  },
+  {
+   "id": "basil",
+   "name": "罗勒",
+   "latin": "Ocimum basilicum",
+   "desc": "",
+   "rarity": "R",
+   "category": "common"
+  },
+  {
+   "id": "pumpkin",
+   "name": "南瓜",
+   "latin": "Cucurbita pepo",
+   "desc": "",
+   "rarity": "R",
+   "category": "common"
+  },
+  {
+   "id": "beet",
+   "name": "甜菜",
+   "latin": "Beta vulgaris",
+   "desc": "",
+   "rarity": "R",
+   "category": "common"
+  },
+  {
+   "id": "kale",
+   "name": "羽衣甘蓝",
+   "latin": "Brassica oleracea var. sabellica",
+   "desc": "",
+   "rarity": "R",
+   "category": "common"
+  },
+  {
+   "id": "winter_wheat",
+   "name": "冬小麦",
+   "latin": "Triticum aestivum",
+   "desc": "",
+   "rarity": "R",
+   "category": "common"
+  },
+  {
+   "id": "endive",
+   "name": "苦苣",
+   "latin": "Cichorium endivia",
+   "desc": "",
+   "rarity": "R",
+   "category": "common"
+  },
+  {
+   "id": "daikon",
+   "name": "白萝卜",
+   "latin": "Raphanus sativus var. longipinnatus",
+   "desc": "",
+   "rarity": "R",
+   "category": "common"
+  },
+  {
+   "id": "weeping_lily",
+   "name": "垂泪百合",
+   "latin": "Lilium lacrimarum",
+   "desc": "",
+   "rarity": "R",
+   "category": "fantasy"
+  },
+  {
+   "id": "whisper_crysanth",
+   "name": "低语菊",
+   "latin": "Chrysanthemum susurrus",
+   "desc": "",
+   "rarity": "R",
+   "category": "fantasy"
+  },
+  {
+   "id": "bubble_peony",
+   "name": "气泡牡丹",
+   "latin": "Paeonia bullarum",
+   "desc": "",
+   "rarity": "R",
+   "category": "fantasy"
+  },
+  {
+   "id": "sunglow_iris",
+   "name": "日辉鸢尾",
+   "latin": "Iris solis",
+   "desc": "",
+   "rarity": "R",
+   "category": "fantasy"
+  },
+  {
+   "id": "pig_nose_grass",
+   "name": "猪鼻草",
+   "latin": "Herba rhinosus",
+   "desc": "",
+   "rarity": "R",
+   "category": "fantasy"
+  },
+  {
+   "id": "tickle_fern",
+   "name": "怕痒蕨",
+   "latin": "Filix titillans",
+   "desc": "",
+   "rarity": "R",
+   "category": "fantasy"
+  },
+  {
+   "id": "umbrella_moss",
+   "name": "雨伞苔",
+   "latin": "Muscus umbellatus",
+   "desc": "",
+   "rarity": "R",
+   "category": "fantasy"
+  },
+  {
+   "id": "ink_weed",
+   "name": "墨草",
+   "latin": "Herba atramentum",
+   "desc": "",
+   "rarity": "R",
+   "category": "fantasy"
+  },
+  {
+   "id": "fire_ivy",
+   "name": "火藤",
+   "latin": "Hedera ignis",
+   "desc": "",
+   "rarity": "R",
+   "category": "fantasy"
+  },
+  {
+   "id": "butter_bean",
+   "name": "黄油豆",
+   "latin": "Fabum butyrum",
+   "desc": "",
+   "rarity": "R",
+   "category": "fantasy"
+  },
+  {
+   "id": "cheese_leaf",
+   "name": "奶酪叶",
+   "latin": "Folium caseum",
+   "desc": "",
+   "rarity": "R",
+   "category": "fantasy"
+  },
+  {
+   "id": "soda_mushroom",
+   "name": "气泡菇",
+   "latin": "Fungus bullans",
+   "desc": "",
+   "rarity": "R",
+   "category": "fantasy"
+  },
+  {
+   "id": "candy_root",
+   "name": "糖果根",
+   "latin": "Radix saccharina",
+   "desc": "",
+   "rarity": "R",
+   "category": "fantasy"
+  },
+  {
+   "id": "vanilla_orchid",
+   "name": "香草兰",
+   "latin": "Vanilla planifolia",
+   "desc": "",
+   "rarity": "R",
+   "category": "fantasy"
+  },
+  {
+   "id": "shy_tuber",
+   "name": "害羞薯",
+   "latin": "Tuber pudoris",
+   "desc": "",
+   "rarity": "R",
+   "category": "fantasy"
+  },
+  {
+   "id": "dancing_grass",
+   "name": "跳舞草",
+   "latin": "Herba saltans",
+   "desc": "",
+   "rarity": "R",
+   "category": "fantasy"
+  },
+  {
+   "id": "huff_puff_shroom",
+   "name": "气鼓菇",
+   "latin": "Fungus indignatus",
+   "desc": "",
+   "rarity": "R",
+   "category": "fantasy"
+  },
+  {
+   "id": "crab_weed",
+   "name": "螃蟹草",
+   "latin": "Herba cancris",
+   "desc": "",
+   "rarity": "R",
+   "category": "fantasy"
+  },
+  {
+   "id": "peekaboo_fern",
+   "name": "躲猫猫蕨",
+   "latin": "Filix celatus",
+   "desc": "",
+   "rarity": "R",
+   "category": "fantasy"
+  },
+  {
+   "id": "cauliflower",
+   "name": "花椰菜",
+   "latin": "Brassica oleracea var. botrytis",
+   "desc": "",
+   "rarity": "SR",
+   "category": "common"
+  },
+  {
+   "id": "parsnip",
+   "name": "欧防风",
+   "latin": "Pastinaca sativa",
+   "desc": "",
+   "rarity": "SR",
+   "category": "common"
+  },
+  {
+   "id": "brussels_sprout",
+   "name": "抱子甘蓝",
+   "latin": "Brassica oleracea var. gemmifera",
+   "desc": "",
+   "rarity": "SR",
+   "category": "common"
+  },
+  {
+   "id": "broccoli_rabe",
+   "name": "芥兰",
+   "latin": "Brassica rapa var. parachinensis",
+   "desc": "",
+   "rarity": "SR",
+   "category": "common"
+  },
+  {
+   "id": "glow_flower",
+   "name": "夜光花",
+   "latin": "Lumen nocturna",
+   "desc": "",
+   "rarity": "SR",
+   "category": "fantasy"
+  },
+  {
+   "id": "echo_bloom",
+   "name": "回声花",
+   "latin": "Flos echo",
+   "desc": "",
+   "rarity": "SR",
+   "category": "fantasy"
+  },
+  {
+   "id": "melody_petal",
+   "name": "旋律花瓣",
+   "latin": "Petala melodia",
+   "desc": "",
+   "rarity": "SR",
+   "category": "fantasy"
+  },
+  {
+   "id": "ember_tulip",
+   "name": "余烬郁金香",
+   "latin": "Tulipa cineris",
+   "desc": "",
+   "rarity": "SR",
+   "category": "fantasy"
+  },
+  {
+   "id": "time_daisy",
+   "name": "时光雏菊",
+   "latin": "Bellis temporis",
+   "desc": "",
+   "rarity": "SR",
+   "category": "fantasy"
+  },
+  {
+   "id": "glass_cactus",
+   "name": "玻璃仙人掌",
+   "latin": "Cactus vitreus",
+   "desc": "",
+   "rarity": "SR",
+   "category": "fantasy"
+  },
+  {
+   "id": "gravity_vine",
+   "name": "失重藤",
+   "latin": "Vitis levis",
+   "desc": "",
+   "rarity": "SR",
+   "category": "fantasy"
+  },
+  {
+   "id": "clock_thistle",
+   "name": "时钟蓟",
+   "latin": "Carduus horologicus",
+   "desc": "",
+   "rarity": "SR",
+   "category": "fantasy"
+  },
+  {
+   "id": "frost_moss",
+   "name": "霜衣苔",
+   "latin": "Muscus pruinosus",
+   "desc": "",
+   "rarity": "SR",
+   "category": "fantasy"
+  },
+  {
+   "id": "spiral_aloe",
+   "name": "螺旋芦荟",
+   "latin": "Aloe spiralis",
+   "desc": "",
+   "rarity": "SR",
+   "category": "fantasy"
+  },
+  {
+   "id": "bread_fruit",
+   "name": "面包果",
+   "latin": "Fructus panis",
+   "desc": "",
+   "rarity": "SR",
+   "category": "fantasy"
+  },
+  {
+   "id": "honey_melon",
+   "name": "蜜露瓜",
+   "latin": "Cucumis mellis",
+   "desc": "",
+   "rarity": "SR",
+   "category": "fantasy"
+  },
+  {
+   "id": "rainbow_corn",
+   "name": "彩虹玉米",
+   "latin": "Zea iridescens",
+   "desc": "",
+   "rarity": "SR",
+   "category": "fantasy"
+  },
+  {
+   "id": "spice_bush",
+   "name": "百味灌木",
+   "latin": "Frutex aromatus",
+   "desc": "",
+   "rarity": "SR",
+   "category": "fantasy"
+  },
+  {
+   "id": "cloud_cotton",
+   "name": "云棉花",
+   "latin": "Gossypium dulcis",
+   "desc": "",
+   "rarity": "SR",
+   "category": "fantasy"
+  },
+  {
+   "id": "pepper_lava",
+   "name": "熔岩椒",
+   "latin": "Capsicum magma",
+   "desc": "",
+   "rarity": "SR",
+   "category": "fantasy"
+  },
+  {
+   "id": "walking_root",
+   "name": "行路根",
+   "latin": "Radix ambulans",
+   "desc": "",
+   "rarity": "SR",
+   "category": "fantasy"
+  },
+  {
+   "id": "juggling_vine",
+   "name": "杂耍藤",
+   "latin": "Vitis joculator",
+   "desc": "",
+   "rarity": "SR",
+   "category": "fantasy"
+  },
+  {
+   "id": "guard_shrub",
+   "name": "护卫灌木",
+   "latin": "Frutex custos",
+   "desc": "",
+   "rarity": "SR",
+   "category": "fantasy"
+  },
+  {
+   "id": "fortune_root",
+   "name": "占卜根",
+   "latin": "Radix sortilega",
+   "desc": "",
+   "rarity": "SR",
+   "category": "fantasy"
+  },
+  {
+   "id": "slumber_cabbage",
+   "name": "打盹卷心菜",
+   "latin": "Brassica dormiens",
+   "desc": "",
+   "rarity": "SR",
+   "category": "fantasy"
+  },
+  {
+   "id": "tangyuan_vine",
+   "name": "汤圆藤",
+   "latin": "Vitis dumplinga",
+   "desc": "",
+   "rarity": "SR",
+   "category": "limited"
+  },
+  {
+   "id": "dragon_boat_reed",
+   "name": "龙舟芦苇",
+   "latin": "Phragmites draconis",
+   "desc": "",
+   "rarity": "SR",
+   "category": "limited"
+  },
+  {
+   "id": "easter_eggplant",
+   "name": "彩蛋茄",
+   "latin": "Solanum ovum",
+   "desc": "",
+   "rarity": "SR",
+   "category": "limited"
+  },
+  {
+   "id": "thanks_gourd",
+   "name": "感恩葫芦",
+   "latin": "Cucurbita gratiae",
+   "desc": "",
+   "rarity": "SR",
+   "category": "limited"
+  },
+  {
+   "id": "childrens_dream_flower",
+   "name": "童梦花",
+   "latin": "Flos infantis",
+   "desc": "",
+   "rarity": "SR",
+   "category": "limited"
+  },
+  {
+   "id": "collector_wheat",
+   "name": "收集者之麦",
+   "latin": "Triticum collectorem",
+   "desc": "",
+   "rarity": "SR",
+   "category": "limited"
+  },
+  {
+   "id": "hermit_moss",
+   "name": "隐士苔",
+   "latin": "Muscus eremita",
+   "desc": "",
+   "rarity": "SR",
+   "category": "limited"
+  },
+  {
+   "id": "eternal_frost_bloom",
+   "name": "永恒霜花",
+   "latin": "Frosternia aeterna",
+   "desc": "",
+   "rarity": "SR",
+   "category": "limited"
+  },
+  {
+   "id": "star_rebirth_orchid",
+   "name": "涅槃星兰",
+   "latin": "Orchidacea ignire",
+   "desc": "",
+   "rarity": "SR",
+   "category": "limited"
+  },
+  {
+   "id": "clockwork_fern",
+   "name": "齿轮蕨",
+   "latin": "Filix horologia",
+   "desc": "",
+   "rarity": "SR",
+   "category": "limited"
+  },
+  {
+   "id": "coral_moon_cactus",
+   "name": "月珊瑚仙人掌",
+   "latin": "Cactacea corallium",
+   "desc": "",
+   "rarity": "SR",
+   "category": "limited"
+  },
+  {
+   "id": "mirage_thistle",
+   "name": "幻景蓟",
+   "latin": "Carduus phantasma",
+   "desc": "",
+   "rarity": "SR",
+   "category": "limited"
+  },
+  {
+   "id": "lunar_rose",
+   "name": "月相玫瑰",
+   "latin": "Rosa lunaris",
+   "desc": "",
+   "rarity": "SSR",
+   "category": "fantasy"
+  },
+  {
+   "id": "mirror_orchid",
+   "name": "镜面兰",
+   "latin": "Orchis speculum",
+   "desc": "",
+   "rarity": "SSR",
+   "category": "fantasy"
+  },
+  {
+   "id": "phantom_lotus",
+   "name": "幻影莲",
+   "latin": "Nelumbo phantasma",
+   "desc": "",
+   "rarity": "SSR",
+   "category": "fantasy"
+  },
+  {
+   "id": "void_lily",
+   "name": "虚空百合",
+   "latin": "Lilium inanis",
+   "desc": "",
+   "rarity": "SSR",
+   "category": "fantasy"
+  },
+  {
+   "id": "screaming_mandrake",
+   "name": "尖叫曼陀罗",
+   "latin": "Mandragora ululans",
+   "desc": "",
+   "rarity": "SSR",
+   "category": "fantasy"
+  },
+  {
+   "id": "mirror_bamboo",
+   "name": "镜竹",
+   "latin": "Bambusa specularis",
+   "desc": "",
+   "rarity": "SSR",
+   "category": "fantasy"
+  },
+  {
+   "id": "shadow_creeper",
+   "name": "影匍藤",
+   "latin": "Vitis umbrosa",
+   "desc": "",
+   "rarity": "SSR",
+   "category": "fantasy"
+  },
+  {
+   "id": "chocolate_vine",
+   "name": "巧克力藤",
+   "latin": "Vitis cacao",
+   "desc": "",
+   "rarity": "SSR",
+   "category": "fantasy"
+  },
+  {
+   "id": "migratory_bulb",
+   "name": "候鸟鳞茎",
+   "latin": "Bulbus migrator",
+   "desc": "",
+   "rarity": "SSR",
+   "category": "fantasy"
+  },
+  {
+   "id": "gobble_melon",
+   "name": "贪吃瓜",
+   "latin": "Cucumis vorax",
+   "desc": "",
+   "rarity": "SSR",
+   "category": "fantasy"
+  },
+  {
+   "id": "christmas_tree",
+   "name": "圣诞树",
+   "latin": "Picea natalis",
+   "desc": "",
+   "rarity": "SSR",
+   "category": "limited"
+  },
+  {
+   "id": "pumpkin_lantern",
+   "name": "南瓜灯藤",
+   "latin": "Cucurbita laterna",
+   "desc": "",
+   "rarity": "SSR",
+   "category": "limited"
+  },
+  {
+   "id": "red_envelope_bamboo",
+   "name": "红包竹",
+   "latin": "Bambusa aureus",
+   "desc": "",
+   "rarity": "SSR",
+   "category": "limited"
+  },
+  {
+   "id": "mooncake_tree",
+   "name": "月饼树",
+   "latin": "Fructus luna",
+   "desc": "",
+   "rarity": "SSR",
+   "category": "limited"
+  },
+  {
+   "id": "valentine_rose",
+   "name": "情人玫瑰",
+   "latin": "Rosa amoris",
+   "desc": "",
+   "rarity": "SSR",
+   "category": "limited"
+  },
+  {
+   "id": "new_year_bell_flower",
+   "name": "新年钟花",
+   "latin": "Campanula novus",
+   "desc": "",
+   "rarity": "SSR",
+   "category": "limited"
+  },
+  {
+   "id": "magpie_bridge_vine",
+   "name": "鹊桥藤",
+   "latin": "Vitis pontis",
+   "desc": "",
+   "rarity": "SSR",
+   "category": "limited"
+  },
+  {
+   "id": "compendium_orchid",
+   "name": "百科兰",
+   "latin": "Orchis compendium",
+   "desc": "",
+   "rarity": "SSR",
+   "category": "limited"
+  },
+  {
+   "id": "archivist_tree",
+   "name": "档案树",
+   "latin": "Arbor archivistis",
+   "desc": "",
+   "rarity": "SSR",
+   "category": "limited"
+  },
+  {
+   "id": "witness_root",
+   "name": "见证根",
+   "latin": "Radix testis",
+   "desc": "",
+   "rarity": "SSR",
+   "category": "limited"
+  },
+  {
+   "id": "night_owl_cactus",
+   "name": "夜猫子仙人掌",
+   "latin": "Cactus nocturnus",
+   "desc": "",
+   "rarity": "SSR",
+   "category": "limited"
+  },
+  {
+   "id": "botanist_rose",
+   "name": "植物学家玫瑰",
+   "latin": "Rosa botanica",
+   "desc": "",
+   "rarity": "SSR",
+   "category": "limited"
+  },
+  {
+   "id": "void_orchid",
+   "name": "虚空兰",
+   "latin": "Orchidacea vacua",
+   "desc": "",
+   "rarity": "SSR",
+   "category": "limited"
+  },
+  {
+   "id": "dragon_breath_bamboo",
+   "name": "龙息竹",
+   "latin": "Bambusea draconis",
+   "desc": "",
+   "rarity": "SSR",
+   "category": "limited"
+  },
+  {
+   "id": "melody_vine",
+   "name": "旋律藤",
+   "latin": "Vitis melodia",
+   "desc": "",
+   "rarity": "SSR",
+   "category": "limited"
+  },
+  {
+   "id": "solar_ember_flower",
+   "name": "日烬花",
+   "latin": "Flos solis cineris",
+   "desc": "",
+   "rarity": "SSR",
+   "category": "limited"
+  },
+  {
+   "id": "abyss_bloom",
+   "name": "深渊水母花",
+   "latin": "Abyssomedusa floribunda",
+   "desc": "",
+   "rarity": "SSR",
+   "category": "limited"
+  },
+  {
+   "id": "completion_bloom",
+   "name": "圆满之花",
+   "latin": "Flos perfectus",
+   "desc": "",
+   "rarity": "SP",
+   "category": "limited"
+  },
+  {
+   "id": "max_land_bloom",
+   "name": "满田花",
+   "latin": "Flos plenus",
+   "desc": "",
+   "rarity": "SP",
+   "category": "limited"
+  },
+  {
+   "id": "origin_vine",
+   "name": "始源藤",
+   "latin": "Vita primordialis",
+   "desc": "",
+   "rarity": "SP",
+   "category": "limited"
+  },
+  {
+   "id": "cosmos_apple_tree",
+   "name": "宇宙苹果树",
+   "latin": "Malus cosmica",
+   "desc": "",
+   "rarity": "SP",
+   "category": "limited"
+  }
+ ]
+}

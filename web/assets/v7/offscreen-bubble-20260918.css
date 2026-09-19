@@ -1,0 +1,44 @@
+
+
+
+html.npp-on #nppToastWrap{display:none!important}
+
+#rhOffBubbleWrap20260918{
+  position:fixed; top:12%; left:50%; transform:translateX(-50%);
+  z-index:12450; display:flex; flex-direction:column; align-items:center; gap:6px;
+  width:max-content; max-width:min(78vw, calc(100vw - 136px)); pointer-events:none;
+}
+/* 点它把说话那只猫滚回视野正中 —— 这不是本单新发明的，是上一版 #nppToastWrap
+   （ui-port-20260914.js:340-344）就有的动作，接过来别弄丢。小屋那颗点了是开对话
+   面板，开源版没有那个面板，所以照旧滚镜头。容器 pointer-events:none，
+   只有条目自己接手指，toast 之外的花园照样点得着。 */
+#rhOffBubbleWrap20260918 .rhob-item{
+  pointer-events:auto; cursor:pointer;
+  box-sizing:border-box; width:max-content; max-width:min(78vw, calc(100vw - 136px));
+  display:flex; align-items:center; gap:8px;
+  padding:8px 12px; border-radius:14px;
+  background:#fff9e8; color:#5d3e42;
+  box-shadow:0 0 0 1.5px #66464c, 0 6px 16px rgba(102,70,76,.20);
+  font-family:GardenRefresh,"PingFang SC","Hiragino Sans GB","Heiti SC",system-ui,sans-serif;
+  font-weight:400; font-size:12px; line-height:1.5; text-align:left;
+  opacity:0; transform:translateY(-6px);
+  transition:opacity .2s ease, transform .2s ease;
+}
+#rhOffBubbleWrap20260918 .rhob-item.rhob-in{opacity:1; transform:translateY(0)}
+#rhOffBubbleWrap20260918 .rhob-item.rhob-out{
+  opacity:0; transform:translateY(-6px);
+  transition:opacity .6s ease, transform .6s ease;
+}
+#rhOffBubbleWrap20260918 .rhob-ava{
+  flex:0 0 auto; width:28px; height:28px; border-radius:50%;
+  object-fit:cover; display:block; background:#fff9e8;
+  box-shadow:0 0 0 1.5px #66464c;
+}
+#rhOffBubbleWrap20260918 .rhob-text{min-width:0; word-break:break-word}
+@media (max-width:1024px){
+  #rhOffBubbleWrap20260918 .rhob-item{font-size:11px; padding:7px 11px}
+}
+@media (prefers-reduced-motion:reduce){
+  #rhOffBubbleWrap20260918 .rhob-item,
+  #rhOffBubbleWrap20260918 .rhob-item.rhob-out{transition:none}
+}

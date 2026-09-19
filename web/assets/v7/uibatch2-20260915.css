@@ -1,0 +1,216 @@
+
+
+
+:root{
+  /* 对话胶囊那一组的几何（源值抄自 ui-port-20260914.css 第 5 段 / host-cat.js 286-323 行，
+     改那边的时候这里要跟着改；写成变量就是为了只改一处） */
+  --u2-left:max(14px,env(safe-area-inset-left,0px));  /* ＝ #rhSayWrap 的 left */
+  --u2-paw:54px;                                      /* ＝ #rhSayBtn 的边长 */
+  --u2-gap:10px;                                      /* ＝ #rhSayWrap 的 gap */
+  --u2-step:8px;                                      /* 三颗钮彼此的间距 */
+}
+@media (max-width:600px){
+  :root{--u2-paw:50px}                                /* 竖屏那档爪钮收成 50 */
+}
+
+
+html.npp-on.nbu2-on #nb4Act,
+html.npp-on.nbu2-on #nb4Follow,
+html.npp-on.nbu2-on #nb4Cam{
+  top:auto;right:auto;
+  left:calc(var(--u2-left) + var(--u2-paw) + var(--u2-gap)
+            + var(--u2-i,0) * (var(--cs-icon) + var(--u2-step)));
+  bottom:calc(var(--npp-saybot,34px) + env(safe-area-inset-bottom,0px)
+            + (var(--u2-paw) - var(--cs-icon)) / 2);
+  transition:opacity .14s ease,transform .14s ease
+}
+html.npp-on.nbu2-on #nb4Act{--u2-i:0}
+html.npp-on.nbu2-on #nb4Follow{--u2-i:1}
+html.npp-on.nbu2-on #nb4Cam{--u2-i:2}
+
+/* 胶囊拉开的时候这三颗让位 —— 条展开后正好占着它们那一段（桌面 360px、
+   竖屏 min(84vw,340)，实测都盖过第三颗）。类由 .js 盯着 #rhSayBar 的
+   rh-say-open 现挂；条一收就回来。「不压对话胶囊」这一条就是这么保证的。 */
+html.npp-on.nbu2-on.nbu2-saybar #nb4Act,
+html.npp-on.nbu2-on.nbu2-saybar #nb4Follow,
+html.npp-on.nbu2-on.nbu2-saybar #nb4Cam{
+  opacity:0;pointer-events:none;transform:translateY(6px)
+}
+@media (prefers-reduced-motion:reduce){
+  html.npp-on.nbu2-on #nb4Act,
+  html.npp-on.nbu2-on #nb4Follow,
+  html.npp-on.nbu2-on #nb4Cam{transition:none}
+}
+
+/* 动作菜单（#nb4ActMenu）的落点由 batch4-20260914.js 的 placeMenu() 现算 ——
+   那支函数本段改成了「钮在屏幕左半边就往左沿对齐、开在钮正上方」，
+   不在这里用 CSS 硬掰，免得 inline style 和 CSS 打架（inline 的 top 永远赢）。 */
+
+
+#nbu2Fx{
+  position:fixed;inset:0;z-index:11990;
+  pointer-events:none;overflow:hidden;contain:strict
+}
+#nbu2Fx>*{position:absolute}
+
+.nbu2-flash{
+  z-index:12000;width:26px;height:26px;pointer-events:none;
+  border-radius:50%;transform:translate(-50%,-50%);opacity:0;
+  background:radial-gradient(circle,rgba(255,238,232,.95),rgba(255,238,232,0) 65%);
+  animation:nbu2FlashPop .3s ease-out forwards
+}
+@keyframes nbu2FlashPop{
+  0%{opacity:1;transform:translate(-50%,-50%) scale(.3)}
+  100%{opacity:0;transform:translate(-50%,-50%) scale(1.7)}
+}
+.nbu2-glow{
+  z-index:11999;width:56px;height:56px;pointer-events:none;
+  border-radius:50%;transform:translate(-50%,-50%);opacity:0;
+  background:radial-gradient(circle,rgba(255,214,196,.75) 0%,rgba(255,214,196,.28) 42%,rgba(255,214,196,0) 68%);
+  filter:blur(1px);mix-blend-mode:screen;
+  animation:nbu2GlowFade .9s ease-out forwards
+}
+@keyframes nbu2GlowFade{
+  0%{opacity:0;transform:translate(-50%,-50%) scale(.35)}
+  25%{opacity:.9}
+  100%{opacity:0;transform:translate(-50%,-50%) scale(1.35)}
+}
+.nbu2-ripple{
+  z-index:12000;width:14px;height:14px;pointer-events:none;
+  border-radius:50%;border:2px solid rgba(217,136,141,.8);
+  transform:translate(-50%,-50%);opacity:0;
+  animation:nbu2RippleOut .5s ease-out forwards
+}
+.nbu2-ripple.nbu2-slow{
+  border-width:1px;border-color:rgba(217,136,141,.5);
+  animation:nbu2RippleOut .78s ease-out .07s forwards
+}
+@keyframes nbu2RippleOut{
+  0%{opacity:.95;transform:translate(-50%,-50%) scale(.4)}
+  100%{opacity:0;transform:translate(-50%,-50%) scale(2.8)}
+}
+
+
+.nbu2-sparkle{
+  z-index:12000;pointer-events:none;font-style:normal;
+  color:#ffd678;line-height:1;
+  text-shadow:0 0 2px rgba(126,62,75,.85),0 0 5px rgba(126,62,75,.5),0 0 9px rgba(255,214,120,.9);
+  transform:translate(-50%,-50%);opacity:0;
+  animation:nbu2SparkleUp .62s ease-out forwards
+}
+@keyframes nbu2SparkleUp{
+  0%{opacity:0;transform:translate(-50%,-50%) translate(0,2px) scale(.5)}
+  25%{opacity:1}
+  100%{opacity:0;transform:translate(-50%,-50%) translate(var(--dx,0px),-26px) scale(1.05)}
+}
+
+
+.nbu2-heart{
+  z-index:12001;width:15px;height:15px;pointer-events:none;
+  transform:translate(-50%,-50%);opacity:0;
+  animation:nbu2HeartFloat .85s cubic-bezier(.22,.9,.36,1) forwards
+}
+@keyframes nbu2HeartFloat{
+  0%{opacity:0;transform:translate(-50%,-50%) translate(0,0) scale(.4)}
+  20%{opacity:1;transform:translate(-50%,-50%) translate(calc(var(--dx,0px)*.3),-10px) scale(1.15)}
+  100%{opacity:0;transform:translate(-50%,-50%) translate(var(--dx,0px),-40px) scale(.9)}
+}
+/* 减动效：整条线在 .js 里就不建节点，这里再兜一层 */
+@media (prefers-reduced-motion:reduce){
+  #nbu2Fx{display:none}
+}
+
+
+/* ── ① 裸 PNG 图标钮：图标自己缩，盒子不动 ── */
+html.nbu2-feel .gd-pa-btn img,
+html.nbu2-feel .action img,
+html.nbu2-feel #menu-toggle img,
+html.nbu2-feel #night img,
+html.nbu2-feel .gd-tray-item img,
+html.nbu2-feel .nb4-corner img{
+  transition:transform .26s cubic-bezier(.34,1.56,.64,1)
+}
+html.nbu2-feel .gd-pa-btn:active img,
+html.nbu2-feel .gd-pa-btn.npp-down img,
+html.nbu2-feel .action:active img,
+html.nbu2-feel .action.npp-down img,
+html.nbu2-feel #menu-toggle:active img,
+html.nbu2-feel #menu-toggle.npp-down img,
+html.nbu2-feel #night:active img,
+html.nbu2-feel #night.npp-down img,
+html.nbu2-feel .gd-tray-item:active img,
+html.nbu2-feel .gd-tray-item.npp-down img,
+html.nbu2-feel .nb4-corner:active img,
+html.nbu2-feel .nb4-corner.npp-down img{
+  transition-duration:.08s;transition-timing-function:cubic-bezier(.3,.7,.4,1)
+}
+
+
+html.nbu2-feel .nb4-corner:active img,
+html.nbu2-feel .nb4-corner.npp-down img{
+  transform:translateY(1px) scale(.97)
+}
+
+/* 长按浇满那一路（.is-pouring img{transform:scale(.94)}）自己有 1.1s 的呼吸环，
+   按住不放的那一档别让它跟着弹，按下口径伺候到底。 */
+html.nbu2-feel .gd-pa-btn.is-pouring img{
+  transition-duration:.08s;transition-timing-function:cubic-bezier(.3,.7,.4,1)
+}
+
+
+@keyframes nbu2Pop{
+  0%{transform:translateY(1px) scale(.955)}
+  44%{transform:translateY(-1px) scale(1.07)}
+  72%{transform:translateY(0) scale(.988)}
+  100%{transform:none}
+}
+html.nbu2-feel .nbu2-pop{
+  animation:nbu2Pop .3s cubic-bezier(.34,1.4,.64,1)
+}
+/* 格子钮是整颗沉 2px，弹的幅度收一半（底板比裸图标显眼，弹太狠像抽筋） */
+@keyframes nbu2PopBox{
+  0%{transform:translateY(2px) scale(.99)}
+  44%{transform:translateY(-1px) scale(1.035)}
+  72%{transform:translateY(0) scale(.995)}
+  100%{transform:none}
+}
+html.nbu2-feel .nbu2-pop-box{
+  animation:nbu2PopBox .28s cubic-bezier(.34,1.4,.64,1)
+}
+
+/* ── ② 格子钮：底板整颗沉，回弹也整颗回 ──
+   transform 一档走弹簧，颜色/阴影三档照旧 60ms（颜色跟着弹会显脏）。 */
+html.nbu2-feel #dialog-body button:not(:disabled),
+html.nbu2-feel #menu button,
+html.nbu2-feel .pages button{
+  transition:transform .24s cubic-bezier(.34,1.56,.64,1),
+             box-shadow 60ms ease,background-color 60ms ease,color 60ms ease
+}
+html.nbu2-feel #dialog-body button:not(:disabled):active,
+html.nbu2-feel #dialog-body button:not(:disabled).npp-down,
+html.nbu2-feel #menu button:active,
+html.nbu2-feel #menu button.npp-down,
+html.nbu2-feel .pages button:active,
+html.nbu2-feel .pages button.npp-down{
+  transition-duration:70ms
+}
+
+
+html.nbu2-feel #retry:active,
+html.nbu2-feel #retry.npp-down{
+  transform:translateX(-50%) translateY(2px)
+}
+
+@media (prefers-reduced-motion:reduce){
+  html.nbu2-feel .gd-pa-btn img,
+  html.nbu2-feel .action img,
+  html.nbu2-feel #menu-toggle img,
+  html.nbu2-feel #night img,
+  html.nbu2-feel .gd-tray-item img,
+  html.nbu2-feel .nb4-corner img,
+  html.nbu2-feel #dialog-body button,
+  html.nbu2-feel #menu button,
+  html.nbu2-feel .pages button{transition:none}
+  html.nbu2-feel .nbu2-pop,
+  html.nbu2-feel .nbu2-pop-box{animation:none}
+}

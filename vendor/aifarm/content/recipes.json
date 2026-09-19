@@ -1,0 +1,47 @@
+[
+  {
+    "materials": [
+      "dragon_claw",
+      "sea_god_scale",
+      "world_tree_seed"
+    ],
+    "output": "completion_bloom",
+    "hint": "以世界树之籽为引"
+  },
+  {
+    "materials": [
+      "ever_frost",
+      "time_amber",
+      "void_fabric"
+    ],
+    "output": "eternal_frost_bloom",
+    "hint": "封存盛夏之冰、凝固的时间与缝补天空的布，熔出不会融化的花。"
+  },
+  {
+    "materials": [
+      "phoenix_feather",
+      "stardust_sand",
+      "tarnished_lunar_bronze"
+    ],
+    "output": "star_rebirth_orchid",
+    "hint": "浴火的羽毛、跳舞的星沙与月亮的歌，种出重生时开的花。"
+  },
+  {
+    "materials": [
+      "sea_glass",
+      "rusted_gear",
+      "ambergris_fragment"
+    ],
+    "output": "archivist_tree",
+    "hint": "海洋的记忆、时光的齿轮与深海凝香，催生一棵记得一切的树。"
+  },
+  {
+    "materials": [
+      "crystal_shard",
+      "old_vine",
+      "creation_echo"
+    ],
+    "output": "origin_vine",
+    "hint": "微光碎晶、不死枯藤与开天辟地的回响，唤醒最初的蔓。"
+  }
+]

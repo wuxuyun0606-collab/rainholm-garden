@@ -1,0 +1,99 @@
+
+
+
+#ndsLayer,
+#ndsHots {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+#ndsLayer { z-index: 2; }
+#ndsHots  { z-index: 3; }
+
+#ndsLayer[hidden],
+#ndsHots[hidden] { display: none !important; }
+
+/* ── 一幕 ────────────────────────────────────────────────────────────────────
+   .nds-stage 是那块矩形（位置/大小由 JS 按世界坐标写成百分比内联）。
+   里面永远两张：静帧 <img> 垫底、<video> 盖在上面。
+   垫静帧不是保险丝是必需品 —— 安卓微信 WebView 拒绝无手势 play()，视频不画第一帧的
+   那几百毫秒里，用户看到的是这张图，而不是一块透明的空气（母版病历 9/4）。 */
+.nds-stage {
+  position: absolute;
+  opacity: 0;
+  transition: opacity .26s ease;
+  will-change: opacity;
+}
+
+.nds-stage.nds-in { opacity: 1; }
+.nds-stage[hidden] { display: none !important; }
+
+.nds-stage img,
+.nds-stage video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;      /* 素材是正方形，舞台也是正方形，fill 不会变形 */
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.nds-stage video { opacity: 0; transition: opacity .18s ease; }
+.nds-stage video.nds-play { opacity: 1; }   /* 真的在放了才盖住静帧，否则静帧一直露着 */
+/* postercover0918：视频盖上之后静帧必须收掉（玩家手机上两层错位，静帧的白猫从视频后面露出来一圈＝"小白两只"）。
+   晚 .2s 再收，等视频那 .18s 淡入走完，中间不露空。 */
+.nds-stage img { transition: opacity 0s linear .2s; }
+.nds-stage.nds-live img { opacity: 0; }
+
+/* ── 夜档 ────────────────────────────────────────────────────────────────────
+   小窝的夜是换了一张底图（cat-home-night.png），不是给 #world 加滤镜，所以这两幕
+   得自己配一副夜色。配方是照底图量出来的：在床/沙发那两块区域，夜图 ÷ 日图的
+   逐通道均值比是
+       床（台灯照着）  R .775  G .642  B .567
+       沙发（背光）    R .611  G .550  B .501
+   实现用的是 feColorMatrix 的逐通道缩放（滤镜本体由 duoscenes-20260915.js 插一段
+   隐藏 <svg> 提供），不是 brightness+sepia 那一套 —— 试过，sepia 会把被子的粉吃掉，
+   夜里那床被子发灰，跟底图对不上。逐通道缩放保色相、也保黑（黑猫夜里还是黑的）。
+   想换成别的口味，改下面这两个变量就行，填什么都认（比如
+   --nds-night-sleep: brightness(.7) saturate(1.1)），不用动 JS。 */
+#ndsLayer {
+  --nds-night-sleep: url(#ndsNightSleep);
+  --nds-night-sofa:  url(#ndsNightSofa);
+}
+
+#world.night #ndsSleep { filter: var(--nds-night-sleep); }
+#world.night #ndsSofa  { filter: var(--nds-night-sofa); }
+
+/* ── 热区 ────────────────────────────────────────────────────────────────────
+   透明钮，形状用 clip-path 切成家具的等距菱形 —— 用 AABB 会把半间屋子判死，
+   跟 host-cat.js 里小窝改判脚点是同一个理由（那边 1c 段写着）。
+   是 <button> 不是 <div>：host-cat.js 的 onWorldClick 认 "button" 就放行，
+   点床不会顺手把白猫也支使过去。 */
+.nds-hot {
+  position: absolute;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  pointer-events: auto;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+/* 桌面：鼠标扫过去给一层极淡的奶油光，告诉人这儿能点；手机没有 hover，不给。 */
+@media (hover: hover) and (pointer: fine) {
+  .nds-hot:hover { background: #fff6dd22; }
+}
+
+.nds-hot:focus-visible { outline: 3px solid #78916a; outline-offset: -3px; }
+
+/* 正在放的那一幕，热区标签换成「起来」—— 只是 aria，视觉上还是透明的 */
+
+/* ── 减动效 ──────────────────────────────────────────────────────────────────
+   直接给首帧静态图，视频一帧都不放（脚本里也不会去 play）。 */
+@media (prefers-reduced-motion: reduce) {
+  .nds-stage { transition: none; }
+  .nds-stage video { display: none; }
+}

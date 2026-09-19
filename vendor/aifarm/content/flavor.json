@@ -1,0 +1,42 @@
+{
+  "water": {
+    "owner": [
+      ""
+    ],
+    "visitor": [
+      ""
+    ]
+  },
+  "steal": {
+    "thiefByRarity": {
+      "N": "",
+      "R": "",
+      "SR": "",
+      "SSR": "",
+      "SP": ""
+    },
+    "victim": [
+      ""
+    ]
+  },
+  "ambient": {
+    "ripe": [
+      ""
+    ],
+    "thirsty": [
+      ""
+    ],
+    "empty": [
+      ""
+    ],
+    "allEmpty": [
+      ""
+    ],
+    "animalProduce": [
+      ""
+    ],
+    "bumper": [
+      ""
+    ]
+  }
+}

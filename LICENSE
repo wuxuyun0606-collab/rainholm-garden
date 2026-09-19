@@ -1,0 +1,38 @@
+MIT License
+
+Copyright (c) 2026 suwanblue & Kelin & Guchen
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+--------------------------------------------------------------------------------
+SCOPE OF THIS MIT LICENSE  ·  这份 MIT 管到哪儿为止
+
+The MIT license above covers the original code written for this project:
+  server/, tests/, web/index.html, web/app.js, web/style.css,
+  web/host-boot.js, web/host-cat.js, web/walk-map.json,
+  and original JavaScript/CSS in web/assets/ (including v6, v7 and v8).
+
+It does NOT cover the bundled third-party engine, artwork, fonts, icons or the
+cat character designs. Those keep their own terms, and some of them are stricter than
+MIT — in particular the game engine in vendor/aifarm is NONCOMMERCIAL ONLY, so a
+distribution of this repository as a whole is noncommercial.
+
+See NOTICE for the full list. 上面那段 MIT 只管本项目自己写的代码；
+随包带来的引擎、美术、字体、图标、猫角色形象各有各的许可，其中引擎是「禁商用」的，
+所以整包合起来分发时按禁商用算。逐项见 NOTICE。

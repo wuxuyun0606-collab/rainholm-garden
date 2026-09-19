@@ -1,0 +1,151 @@
+
+
+
+:root{
+  --rc-paper:#f7efd8;
+  --rc-paper2:#faf4de;
+  --rc-green:#5f6e4b;
+  --rc-green2:#93a077;
+  --rc-ink:#26301f;
+  --rc-ink2:#2c3321;
+  --rc-muted:#5a5f4e;
+  --rc-display:GardenSerif,'Noto Serif CJK SC','Source Han Serif SC','Songti SC',serif;
+  --rc-body:GardenSans,'Noto Sans CJK SC','PingFang SC','Microsoft YaHei',sans-serif;
+}
+
+/* ── 角钮：跟右上角那一列同款（裸图标 + 图标正下方九切片药丸）────────────────
+   皮照 corner-stack.css 的 #menu-toggle,#night 和 batch4 的 .nb4-corner 抄，
+   尺寸/间距/right 全部直接吃 corner-stack 的 --cs-icon / --cs-step / --cs-top / --cs-right。
+   落点 --rc-i 由 credits.js 现算（= 上头几颗可见钮的数量），恒在整列最下面一格。
+   z-index 12 跟 .nb4-corner 同层，低于 #gdTray(31) 和 <dialog> 的 top layer。 */
+#rhCreditsBtn{
+  position:fixed;z-index:12;
+  top:calc(var(--cs-top,16px) + var(--rc-i,3) * var(--cs-step,80px));
+  right:var(--cs-right,18px);
+  left:auto;bottom:auto;
+  width:var(--cs-icon,46px);height:var(--cs-icon,46px);
+  padding:0;border:0;border-radius:0;
+  background:transparent;box-shadow:none;
+  display:block;overflow:visible;cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+  touch-action:manipulation;
+}
+#rhCreditsBtn .rc-ico{
+  display:block;width:100%;height:100%;pointer-events:none;
+  filter:drop-shadow(0 2px 2px #60452f40);
+  transition:transform .12s ease;
+}
+#rhCreditsBtn:active{box-shadow:none;transform:none}
+#rhCreditsBtn:active .rc-ico{transform:scale(.92)}
+#rhCreditsBtn:focus-visible{outline:2px solid var(--rc-green);outline-offset:3px}
+/* 标签皮一个字不重写：直接用 v6 的 .gd-lab + corner-stack 的 .gd-corner-label
+   （js 里给 span 挂这两个类），字号/药丸/定位全跟别的钮一模一样。 */
+
+/* 图鉴托盘展开时让位 ——
+   ≤1024 那档 #gdTray 竖着从图鉴下面一格铺开（corner-stack.css 137/145 行），
+   正好压在这颗钮的位置上。托盘一开就把它收走（visibility，不重排），关了自己回来。
+   >1024 桌面托盘是横排在图鉴左边的，不挡，所以只在 ≤1024 生效。 */
+@media (max-width:1024px){
+  body:has(#gdTray.gd-open) #rhCreditsBtn{visibility:hidden;pointer-events:none}
+}
+/* 横屏／矮屏：batch4 那档把整列改成两列三行（--nb4-col/--nb4-row），
+   这颗钮按同一套算好的 --rc-col/--rc-row 落点，别掉出屏幕。 */
+@media (max-height:560px){
+  #rhCreditsBtn{
+    top:calc(var(--cs-top,16px) + var(--rc-row,0) * var(--cs-step,80px));
+    right:calc(var(--cs-right,18px) + var(--rc-col,0) * var(--nb4-colw,66px));
+  }
+}
+
+/* ── 面板：奶油纸 + 草木绿双细线框 + 顶部小花饰 + 宋体标题 ────────────────
+   皮照 assets/v8/codex-wall-20260918.css 那一套 token（纸色 / 草木绿 / 宋体 / 小菱形分隔线）。
+   双细线不用 border-image：两层 ::before/::after 的圆角细边最省事也最稳。
+   id 选择器盖掉 style.css 第 4 行的全局 dialog{粉纸皮 + 2px #ad855b 边}。
+   夜档滤镜照 ht-on 那条规矩：夜幕只加在 #world 上，这份文件一个 filter 都不写，
+   <dialog> 又在 top layer，天然不吃夜色。 */
+#rhCreditsDlg{
+  width:min(460px,calc(100% - 44px));max-width:none;max-height:86dvh;
+  padding:0;border:0;border-radius:20px;
+  background:var(--rc-paper);
+  color:var(--rc-ink);
+  box-shadow:0 14px 44px rgb(70 66 37 / .22);
+  overflow:visible;
+  font-family:var(--rc-body);
+}
+#rhCreditsDlg::backdrop{background:rgb(250 246 236 / .52)}
+#rhCreditsDlg .rc-inner{position:relative;padding:26px 30px 30px}
+/* 草木绿双细线：外线 1.5px、内线 1px，间距 5px —— 照图鉴墙那两条的粗细关系 */
+#rhCreditsDlg .rc-inner::before,
+#rhCreditsDlg .rc-inner::after{
+  content:'';position:absolute;pointer-events:none;border-radius:11px;
+  border:1.5px solid var(--rc-green2);
+}
+#rhCreditsDlg .rc-inner::before{inset:9px}
+#rhCreditsDlg .rc-inner::after{inset:14px;border-width:1px;border-radius:8px}
+
+/* 顶部小花饰：两片叶子打个结，照 codex-wall 分组标题那颗叶结的画法 */
+#rhCreditsDlg .rc-sprig{
+  display:block;width:52px;height:24px;margin:2px auto 8px;
+}
+#rhCreditsDlg .rc-sprig svg{display:block;width:100%;height:100%}
+
+#rhCreditsDlg h2{
+  margin:0;text-align:center;
+  font-family:var(--rc-display);font-weight:600;font-size:28px;line-height:1.2;
+  letter-spacing:.1em;color:var(--rc-ink);
+}
+/* 标题下的小菱形分隔线：跟图鉴墙 .dialog-head h2::after 同一张 SVG */
+#rhCreditsDlg .rc-rule{
+  width:84px;height:10px;margin:9px auto 18px;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='90' height='10' viewBox='0 0 90 10'%3E%3Cg stroke='%2393a077' stroke-width='1' fill='none' stroke-linecap='round'%3E%3Cpath d='M2 5 H35'/%3E%3Cpath d='M55 5 H88'/%3E%3Cpath d='M45 1.4 L48.6 5 L45 8.6 L41.4 5 Z'/%3E%3C/g%3E%3C/svg%3E") center/contain no-repeat;
+}
+
+
+#rhCreditsDlg .rc-body{padding:0 6px}
+#rhCreditsDlg .rc-body p{
+  margin:0 0 14px;text-align:left;
+  font-family:var(--rc-body);font-size:15px;line-height:2;
+  letter-spacing:.01em;color:var(--rc-ink2);
+}
+#rhCreditsDlg .rc-body p:last-child{margin-bottom:2px}
+
+/* 右上角裸 ×：跟图鉴那颗同款（没有底、没有边、没有阴影，墨色叉号落在纸面上，
+   34px 点击面积留着） */
+#rhCreditsDlg .rc-close{
+  position:absolute;z-index:4;top:6px;right:8px;
+  width:34px;height:34px;padding:0;
+  display:grid;place-items:center;
+  border:0;border-radius:0;background:none;box-shadow:none;
+  color:var(--rc-ink);font-size:24px;line-height:1;
+  cursor:pointer;transition:color .16s ease;
+}
+#rhCreditsDlg .rc-close:active{color:var(--rc-green)}
+#rhCreditsDlg .rc-close:focus-visible{outline:none;color:var(--rc-green)}
+@media(hover:hover){#rhCreditsDlg .rc-close:hover{background:none;color:var(--rc-green)}}
+
+@media(max-width:600px){
+  #rhCreditsDlg{width:calc(100% - 32px)}
+  #rhCreditsDlg .rc-inner{padding:22px 20px 24px}
+  #rhCreditsDlg h2{font-size:25px}
+  #rhCreditsDlg .rc-body p{font-size:14px;line-height:1.95;margin-bottom:12px}
+}
+
+/* ── 加载页底部的三行鸣谢（皮备着，见文件头那条 ⚠️）────────────────────────
+   奶油底上暗绿字、居中、11.5px；绝对定位钉在遮罩底部，不进插画和进度条的地盘。
+   跟着遮罩一起淡出：它是 #rhLoading 的子节点，遮罩 opacity/display 一变它自然跟着走。 */
+.rc-loading{
+  position:absolute;left:0;right:0;
+  bottom:calc(14px + env(safe-area-inset-bottom,0px));
+  margin:0;padding:0 16px;
+  pointer-events:none;text-align:center;
+  font-family:var(--rc-body);
+}
+.rc-loading p{
+  margin:0 0 3px;
+  font-size:11.5px;line-height:1.55;letter-spacing:.01em;
+  color:#5a5f4e;
+}
+.rc-loading p:last-child{margin-bottom:0;color:#6b5a3f}
+@media(max-width:600px){
+  .rc-loading p{font-size:11px;line-height:1.5}
+}

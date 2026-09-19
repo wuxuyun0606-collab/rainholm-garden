@@ -1,0 +1,228 @@
+
+
+
+@font-face{font-family:GardenSerif;src:url('codex-ticket/fonts/garden-serif.woff2') format('woff2');font-display:swap;font-weight:400}
+@font-face{font-family:GardenSans;src:url('codex-ticket/fonts/garden-sans.woff2') format('woff2');font-display:swap;font-weight:400}
+
+:is(#dialog.ct-on[data-panel="codex"],#dialog.ht-on),#dialog-body .ct-root{
+ --paper:#f7f1df;--paper-light:#fffaf0;--paper-deep:#eee6d0;--ink:#364734;--muted:#68715b;
+ --green:#526848;--green-soft:#e0e7d5;--line:#d4cfb8;--wood:#85684b;--focus:#35553e;--danger:#8f433d;
+ --clear:transparent;--scrim:rgb(35 43 27 / .42);--shadow:rgb(70 66 37 / .12);
+ --display:GardenSerif,'Noto Serif CJK SC','Songti SC',serif;
+ --body:GardenSans,'Noto Sans CJK SC','PingFang SC','Microsoft YaHei',sans-serif;
+ --latin:Georgia,'Times New Roman',serif;
+ --ease:cubic-bezier(.2,.6,.3,1);
+ --ct-chrome:140px;                 /* 票签之外那些行（进度条/翻页条/状态行）占的高 */
+}
+#dialog-body .ct-root{font-family:var(--body);color:var(--ink);font-size:16px;line-height:1.7}
+
+
+:is(#dialog.ct-on[data-panel="codex"],#dialog.ht-on){
+ background:none;border:0;border-radius:0;box-shadow:none;padding:12px 14px 14px;
+ width:min(760px,calc(100% - 20px));max-width:none;max-height:100dvh;overflow:visible;color:var(--ink);
+}
+:is(#dialog.ct-on[data-panel="codex"],#dialog.ht-on)::backdrop{background:rgb(35 43 27 / .45)}   /* ::backdrop 不吃自定义属性，写字面值 */
+:is(#dialog.ct-on[data-panel="codex"],#dialog.ht-on)::before,:is(#dialog.ct-on[data-panel="codex"],#dialog.ht-on)::after{content:none}
+:is(#dialog.ct-on[data-panel="codex"],#dialog.ht-on) .gd-ears{display:none}
+:is(#dialog.ct-on[data-panel="codex"],#dialog.ht-on) #dialog-body{max-height:calc(100dvh - 26px);overflow:auto;
+ scrollbar-width:thin;scrollbar-color:var(--line) var(--clear)}
+:is(#dialog.ct-on[data-panel="codex"],#dialog.ht-on) #dialog-body::-webkit-scrollbar-track{background:var(--clear);box-shadow:none}
+:is(#dialog.ct-on[data-panel="codex"],#dialog.ht-on) #dialog-body::-webkit-scrollbar-thumb{background:var(--line);border-color:var(--clear)}
+/* 标题栏：字留给读屏（aria-labelledby 还指着它），画面上只剩右上角一颗纸面色的关闭钮 */
+:is(#dialog.ct-on[data-panel="codex"],#dialog.ht-on) .dialog-head{position:absolute;right:14px;top:12px;z-index:2;margin:0;gap:0}
+:is(#dialog.ct-on[data-panel="codex"],#dialog.ht-on) .dialog-head h2{position:absolute;width:1px;height:1px;overflow:hidden;
+ clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap;margin:0}
+:is(#dialog.ct-on[data-panel="codex"],#dialog.ht-on) .dialog-head button{
+ width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--paper-light);
+ color:var(--ink);font-size:24px;line-height:1;box-shadow:0 2px 10px var(--shadow);transform:none}
+:is(#dialog.ct-on[data-panel="codex"],#dialog.ht-on) .dialog-head button:active{background:var(--paper-deep);transform:translateY(1px)}
+@media(hover:hover){:is(#dialog.ct-on[data-panel="codex"],#dialog.ht-on) .dialog-head button:hover{background:var(--green-soft)}}
+
+#dialog-body .ct-root *{box-sizing:border-box;min-width:0}
+#dialog-body .ct-root p,#dialog-body .ct-root h2,#dialog-body .ct-root h3{margin:0}
+#dialog-body .ct-root h2,#dialog-body .ct-root h3{font-family:var(--display);font-weight:600;overflow-wrap:anywhere}
+#dialog-body .ct-root button{
+ min-height:44px;min-width:44px;border:1px solid var(--line);background:var(--clear);
+ padding:8px 15px;border-radius:10px;color:var(--ink);font:inherit;cursor:pointer;
+ white-space:nowrap;touch-action:manipulation;box-shadow:none;
+ transition:background .16s var(--ease),transform .16s var(--ease);
+}
+#dialog-body .ct-root button:active{transform:translateY(1px);background:var(--paper-deep)}
+#dialog-body .ct-root button:disabled{opacity:.4;cursor:not-allowed}
+#dialog-body .ct-root button:focus-visible,#dialog-body .ct-root input:focus-visible{outline:3px solid var(--focus);outline-offset:3px}
+@media(hover:hover){#dialog-body .ct-root button:hover:not(:disabled){background:var(--green-soft)}}
+
+/* ── 顶栏：真实进度 + 手机端目录钮 ───────────────────────────────── */
+/* 外壳没了，这一行浮在压暗的花园上：进度和目录钮各自套一小片纸面，右边给关闭钮留 52px */
+#dialog-body .ct-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px;padding-right:52px;min-height:44px}
+#dialog-body .ct-progress{font-size:12px;letter-spacing:.14em;color:var(--ink);background:var(--paper-light);
+ border:1px solid var(--line);border-radius:999px;padding:9px 16px;line-height:1.6;box-shadow:0 2px 10px var(--shadow)}
+#dialog-body .ct-index-open{display:none;font-size:13px;padding:6px 11px}
+#dialog-body .ct-root button.ct-index-open{background:var(--paper-light);box-shadow:0 2px 10px var(--shadow)}
+#dialog-body .ct-index-open span{margin-left:4px}
+
+/* ── 桌面：左目录右详情 ───────────────────────────────────────────── */
+#dialog-body .ct-spread{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,360px);gap:28px;align-items:stretch}
+/* 桌面左边的目录：外壳没了，它自己套一张纸；高度跟右边票签那一列齐（contain:size 让它不参与行高计算，
+   否则 123 格会把整行撑到 4700px），格子在纸里滚 */
+#dialog-body .ct-aside{min-width:0;display:flex;flex-direction:column;padding:18px 18px 12px;contain:size;
+ background:var(--paper);border:1px solid var(--line);border-radius:18px;box-shadow:0 10px 40px var(--shadow)}
+#dialog-body .ct-aside .ct-index-ui{display:flex;flex-direction:column;flex:1;min-height:0}
+#dialog-body .ct-aside .ct-grid{flex:1;min-height:200px;max-height:none;grid-auto-rows:max-content;align-content:start}  /* 高度定死后 auto 行会缩成一条，钉成 max-content */
+#dialog-body .ct-eyebrow{font-size:12px;color:var(--wood);letter-spacing:.12em;margin-bottom:8px}
+#dialog-body .ct-aside h3{font-size:22px;letter-spacing:.05em}
+#dialog-body .ct-index-intro{margin-bottom:16px}
+#dialog-body .ct-index-intro>p:last-child{font-size:14px;color:var(--muted);line-height:1.8;margin-top:8px}
+
+#dialog-body .ct-search-label{display:block;font-size:13px;color:var(--muted);margin-bottom:7px}
+#dialog-body .ct-search{width:100%;height:44px;padding:8px 13px;background:var(--paper-light);
+ border:1px solid var(--line);border-radius:8px;font:inherit;font-size:16px;color:var(--ink)}
+#dialog-body .ct-filters{display:flex;gap:8px;margin:12px 0 18px}
+#dialog-body .ct-filters button{flex:1;font-size:14px;padding:8px 4px}
+#dialog-body .ct-filters button[aria-pressed=true]{background:var(--green);border-color:var(--green);color:var(--paper-light)}
+#dialog-body .ct-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px 8px;
+ max-height:400px;overflow:auto;padding:3px 5px 12px 3px;overscroll-behavior:contain;
+ scrollbar-width:thin;scrollbar-color:var(--line) var(--clear)}
+#dialog-body .ct-choice{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;
+ padding:8px 4px 10px;border:1px solid var(--clear);border-radius:10px;white-space:normal;min-height:0}
+#dialog-body .ct-choice[aria-current=true]{border-color:var(--green);background:var(--green-soft)}
+#dialog-body .ct-choice img{width:70px;height:70px;object-fit:contain}
+#dialog-body .ct-choice span{font-size:13px;line-height:1.5;white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}
+#dialog-body .ct-choice.unknown{color:var(--muted)}
+#dialog-body .ct-empty{grid-column:1/-1;color:var(--muted);font-size:15px;line-height:1.9;padding:22px 2px}
+
+/* ── 票签本体 ─────────────────────────────────────────────────────── */
+#dialog-body .ct-reader{display:flex;flex-direction:column;align-items:center;min-width:0}
+#dialog-body .ct-ticket{position:relative;width:100%;aspect-ratio:4/7;container-type:inline-size;
+ max-width:min(360px,max(220px,calc((100dvh - 26px - var(--ct-chrome)) / 7 * 4)))}
+#dialog-body .ct-frame{position:absolute;inset:0;width:100%;height:100%;object-fit:fill;pointer-events:none}
+/* v2：环孔去掉后顶上空出一条，标题从 20% 提到 13%，标本和正文跟着各上提一档 */
+/* ── textfit0919-v6：抬头整块让开左上那枝花饰 ──────────────────────────────
+   玩家 9/19 那两张截图先治的是墙里的小票签，同一张框、同一个病，大票签这儿也有：
+   「花园标本 · 005」和长学名压在左上那枝叶子底下（实测 ink 交集 76~774px²，
+   最长学名那档 name 也撞进去 1879px²）。
+
+   禁区用的是同一套 PIL 连通域实测值（ticket-frame.png 948×1659，两枝，不是四枝）：
+     左上   x 17.19% ~ 37.87%   y  8.32% ~ 24.53%
+     右下   x 62.03% ~ 82.70%   y 75.05% ~ 90.60%
+   .ct-ticket 是 aspect-ratio 4/7 = 948/1659，.ct-frame 又是 object-fit:fill 铺满，
+   所以这两组 % 在大票签上原样成立。
+
+   为什么选「横向让开」而不是「整块下移」：抬头块高 12.2% 卡高，
+   要整块躲到左上枝下沿（24.53%）以下就得从 25.5% 起排，底沿落到 37.7%，
+   直接压进标本图区（.ct-specimen top 28%）—— 除非把标本也往下搬，那是另一单的事。
+   所以走横向：整块落进「左上枝内缘 37.87% + 2% 余量」到「内框净空右缘 83.44%」之间，
+   = left 40% / right 17%，跟墙里小票签那一版同一条规矩、同一个数，两处看起来是一套语言。
+   列宽收到 43cqw 之后，标题字号上限从 31px 收到 25px（全库最长名 6 个汉字
+   ×1.08 字距 = 6.5em，6.3cqw 排出来 40cqw，留得下），学名放开两行、行距收到 1.45，
+   抬头总高 15.1% ＜ 标本图区 28% - 起点 11.5%，不撞图。
+   h2 / .ct-number 都加了 nowrap+省略号当硬保险（实测 123 条名字一条都不会触发）。 */
+#dialog-body .ct-heading{position:absolute;left:40%;right:17%;top:11.5%;text-align:center}
+#dialog-body .ct-number{font-size:11px;letter-spacing:.18em;color:var(--wood);margin-bottom:6px;
+ white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#dialog-body .ct-heading h2{font-size:clamp(13px,6.3cqw,25px);letter-spacing:.08em;line-height:1.3;
+ white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#dialog-body .ct-latin{font:14px/1.45 var(--latin);color:var(--muted);margin-top:5px;overflow-wrap:anywhere;
+ display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+#dialog-body .ct-specimen{position:absolute;top:28%;left:19%;right:19%;height:30%;display:grid;place-items:center}
+#dialog-body .ct-specimen img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;
+ filter:drop-shadow(0 4px 3px var(--shadow))}
+#dialog-body .ct-specimen img[hidden]{display:none}
+/* textfit0919-v6：正文块横向照旧铺满、照旧居中（诗是这张票的正主，不能挤到左半边），
+   改走竖向避让 —— 整块抬到右下那枝上沿（75.05%）以上。
+   原来 top 60% + 两行诗，盒底落到 77.17%，骑上花饰 963px²（字本身没撞，撞的是
+   .ct-rule 那 16px 上边距撑出来的尾巴）。现在 top 58.6%（标本图区 58% 下面留 0.6% 呼吸）
+   ＋ .ct-rule 上边距 16px → 6px，盒底 74.2%（桌面）/ 74.4%（手机），两档都在线上。 */
+#dialog-body .ct-copy{position:absolute;left:18%;right:18%;top:58.6%;text-align:center}
+#dialog-body .ct-rarity{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:4px 8px;
+ font-size:12px;color:var(--green);letter-spacing:.03em;line-height:1.6}
+#dialog-body .ct-leaf{font-size:19px}
+#dialog-body .ct-desc{font-family:var(--display);font-size:clamp(16px,4.4cqw,18px);line-height:1.9;
+ margin-top:12px;white-space:pre-line;overflow-wrap:anywhere;min-height:1.9em}
+#dialog-body .ct-rule{height:1px;background:var(--line);width:40px;margin:6px auto 0}   /* textfit0919-v6：16px→6px，这条尾巴是正文盒骑上右下花饰的唯一原因 */
+/* 收获次数并进稀有度那一行（不占独立行），正文才不会被右下角枝叶压住 */
+#dialog-body .ct-count{color:var(--muted);letter-spacing:.06em}
+#dialog-body .ct-art-missing{font-size:13px;color:var(--muted)}
+
+/* 翻页条：两颗纸面圆钮 + 页码，都浮在压暗的花园上，所以各自带纸底 */
+#dialog-body .ct-pager{display:flex;align-items:center;justify-content:center;gap:22px;margin-top:8px}
+#dialog-body .ct-pager button{font-size:23px;padding:1px 12px;border-radius:50%;background:var(--paper-light);box-shadow:0 2px 10px var(--shadow)}
+#dialog-body .ct-page-number{font-family:var(--latin);font-size:15px;color:var(--ink);min-width:72px;text-align:center;letter-spacing:.12em;
+ background:var(--paper-light);border:1px solid var(--line);border-radius:999px;padding:7px 14px;line-height:1.6}
+#dialog-body .ct-status{font-size:12px;color:var(--green);margin-top:8px;min-height:18px;text-align:center}
+#dialog-body .ct-ticket.is-changing{animation:ct-turn .2s var(--ease)}
+@keyframes ct-turn{from{opacity:.5;transform:translateX(5px)}to{opacity:1;transform:translateX(0)}}
+
+/* ── 手机目录抽屉（弹窗里再开一层，用 fixed 不受弹窗滚动裁切）────── */
+/* 选择器要比上面那条 .ct-root button 更硬，不然遮罩会被刷成透明 */
+#dialog-body .ct-root button.ct-scrim{position:fixed;inset:0;z-index:40;background:var(--scrim);
+ border:0;padding:0;min-height:0;min-width:0;border-radius:0;box-shadow:none}
+#dialog-body .ct-root button.ct-scrim:hover,#dialog-body .ct-root button.ct-scrim:active{background:var(--scrim);transform:none}
+#dialog-body .ct-drawer{position:fixed;z-index:41;left:50%;top:50%;transform:translate(-50%,-50%);
+ width:min(520px,calc(100vw - 24px));max-height:86dvh;overflow:auto;padding:20px;
+ border:1px solid var(--line);border-radius:20px;background:var(--paper);box-shadow:0 12px 50px var(--shadow)}
+#dialog-body .ct-drawer-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:18px}
+#dialog-body .ct-drawer-head h3{font-size:23px}
+#dialog-body .ct-drawer-head .ct-owner{font-size:11px;letter-spacing:.14em;color:var(--muted);margin-bottom:6px}
+#dialog-body .ct-drawer-close{font-size:25px;border:0;padding:0}
+
+@media(max-width:767px){
+ :is(#dialog.ct-on[data-panel="codex"],#dialog.ht-on){padding:10px 10px 12px;width:calc(100% - 16px);max-width:none}
+ :is(#dialog.ct-on[data-panel="codex"],#dialog.ht-on) .dialog-head{right:10px;top:10px}
+ :is(#dialog.ct-on[data-panel="codex"],#dialog.ht-on) #dialog-body{max-height:calc(100dvh - 22px)}
+ :is(#dialog.ct-on[data-panel="codex"],#dialog.ht-on),#dialog-body .ct-root{--ct-chrome:108px}
+ #dialog-body .ct-status{display:none}      /* 手机一屏寸土寸金：状态行让位给票签 */
+ #dialog-body .ct-index-open{display:block}
+ #dialog-body .ct-spread{display:block}
+ #dialog-body .ct-aside{display:none}
+ #dialog-body .ct-ticket{max-width:min(365px,max(220px,calc((100dvh - 22px - var(--ct-chrome)) / 7 * 4)))}
+ #dialog-body .ct-bar{margin-bottom:10px}
+ #dialog-body .ct-grid{max-height:52dvh}
+ #dialog-body .ct-pager{margin-top:4px;gap:22px}
+ #dialog-body .ct-latin{font-size:13px}
+}
+@media(max-width:359px){
+ #dialog-body .ct-heading{left:40%;right:16%}   /* textfit0919-v6：窄屏也照禁区来，左缘不许回到 17% */
+ #dialog-body .ct-copy{left:16%;right:16%;top:58.3%}
+ #dialog-body .ct-desc{font-size:16px;line-height:1.75;margin-top:8px}
+ #dialog-body .ct-rule{margin-top:5px;margin-bottom:8px}
+ #dialog-body .ct-latin{font-size:12px}
+ #dialog-body .ct-number{margin-bottom:5px}
+ #dialog-body .ct-rarity{font-size:11px;gap:6px}
+ #dialog-body .ct-grid{gap:10px 3px}
+ #dialog-body .ct-choice img{width:62px;height:62px}
+ #dialog-body .ct-choice span{font-size:12px}
+ #dialog-body .ct-drawer{padding:16px}
+}
+
+
+#dialog.ht-on{width:min(420px,calc(100% - 20px))}
+
+
+#dialog.ht-on::backdrop{
+ -webkit-backdrop-filter:none;
+ backdrop-filter:none;
+}
+#dialog-body .ct-root.ht-root{--ct-chrome:74px;display:flex;flex-direction:column;align-items:center;gap:12px;padding-top:2px}
+#dialog-body .ht-tag{font-size:12px;letter-spacing:.16em;color:var(--ink);background:var(--paper-light);
+ border:1px solid var(--line);border-radius:999px;padding:8px 16px;line-height:1.6;box-shadow:0 2px 10px var(--shadow)}
+#dialog-body .ht-root .ct-ticket{animation:ct-turn .22s var(--ease)}
+/* 收获票签开着时，花园上的浮动 UI 全部隐身（visibility，不重排），关了自动恢复。猫不藏。
+   两处花园选择器合写：开源版 .hud/#night/#menu-toggle/#nb4Home/#nccPaw/#nccPawPanel/#rhSayWrap，
+   本项目 .hud/#menu-toggle/#home/#rhgSwitchPlots/#rhgChatBtn；#world 里的气泡/门牌/地块热区一起。 */
+body:has(#dialog.ht-on[open]) :is(
+ .hud, .corner, .nb4-corner, #nccPawPanel, #rhSayWrap, #rhgChatBtn, #rhgSwitchPlots,
+ .pages, #card, #toast, #connection, #retry, #menu, .drag-hint,
+ #world .bubble, #world .gd-door-mark, #gdDoorMark, #gdHomeMark, #world .scene-door, #plots
+){visibility:hidden}
+@media(max-width:767px){
+ #dialog.ht-on{width:calc(100% - 16px)}
+ #dialog-body .ct-root.ht-root{--ct-chrome:66px;gap:10px}
+}
+@media(prefers-reduced-motion:reduce){
+ #dialog-body .ct-root *,#dialog-body .ct-root *::before,#dialog-body .ct-root *::after{animation:none!important;transition:none!important}
+}
+
+/* v5（9/19 玩家抓的闪屏）：js 接管揭晓时同步挂 ht-on + ht-pending，索引还在路上的那一段把 app.js
+   原生的粉壳 .reveal 藏掉（visibility，不重排），票签铺好 js 摘掉 ht-pending。 */
+#dialog.ht-pending .reveal{visibility:hidden}

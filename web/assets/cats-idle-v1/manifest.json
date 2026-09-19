@@ -1,0 +1,98 @@
+{
+  "pack": "cats-idle-v1",
+  "tag": "idle20260915",
+  "date": "2026-09-15",
+  "what": "小白/小黑 正面站立待机（呼吸 + 眨眼）图集，替代原来的正面定格死图",
+  "atlas": {
+    "size": [
+      2048,
+      2048
+    ],
+    "cols": 8,
+    "rows": 8,
+    "cell": 256,
+    "frames": 62
+  },
+  "geometry": {
+    "anchor": [
+      128,
+      232
+    ],
+    "art_top": 28,
+    "art_bottom_row": 231,
+    "art_h": 204,
+    "note": "跟 cats-fourway-v1 同口径：脚线对脚线、头心对头心对上的，不是按整幅 bbox 居中（尾巴会把身子拽偏）"
+  },
+  "timing": {
+    "fps": 12,
+    "frame_ms": 83.333,
+    "loop_ms": 5166.7,
+    "source_fps": 24,
+    "stride": 2,
+    "note": "源片 24fps 124 帧，隔一帧取一帧；首尾接得上，循环无跳变"
+  },
+  "blink_cells": {
+    "white": [
+      12,
+      13,
+      14,
+      30,
+      31,
+      32,
+      33
+    ],
+    "black": [
+      25,
+      37
+    ]
+  },
+  "sleep_cell": {
+    "white": 13,
+    "black": 25
+  },
+  "pipeline": "四角中位底色 + 投影法 alpha + 按帧解混（matte.py）→ 按背景色判据补洞 + 只留最大连通块 + 内缩 2px 判实（matte_idle.py）→ 按标定裁缩进 256 格（build_idle.py）→ 黑猫暗部抬升对齐走路帧毛色（grade.py）→ pngquant 256 色",
+  "color_check": {
+    "white": {
+      "idle_p50": [
+        252,
+        248,
+        223
+      ],
+      "walk_p50": [
+        253,
+        245,
+        230
+      ],
+      "dist": 7.68,
+      "graded": false,
+      "note": "高光毛色保持原样；与走路帧的色距为 7.68。"
+    },
+    "black": {
+      "idle_p50_before": [
+        32,
+        31,
+        22
+      ],
+      "walk_p50": [
+        38,
+        36,
+        32
+      ],
+      "dist_before": 12.69,
+      "dist_after": 0.1,
+      "graded": true
+    }
+  },
+  "scale_from_source": {
+    "white": 0.192999,
+    "black": 0.176166
+  },
+  "sha256": {
+    "white/idle.png": "f4c4ffb6d65e17ef018b7bf9f7b804726b8e9bcef6fe387edd0143bba26d25e8",
+    "black/idle.png": "27e8c4c6b1add8030a2119818875ceb12bc293db3de99aca59f73fc313602cf9"
+  },
+  "bytes": {
+    "white/idle.png": 561706,
+    "black/idle.png": 678257
+  }
+}

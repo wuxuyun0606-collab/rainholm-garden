@@ -1,0 +1,162 @@
+/* ═══ Rainholm Garden UI 增量包 v6（开源版 oss-20260912）═══
+   ① 换字体：寒蝉全圆体（woff2 子集），--gd-font 一处换全页
+   ② 菜单：右上钮点开展开一排浮动图标（无底板 + 九切片药丸标签）
+   ③ 门口：#scene-door 挂牌隐藏，换动态入口标记（独立层，app.js 的 render 擦不掉）
+   ⑤ 浇水气泡尾巴贴圆边；小耳朵：地块卡 / dialog 卡顶那对装饰
+   纪律：append-only，后加载盖旧规则；不动 [hidden] 的全局规则；无全局 !important。
+
+/* ── ① 字体 ─────────────────────────────────────────────────────
+   换字体只改这里两处：@font-face 的 src 和 --gd-font 的名字。 */
+@font-face{
+  font-family:GardenRefresh;
+  src:url(../v5/chill-round-subset.woff2) format("woff2");
+  font-weight:400;font-display:swap;
+}
+:root{
+  --gd-font:GardenRefresh,"PingFang SC","Hiragino Sans GB","Microsoft Yahei",sans-serif;
+  --gd-paper:#f4d8ca;--gd-plum:#795158;--gd-ink:#5d3e42;--gd-hi:#fdf3ea;--gd-cocoa:#a9807f;
+  --gd-cream:#FFF2D9;--gd-door:#6D493B;--gd-peach:#F7C6C7;
+}
+body,.pill,.bubble,.scene-door,#dialog-body{font-family:var(--gd-font)}
+/* 计时数字端正不抖（字体无 tnum 时此声明无害） */
+#tick{font-variant-numeric:tabular-nums;font-feature-settings:"tnum" 1}
+
+/* ── ② 浮动图标横排菜单 ───────────────────────────────────────── */
+/* 老 <nav id="menu"> 不删：app.js 照常 toggle 它的 hidden，我们只是不再显示它。
+   不写 [hidden] 的全局规则，只盖「被打开时」的那一面。 */
+#menu:not([hidden]){display:none}
+
+#gdTray{
+  position:fixed;z-index:31;top:20px;right:76px;
+  display:flex;gap:8px;align-items:flex-start;
+  opacity:0;visibility:hidden;pointer-events:none;
+  transition:opacity .15s ease,visibility .15s;
+}
+#gdTray.gd-open{opacity:1;visibility:visible;pointer-events:auto}
+.gd-tray-item{
+  position:relative;width:48px;border:0;background:transparent;padding:0;
+  display:flex;flex-direction:column;align-items:center;cursor:pointer;
+  opacity:0;transform:scale(.5);transform-origin:50% 0;
+  transition:transform .18s cubic-bezier(.34,1.56,.64,1),opacity .15s ease;
+}
+#gdTray.gd-open .gd-tray-item{opacity:1;transform:scale(1);transition-delay:calc(var(--i)*30ms)}
+.gd-tray-item img{
+  width:44px;height:44px;object-fit:contain;pointer-events:none;
+  scale:var(--isc,1);   /* 第五阶段：表里逐颗视觉等大系数，独立 scale 属性，与 transform 叠乘 */
+  filter:drop-shadow(0 2px 3px rgba(62,40,18,.34));
+  transition:transform .12s ease;
+}
+.gd-tray-item:active img{transform:scale(.92)}   /* 同 style.css 的 .action:active */
+/* 深棕九切片药丸标签（border-image 九切片，图见 ../v2/label_pill_9slice.png） */
+.gd-lab{
+  display:block;margin-top:3px;white-space:nowrap;pointer-events:none;
+  font-size:12px;font-weight:700;line-height:15px;letter-spacing:.02em;
+  color:#fff5e5;text-shadow:none;
+  border-style:solid;border-color:transparent;border-width:3px 8px;
+  border-image:url(../v2/label_pill_9slice.png) 32 fill / 8px / 0 stretch;
+}
+/* 手机竖屏（≤1024，含 ≤600 一档）：改成从右上 #menu-toggle
+   往下竖着展开一列——图标 44 贴右缘对齐钮中心，药丸标签放图标左侧（向左伸，320 宽不裁边、
+   不横滚）；顺序不变、交错 30ms 进场、点空白/Esc 收起照旧；>1024 桌面保持钮旁横排。 */
+@media (max-width:1024px){
+  #gdTray{
+    top:72px;right:20px;left:auto;justify-content:flex-start;
+    flex-direction:column;gap:10px;align-items:flex-end;
+  }
+  .gd-tray-item{
+    width:auto;flex-direction:row-reverse;gap:8px;align-items:center;
+    transform-origin:100% 50%;
+  }
+  .gd-tray-item img{width:44px;height:44px}
+  .gd-tray-item .gd-lab{margin-top:0}
+}
+@media (max-width:600px){
+  /* 钮在 right:10 / top:61（菜单钮 48 宽）：列挂钮正下，图标中心与钮中心对齐 */
+  #gdTray{top:115px;right:12px;gap:8px}
+  .gd-tray-item .gd-lab{font-size:11px;border-width:3px 6px}
+}
+@media (prefers-reduced-motion:reduce){
+  .gd-tray-item{transition:none;transition-delay:0ms}
+}
+
+/* ── ③ 门口动态入口 ───────────────────────────────────────────── */
+/* 挂牌/药丸隐藏不删：app.js 照常写它的 textContent 和坐标，点击也照常走它。
+   cathome20260913：小窝那扇门（#home-door）同一个待遇 —— 逻辑归 app.js，
+   看得见的那一颗是 .gd-door-mark。 */
+#scene-door,#home-door{display:none!important}
+
+/* cathome20260913：门牌从「一颗」变成「一场景一组」，样式整块挂到 .gd-door-mark 上。
+   .gd-door-mark（进花房那扇）保留原 id，宿主里挂 .gd-fade 的老写法不受影响。 */
+.gd-door-mark{
+  position:absolute;z-index:1;width:96px;height:100px;
+  transform:translate(-50%,-50%);
+  border:0;background:transparent;padding:0;cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+}
+/* 可见层是立体奶油箭头 PNG（美术 Guchen Zoran）：图盒 40×40（bob 层 top 19.5，
+   箭头中心在盒心上方 10.5px）；PNG 自带落影，不再另加软影层。
+   日/夜两张 <img> 同挂，跟 #world.night（app.js 按 host.isNight render 时切换）显隐。 */
+.gd-door-mark .gd-door-bob{
+  position:absolute;left:50%;top:19.5px;width:40px;height:40px;
+  animation:gdDoorFloat 1.6s ease-in-out infinite;pointer-events:none;
+}
+.gd-door-mark .gd-door-arrow{
+  position:relative;display:block;width:40px;height:40px;
+  transition:transform .12s ease,filter .12s ease;
+}
+.gd-door-mark .gd-door-arrow img{
+  position:absolute;inset:0;width:40px;height:40px;display:block;pointer-events:none;
+}
+.gd-door-mark .gd-door-arrow .gd-arrow-night{display:none}
+#world.night .gd-door-mark .gd-arrow-day{display:none}
+#world.night .gd-door-mark .gd-arrow-night{display:block}
+.gd-door-mark:active .gd-door-arrow{transform:scale(.92)}
+.gd-door-mark .gd-door-tip{
+  position:absolute;left:50%;top:calc(100% - 26px);transform:translateX(-50%);
+  white-space:nowrap;pointer-events:none;
+  font-size:13px;font-weight:700;line-height:16px;color:#fff5e5;
+  border-style:solid;border-color:transparent;border-width:3px 9px;
+  border-image:url(../v2/label_pill_9slice.png) 32 fill / 8px / 0 stretch;
+  opacity:0;transition:opacity .18s ease;
+}
+.gd-door-mark.gd-near .gd-door-tip,
+.gd-door-mark:hover .gd-door-tip,
+.gd-door-mark:focus-visible .gd-door-tip{opacity:1}
+/* .gd-near：亮度 +8%（箭头是 PNG 改不了描边，二选一取了亮度）。 */
+.gd-door-mark.gd-near .gd-door-arrow{filter:brightness(1.08)}
+/* .gd-fade：宿主想让箭头临时淡出时挂它（只动 opacity，不碰 pointer-events，热区照留）。 */
+.gd-door-mark{transition:opacity .25s ease}
+.gd-door-mark.gd-fade{opacity:0}
+@keyframes gdDoorFloat{0%,100%{transform:translate(-50%,0)}50%{transform:translate(-50%,-6px)}}
+@media (prefers-reduced-motion:reduce){
+  .gd-door-mark .gd-door-bob{animation:none}
+}
+
+/* ── ⑤ 浇水气泡尾巴贴圆边 ────────────────────────────────────────────────
+   病灶：style.css 的 .bubble::after 是旋转 45° 的 10px 方角尾巴，给圆角矩形泡身配的；
+   .bubble.water 把泡身改成 border-radius:50% 的圆之后，方尾巴两条边从圆弧斜插出来，
+   描边在尾巴根断开、看着不闭合。这里只盖 .bubble.water 一颗：尾巴换贴圆边的小三角
+   —— 内联 SVG 开放路径（只描两侧边，圆头圆接），fill 隐式闭合同色 #fff9e6，
+   把圆底被跨过的那段弧盖住，两侧描边与圆边相交，#ac844e 描边连成一整圈。
+   .bubble.harvest 方框那颗不动；几何按泡身椭圆 32×36（inset 6/0/8）对过：
+   三角底角落在椭圆内、尖角落在椭圆外，侧边与圆边必相交。 */
+.bubble.water::after{
+  border:0;
+  width:18px;height:11px;
+  left:50%;bottom:1px;
+  transform:translateX(-50%);
+  background:transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 11'%3E%3Cpath d='M1.4 0.9 L9 10 L16.6 0.9' fill='%23fff9e6' stroke='%23ac844e' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat center/contain;
+}
+
+/* ── 小耳朵：卡顶一条 overflow:hidden 的窄带，两只旋转 45° 的圆角方块只露上半截。
+   外圈深棕跟卡的描边同色，内芯用卡顶的粉；纯装饰不吃点击。挂在 #card / dialog 上。 ── */
+.gd-ears{position:absolute;left:0;right:0;top:-21px;height:22px;overflow:hidden;pointer-events:none;z-index:0}
+.gd-ear{position:absolute;bottom:-16px;width:30px;height:30px;background:#795158;border-radius:10px 4px 10px 4px;transform:rotate(45deg)}
+.gd-ear::before{content:"";position:absolute;inset:2px;border-radius:8px 3px 8px 3px;background:#f4d8ca}
+.gd-ear-l{left:18px}.gd-ear-r{right:18px}
+#card .gd-ears,dialog .gd-ears{top:-20px}
+#card .gd-ear{background:#ad855b}
+#card .gd-ear::before{background:#fff6e2}   /* 地块卡是奶油底棕描边，耳朵跟卡走；dialog 是梅子边粉底，用默认那对 */
+/* dialog 本体默认 overflow:auto 会把顶上的耳朵裁掉：本体放开，滚动交给 #dialog-body（22px 内边距 + 头行约 60px 留出） */
+dialog{overflow:visible}
+dialog #dialog-body{max-height:calc(80dvh - 120px);overflow:auto}
