@@ -11,20 +11,21 @@ const escape = s => String(s).replace(/[&<>"']/g, c => ({ '&':'&amp;', '<':'&lt;
 
 // A single garden owner approves narrowly scoped AI access. Protocol endpoints,
 // registered redirect validation, client authentication and PKCE use the SDK.
-export async function createOAuth({ access, publicBase, dataDir }) {
+export async function createOAuth({ access, publicBase, dataDir, storage }) {
   if (!publicBase) return { verify: async () => false, app: null };
   const resource = publicBase + '/mcp';
-  const file = join(dataDir, '.garden-oauth.json');
+  const file = storage ? null : join(dataDir, '.garden-oauth.json');
   let state = { clients: {}, tokens: {} };
-  try { state = JSON.parse(await readFile(file, 'utf8')); }
+  try { state = (storage ? await storage.load() : JSON.parse(await readFile(file, 'utf8'))) || state; }
   catch (e) { if (e.code !== 'ENOENT') throw new Error('Cannot read private OAuth state. Restore it before starting.'); }
   if (!state.clients || !state.tokens) throw new Error('Invalid OAuth state.');
-  const pending = new Map(), codes = new Map();
+  const pending = new Map(state.pending || []), codes = new Map(state.codes || []);
   let writes = Promise.resolve();
   const persist = () => {
     for (const [key, token] of Object.entries(state.tokens)) if (token.exp <= Date.now()) delete state.tokens[key];
-    const snapshot = JSON.stringify(state);
-    const next = writes.then(async () => { await writeFile(file + '.tmp', snapshot, { mode: 0o600 }); await rename(file + '.tmp', file); });
+    const snapshot = JSON.stringify({ ...state, pending: [...pending], codes: [...codes] });
+    const next = writes.then(async () => { if (storage) await storage.save(JSON.parse(snapshot));
+      else { await writeFile(file + '.tmp', snapshot, { mode: 0o600 }); await rename(file + '.tmp', file); } });
     writes = next.catch(() => {}); return next;
   };
   function checkResource(value) { if (value && value.toString() !== resource) throw new InvalidTargetError('This authorization is only for this garden MCP resource.'); }
@@ -64,6 +65,7 @@ export async function createOAuth({ access, publicBase, dataDir }) {
       if (pending.size >= 200) throw new InvalidGrantError('Too many pending authorizations.');
       const id = newKey(), csrf = newKey();
       pending.set(id, { clientId: client.client_id, params, csrf: hash(csrf), exp: Date.now() + 600000, attempts: 0 });
+      await persist();
       res.set({ 'Cache-Control': 'no-store', 'Referrer-Policy': 'no-referrer', 'X-Frame-Options': 'DENY', 'Content-Security-Policy': "default-src 'none'; style-src 'self'; form-action 'self'; frame-ancestors 'none'" });
       res.cookie('rh_oauth_csrf', csrf, { httpOnly: true, secure: true, sameSite: 'lax', path: '/oauth/approve', maxAge: 600000 });
       res.type('html').send(`<!doctype html><html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="/connect/style.css"><title>授权花园伙伴</title><main><p class="eyebrow">RAINHOLM GARDEN</p><h1>让 AI 走进花园</h1><p>客户端：<strong>${escape(client.client_name || 'MCP client')}</strong></p><p>回调域名：${escape(new URL(params.redirectUri).host)}</p><p>授权后，该客户端可以读取花园状态和最近消息、指挥黑猫、种浇收。它不能取得玩家钥匙，也不能管理连接设置。只有你主动发起的连接才应继续。</p><form method="post" action="/oauth/approve"><input type="hidden" name="transaction" value="${id}"><label for="key">玩家钥匙</label><input id="key" name="key" type="password" required autocomplete="off"><button name="decision" value="approve">授权这个伙伴</button><button name="decision" value="deny" formnovalidate class="secondary">取消</button></form></main></html>`);
@@ -95,22 +97,43 @@ export async function createOAuth({ access, publicBase, dataDir }) {
       }
     },
   };
+  // The SDK's default MemoryStore runs an interval, which would keep a
+  // Durable Object awake. This store expires lazily and survives eviction.
+  const rateOptions = {};
+  if (storage) for (const name of ['authorizationOptions', 'tokenOptions', 'clientRegistrationOptions', 'revocationOptions']) {
+    let windowMs;
+    const bucket = () => { state.rateLimits ??= {}; return state.rateLimits[name] ??= {}; };
+    rateOptions[name] = { rateLimit: { keyGenerator: () => 'personal-garden', store: {
+      init(options) { windowMs = options.windowMs; },
+      async increment(key) {
+        const rows = bucket(), now = Date.now();
+        for (const [k, v] of Object.entries(rows)) if (v.until <= now) delete rows[k];
+        if (!Object.hasOwn(rows, key)) rows[key] = { count: 0, until: now + windowMs };
+        const row = rows[key]; row.count++;
+        await persist();
+        return { totalHits: row.count, resetTime: new Date(row.until) };
+      },
+      async decrement(key) { if (bucket()[key]) bucket()[key].count = Math.max(0, bucket()[key].count - 1); await persist(); },
+      async resetKey(key) { delete bucket()[key]; await persist(); },
+    } } };
+  }
   const app = express(); app.disable('x-powered-by');
   app.use((req, res, next) => { res.set('Cache-Control', 'no-store'); next(); });
-  app.use(mcpAuthRouter({ provider, issuerUrl: new URL(publicBase), resourceServerUrl: new URL(resource), scopesSupported: ['garden:play'], resourceName: 'Rainholm Garden' }));
+  app.use(mcpAuthRouter({ ...rateOptions, provider, issuerUrl: new URL(publicBase), resourceServerUrl: new URL(resource), scopesSupported: ['garden:play'], resourceName: 'Rainholm Garden' }));
   app.post('/oauth/approve', express.urlencoded({ extended: false, limit: '8kb' }), async (req, res) => {
     const item = pending.get(req.body.transaction);
     const csrf = /(?:^|;\s*)rh_oauth_csrf=([^;]+)/.exec(req.headers.cookie || '')?.[1];
     if (!item || item.exp < Date.now() || !csrf || !equal(hash(csrf), item.csrf) || req.headers.origin !== publicBase) return res.status(403).send('授权已过期或请求来源不匹配，请从客户端重新连接。');
-    if (++item.attempts > 5) { pending.delete(req.body.transaction); return res.status(429).send('尝试过多，请重新连接。'); }
+    if (++item.attempts > 5) { pending.delete(req.body.transaction); await persist(); return res.status(429).send('尝试过多，请重新连接。'); }
     const target = new URL(item.params.redirectUri);
     if (item.params.state) target.searchParams.set('state', item.params.state);
     if (req.body.decision === 'deny') target.searchParams.set('error', 'access_denied');
     else {
-      if (!equal(req.body.key, access.keys.user)) return res.status(401).send('玩家钥匙不正确。请返回后重新填写。');
+      if (!equal(req.body.key, access.keys.user)) { await persist(); return res.status(401).send('玩家钥匙不正确。请返回后重新填写。'); }
       const code = newKey(); codes.set(code, { ...item, exp: Date.now() + 60000 }); target.searchParams.set('code', code);
     }
     pending.delete(req.body.transaction);
+    await persist();
     res.set('Referrer-Policy', 'no-referrer'); return res.redirect(303, target.toString());
   });
   app.use((_req, res) => res.status(404).json({ error: 'not_found' }));

@@ -60,7 +60,15 @@ docker compose exec garden node start.mjs --show-access
 
 默认只发布到本机 5173 端口；存档和钥匙保存在独立数据卷。详细网络配置见 [部署说明](docs/DEPLOY.md)。
 
-### 一键部署到公网 HTTPS
+### Cloudflare 免费额度部署
+
+[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/wuxuyun0606-collab/rainholm-garden)
+
+**个人花园优先推荐这个方案。**用 Workers + 免费额度内的 SQLite Durable Objects 保存花园，静态资源免费托管，自带 HTTPS，不需要电脑常开或购买域名。额度有限，超限会报错；AI 模型费用另算。
+
+点击按钮后填入两把独立随机 Secret：`GARDEN_USER_KEY`、`GARDEN_AI_KEY`，部署完成便可连接上述客户端。钥匙可用 `node cloudflare/keys.mjs` 生成，请私人保存。完整步骤、额度、备份和升级规则见 [Cloudflare 部署说明](docs/CLOUDFLARE.md)。
+
+### Render 部署到公网 HTTPS
 
 [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/wuxuyun0606-collab/rainholm-garden)
 
@@ -154,7 +162,8 @@ curl -s -X POST http://127.0.0.1:5173/garden/api/cat/black/farm \
 
 ```
 server/
-  serve.mjs      静态页、登录会话、玩家/AI API 与 MCP 分派
+  serve.mjs      本机启动与文件存档
+  http.mjs       本机 / Cloudflare 共用的认证、游戏和 AI 接口
   access.mjs     两种钥匙与会话、Host/Origin 校验
   agent.mjs      MCP/Actions/便笺共用的黑猫操作
   mcp.mjs        官方 SDK 的 Streamable HTTP MCP
@@ -179,6 +188,8 @@ start.mjs        一键启动器
 web/connect/     登录与 AI 连接、便笺页面
 Dockerfile       可持久化容器部署
 render.yaml      Render 一键部署模板（付费持久磁盘）
+wrangler.jsonc   Cloudflare 一键部署配置（免费额度）
+cloudflare/      持久存储、官方 HTTP 适配与构建
 data/            存档与私人钥匙（不入 Git）
 docs/            截图
 ```
@@ -216,7 +227,7 @@ node vendor/aifarm/tools/smoke-test.mjs
 node vendor/aifarm/tools/parity-check.mjs
 ```
 
-项目测试使用临时存档，覆盖启动、地图、角色认证、官方 MCP 客户端、Actions、OAuth、幂等重试和来源边界。版本验证范围见 [v1.2 发布检查](docs/RELEASE-1.2.md)。
+项目测试使用临时存档，覆盖启动、地图、角色认证、官方 MCP 客户端、Actions、OAuth、幂等重试和来源边界。Cloudflare 另运行 `npm run test:cloudflare`（Node 22+）。版本验证范围见 [v1.3 发布检查](docs/RELEASE-1.3.md)。
 
 ## TODO
 

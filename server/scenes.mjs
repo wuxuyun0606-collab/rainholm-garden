@@ -373,6 +373,10 @@ export class SceneService {
         reveal, capped: result.capped ?? false, state: this.view(record, scene, now),
       };
       record.receipts[scene][key] = { canonical, response: structuredClone(response) };
+      // Retain a bounded retry window instead of growing the save forever.
+      const allReceipts = SCENES.flatMap(s => Object.keys(record.receipts[s]).map(k => ({ scene: s, key: k, at: record.receipts[s][k]?.response?.state?.now || 0 })));
+      allReceipts.sort((a, b) => a.at - b.at);
+      for (const old of allReceipts.slice(0, Math.max(0, allReceipts.length - 200))) delete record.receipts[old.scene][old.key];
       return response;
     });
   }

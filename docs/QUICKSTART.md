@@ -24,7 +24,7 @@ Operit / Kelivo 的 MCP 地址同样用电脑 IP，例如 `http://192.168.1.20:5
 
 ## ChatGPT / Claude Chat
 
-这两个产品的云端服务无法访问你的本机地址。先按 [部署说明](DEPLOY.md) 部署到公网 HTTPS，再连接。公网部署也必须带钥匙登录，不能把花园链接当成公开编辑权限。
+这两个产品的云端服务无法访问你的本机地址。可以先按 [Cloudflare 免费部署](CLOUDFLARE.md) 或 [其他部署方式](DEPLOY.md) 部署到公网 HTTPS，再连接。公网部署也必须带钥匙登录，不能把花园链接当成公开编辑权限。
 
 ## DeepSeek 官方聊天页
 

@@ -10,3 +10,8 @@ data/*
 tests
 outputs
 .DS_Store
+
+.cloudflare
+.wrangler
+.dev.vars*
+cloudflare

@@ -39,3 +39,17 @@ jobs:
           done
           curl --fail --silent http://127.0.0.1:5173/healthz
           docker exec garden node --input-type=module -e "import fs from 'node:fs'; const d=process.env.GARDEN_DATA; if(fs.readFileSync(d+'/.garden-keys.json','utf8')!==fs.readFileSync(d+'/before-restart.json','utf8'))process.exit(1);"
+
+  cloudflare:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - run: npm run test:cloudflare
+      - run: npx wrangler deploy --dry-run --outdir .cloudflare/check
+        env:
+          WRANGLER_SEND_METRICS: 'false'

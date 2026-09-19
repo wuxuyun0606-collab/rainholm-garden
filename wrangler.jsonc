@@ -1,0 +1,21 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "rainholm-garden",
+  "main": ".cloudflare/worker.mjs",
+  "compatibility_date": "2026-07-08",
+  "compatibility_flags": ["nodejs_compat"],
+  "workers_dev": true,
+  "preview_urls": false,
+  "build": { "command": "npm run build:cloudflare" },
+  "assets": {
+    "directory": ".cloudflare/assets",
+    "binding": "ASSETS",
+    "html_handling": "none",
+    "not_found_handling": "none",
+    "run_worker_first": ["/", "/connect", "/connect/", "/garden", "/garden/", "/garden/index.html", "/garden/api/*", "/auth/*", "/mcp", "/.well-known/*", "/authorize", "/token", "/register", "/revoke", "/oauth/*", "/openapi.json", "/privacy", "/healthz"]
+  },
+  "durable_objects": { "bindings": [{ "name": "GARDEN", "class_name": "Garden" }] },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["Garden"] }],
+  "secrets": { "required": ["GARDEN_USER_KEY", "GARDEN_AI_KEY"] },
+  "observability": { "enabled": false }
+}

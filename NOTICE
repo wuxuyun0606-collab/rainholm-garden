@@ -89,3 +89,10 @@ express 5.2.1 — Express (MIT)
   https://github.com/expressjs/express
 依赖通过 package-lock.json 锁定；安装包随带各自 LICENSE，保持原许可。
 这些依赖的 MIT 许可不改变 vendor/aifarm 的非商业条款。
+
+Cloudflare deployment tools
+--------------------------
+Wrangler / Miniflare (Cloudflare) and esbuild are MIT-licensed development tools.
+They are installed from the locked npm dependencies, not copied into game assets.
+The Cloudflare build embeds upstream aifarm content and code without changing its
+PolyForm Noncommercial 1.0.0 terms. The upstream vendor source remains unchanged.

@@ -21,7 +21,11 @@ export async function loadKeys(dataDir, env = process.env) {
     }
     await chmod(file, 0o600);
   }
-  if (![keys.user, keys.ai].every(k => typeof k === 'string' && /^[A-Za-z0-9_+/=-]{32,256}$/.test(k)) || equal(keys.user, keys.ai)) {
+  return validateKeys(keys);
+}
+
+export function validateKeys(keys) {
+  if (![keys?.user, keys?.ai].every(k => typeof k === 'string' && /^[A-Za-z0-9_+/=-]{32,256}$/.test(k)) || equal(keys.user, keys.ai)) {
     throw new Error('User and AI keys must be distinct 32–256 character random Base64 or Base64url strings.');
   }
   return keys;
@@ -36,9 +40,9 @@ export function publicOrigin(value) {
   return url.origin;
 }
 
-export function createAccess(keys, publicBase = '') {
-  const allowedHosts = new Set(['localhost', '127.0.0.1', '[::1]']);
-  for (const entries of Object.values(networkInterfaces())) for (const item of entries || []) {
+export function createAccess(keys, publicBase = '', { localHosts = true } = {}) {
+  const allowedHosts = new Set(localHosts ? ['localhost', '127.0.0.1', '[::1]'] : []);
+  if (localHosts) for (const entries of Object.values(networkInterfaces())) for (const item of entries || []) {
     if (item.family === 'IPv4') allowedHosts.add(item.address);
   }
   if (publicBase) allowedHosts.add(new URL(publicBase).hostname);

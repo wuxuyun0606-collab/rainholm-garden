@@ -61,7 +61,7 @@ function pick(src, declRe, what) {
 }
 
 /* ── 现读四份源 ─────────────────────────────────────────────────────────────── */
-async function readSources(ROOT) {
+export async function readSources(ROOT) {
   const WEB = resolve(ROOT, 'web');
   const [appJs, catJs, walkRaw, duoJs, namesRaw] = await Promise.all([
     readFile(resolve(WEB, 'app.js'), 'utf8'),
@@ -120,9 +120,9 @@ function centroid(points) {
 }
 
 /* ── 一张地图 ───────────────────────────────────────────────────────────────── */
-export async function buildMap({ root, scene, service, account, port = 5173, baseUrl }) {
+export async function buildMap({ root, scene, service, account, port = 5173, baseUrl, sources }) {
   if (!MAP_SCENES.includes(scene)) throw new Error('没有这个场景');
-  const S = await readSources(root);
+  const S = sources || await readSources(root);
   const base = baseUrl || `http://127.0.0.1:${port}`;
   const nameOf = (bucket, id, fallback) => S.names?.[bucket]?.[id] ?? fallback ?? id;
 

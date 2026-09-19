@@ -22,6 +22,9 @@ test('launcher, role separation, sessions and persistence', { timeout: 20000 }, 
   assert.equal((await g.request('/garden/api/connection', { headers: { Cookie: cookie.split(';')[0] } })).status, 200);
   const tampered = cookie.split(';')[0].slice(0,-1) + '!';
   assert.equal((await g.request('/garden/api/connection', { headers: { Cookie: tampered } })).status, 401);
+  assert.equal((await g.json('/garden/api/backup', undefined, g.keys.ai)).status, 403);
+  const backup = await (await g.json('/garden/api/backup', undefined, g.keys.user)).text();
+  assert.equal(JSON.parse(backup).wallet, 152); assert.ok(!backup.includes(g.keys.user)); assert.ok(!backup.includes(g.keys.ai));
   const before = JSON.parse(await readFile(join(g.data, '.garden-keys.json')));
   await g.restart();
   assert.deepEqual(JSON.parse(await readFile(join(g.data, '.garden-keys.json'))), before);

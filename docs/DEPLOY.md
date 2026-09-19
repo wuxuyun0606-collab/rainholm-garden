@@ -2,6 +2,10 @@
 
 这是单实例、单玩家的个人花园。多个 AI 可以共享这一份存档，但不是多租户平台。不要运行多个进程共写一个数据目录，不要配置水平扩容。
 
+## Cloudflare 免费额度方案
+
+推荐希望低成本长期保留个人花园的用户使用 [Cloudflare 部署说明](CLOUDFLARE.md)。该版使用 SQLite Durable Objects，存储、备份和撤销方式与以下文件存档部署不同。
+
 ## Render 一键模板
 
 [部署到 Render](https://render.com/deploy?repo=https://github.com/wuxuyun0606-collab/rainholm-garden)

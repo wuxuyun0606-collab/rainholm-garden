@@ -24,7 +24,7 @@ SOFTWARE.
 SCOPE OF THIS MIT LICENSE  ·  这份 MIT 管到哪儿为止
 
 The MIT license above covers the original code written for this project:
-  start.mjs, server/, tests/, web/connect/, web/connect-link.css,
+  start.mjs, server/, cloudflare/, tests/, web/connect/, web/connect-link.css,
   web/index.html, web/app.js, web/style.css,
   web/host-boot.js, web/host-cat.js, web/walk-map.json,
   and original JavaScript/CSS in web/assets/ (including v6, v7 and v8).

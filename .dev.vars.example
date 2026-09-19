@@ -1,0 +1,4 @@
+# Supply two DIFFERENT random keys (32-256 Base64/Base64url characters).
+# Run: node cloudflare/keys.mjs
+GARDEN_USER_KEY=
+GARDEN_AI_KEY=

@@ -18,12 +18,14 @@ export const TOOLS = [
   { name: 'garden_action', description: 'Control the black AI cat or plant/water/harvest the same plots used by the human. Read current state first; common seeds cost 8, fantasy 40 coins. Reuse requestId on retries.', inputSchema: ACTION_SCHEMA, annotations: { readOnlyHint: false, destructiveHint: true, idempotentHint: true, openWorldHint: false } },
 ];
 
-export function createAgent({ root, service, transact, baseUrl, account = 'local' }) {
-  let pending = null, head = 0;
-  const events = [];
+export function createAgent({ root, service, transact, baseUrl, mapSources, liveState, saveLiveState, account = 'local' }) {
+  let pending = liveState?.pending || null, head = liveState?.head || 0;
+  const events = liveState?.events || [];
+  const persistLive = () => saveLiveState?.({ pending, head, events });
   const event = (by, text) => {
     events.push({ id: ++head, by, text, at: Date.now() });
     if (events.length > 60) events.shift();
+    persistLive();
   };
   function validate(input) {
     if (!input || typeof input !== 'object' || Array.isArray(input)) throw new Error('Expected one JSON action object.');
@@ -64,6 +66,7 @@ export function createAgent({ root, service, transact, baseUrl, account = 'local
       if (result.ok && (input.action === 'move' || input.say?.trim())) {
         pending = { ts: Date.now(), scene: input.scene, ...(input.action === 'move' ? { x: input.x, y: input.y } : {}), ...(input.say ? { say: Array.from(input.say.trim()).slice(0, 30).join('') } : {}) };
         if (input.say) event('ai', input.say.trim());
+        else persistLive();
       }
       const output = { ...result, by: 'black', requestId: key };
       await transact(account, r => {
@@ -78,14 +81,14 @@ export function createAgent({ root, service, transact, baseUrl, account = 'local
   }
   return {
     execute, validate,
-    pending(scene) { if (pending?.scene && scene && pending.scene !== scene) return null; const value = pending; pending = null; return value; },
+    pending(scene) { if (pending?.scene && scene && pending.scene !== scene) return null; const value = pending; if (pending) { pending = null; persistLive(); } return value; },
     say(text) { if (typeof text !== 'string' || !text.trim() || Array.from(text).length > 120) throw new Error('Message must contain 1–120 characters.'); event('user', text.trim()); return { ok: true, head }; },
     async state(scene = 'garden', since = 0) {
       if (!MAP_SCENES.includes(scene) || !Number.isSafeInteger(since) || since < 0) throw new Error('Invalid scene or message cursor.');
       const state = await service.state(account, scene === 'cathome' ? 'garden' : scene);
-      return { ...state, scene, messages: events.filter(x => x.id > since), head, messagesResetOnRestart: true };
+      return { ...state, scene, messages: events.filter(x => x.id > since), head, messagesResetOnRestart: !saveLiveState };
     },
-    map: (scene = 'garden') => buildMap({ root, service, account, scene, baseUrl: baseUrl() }),
+    map: (scene = 'garden') => buildMap({ root, service, account, scene, baseUrl: baseUrl(), sources: mapSources }),
     async call(name, args = {}) {
       if (name === 'garden_state') return this.state(args.scene, args.since);
       if (name === 'garden_map') return this.map(args.scene);

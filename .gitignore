@@ -26,3 +26,9 @@ data/*
 .garden-keys.json
 .garden-oauth.json
 .garden-oauth.json.tmp
+
+# Cloudflare local build and private development state
+.cloudflare/
+.wrangler/
+.dev.vars*
+!.dev.vars.example
